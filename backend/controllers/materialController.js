@@ -6,7 +6,6 @@ const StudyMaterial = require("../models/StudyMaterial");
 const { cloudinary } = require("../config/cloudinary");
 const asyncHandler = require("../utils/asyncHandler");
 
-// Allowed material categories and types
 const allowedCategories = [
   "aptitude",
   "reasoning",
@@ -20,7 +19,6 @@ const allowedCategories = [
 
 const allowedTypes = ["pdf", "video", "link", "document", "other"];
 
-// Validate uploaded file against selected material type
 const validateUploadedFile = (file, materialType) => {
   if (!file) return null;
 
@@ -44,7 +42,6 @@ const validateUploadedFile = (file, materialType) => {
   return null;
 };
 
-// Upload file buffer to Cloudinary
 const uploadToCloudinary = (file) => {
   return new Promise((resolve, reject) => {
     const originalName = file.originalname;
@@ -73,7 +70,6 @@ const uploadToCloudinary = (file) => {
   });
 };
 
-// Delete Cloudinary file
 const deleteCloudinaryFile = async (publicId) => {
   if (!publicId) return;
 
@@ -82,10 +78,9 @@ const deleteCloudinaryFile = async (publicId) => {
   });
 };
 
-// Parse tags from JSON or comma-separated multipart field
+
 const parseTags = (tags) => {
   if (tags === undefined) return undefined;
-
   if (Array.isArray(tags)) return tags;
 
   if (typeof tags === "string") {
@@ -101,9 +96,6 @@ const parseTags = (tags) => {
   throw new Error("Tags must be an array or comma-separated string");
 };
 
-// @desc Get all active study materials
-// @route GET /api/materials
-// @access Private
 const getMaterials = asyncHandler(async (req, res) => {
   const page = Math.max(1, parseInt(req.query.page, 10) || 1);
   const limit = Math.min(50, Math.max(1, parseInt(req.query.limit, 10) || 10));
@@ -162,9 +154,6 @@ const getMaterials = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc Get single study material
-// @route GET /api/materials/:id
-// @access Private
 const getMaterialById = asyncHandler(async (req, res) => {
   const material = await StudyMaterial.findOne({
     _id: req.params.id,
@@ -184,9 +173,7 @@ const getMaterialById = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc Create study material with optional file upload
-// @route POST /api/materials
-// @access Admin
+
 const createMaterial = asyncHandler(async (req, res) => {
   const {
     title,
@@ -305,9 +292,7 @@ const createMaterial = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Update study material and optionally replace file
-// @route PUT /api/materials/:id
-// @access Admin
+
 const updateMaterial = asyncHandler(async (req, res) => {
   const material = await StudyMaterial.findById(req.params.id);
 
@@ -475,9 +460,6 @@ const updateMaterial = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Deactivate study material
-// @route DELETE /api/materials/:id
-// @access Admin
 const deleteMaterial = asyncHandler(async (req, res) => {
   const material = await StudyMaterial.findByIdAndUpdate(
     req.params.id,

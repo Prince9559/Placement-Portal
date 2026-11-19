@@ -16,7 +16,6 @@ const bookmarkSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Same question ko ek user dobara bookmark nahi kar sakta
+ 
 bookmarkSchema.index({ user: 1, question: 1 }, { unique: true });
-
 module.exports = mongoose.model("Bookmark", bookmarkSchema);

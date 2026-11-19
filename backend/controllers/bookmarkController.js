@@ -5,10 +5,6 @@ const Bookmark = require("../models/Bookmark");
 const Question = require("../models/Question");
 const asyncHandler = require("../utils/asyncHandler");
 
-// @desc    Get logged-in student's bookmarks
-// @route   GET /api/bookmarks
-// @access  Private
-
 const getMyBookmarks = asyncHandler(async (req, res) => {
   const bookmarks = await Bookmark.find({
     user: req.user._id,
@@ -25,13 +21,12 @@ const getMyBookmarks = asyncHandler(async (req, res) => {
     .map((bookmark) => {
       const item = bookmark.toObject();
 
-      // Remove correct-answer information from every option.
-      item.question.options = item.question.options.map((option) => ({
+       item.question.options = item.question.options.map((option) => ({
         _id: option._id,
         text: option.text,
       }));
 
-      // Never expose the explanation in the bookmark list.
+       
       delete item.question.explanation;
 
       return item;
@@ -45,10 +40,6 @@ const getMyBookmarks = asyncHandler(async (req, res) => {
   });
 });
 
-
-// @desc    Add a question to bookmarks
-// @route   POST /api/bookmarks/:questionId
-// @access  Private
 const addBookmark = asyncHandler(async (req, res) => {
   const { questionId } = req.params;
 
@@ -95,7 +86,7 @@ const addBookmark = asyncHandler(async (req, res) => {
       data: bookmark,
     });
   } catch (error) {
-    // Handles simultaneous duplicate requests using the unique index.
+     
     if (error.code === 11000) {
       return res.status(409).json({
         success: false,
@@ -107,9 +98,7 @@ const addBookmark = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Remove a question from bookmarks
-// @route   DELETE /api/bookmarks/:questionId
-// @access  Private
+
 const removeBookmark = asyncHandler(async (req, res) => {
   const { questionId } = req.params;
 

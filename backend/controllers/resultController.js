@@ -1,10 +1,6 @@
 
 const Result = require("../models/Result");
 const asyncHandler = require("../utils/asyncHandler");
-
-// @desc    Get logged-in student's result history
-// @route   GET /api/results/my-results
-// @access  Private
 const getMyResults = asyncHandler(async (req, res) => {
   const page = Math.max(1, parseInt(req.query.page, 10) || 1);
   const limit = Math.min(50, Math.max(1, parseInt(req.query.limit, 10) || 10));
@@ -37,9 +33,7 @@ const getMyResults = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Get logged-in student's result details
-// @route   GET /api/results/my-results/:id
-// @access  Private
+ 
 const getMyResultById = asyncHandler(async (req, res) => {
   const result = await Result.findOne({
     _id: req.params.id,
@@ -59,9 +53,7 @@ const getMyResultById = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Get all students' results (Admin)
-// @route   GET /api/results
-// @access  Admin
+ 
 const getAllResults = asyncHandler(async (req, res) => {
   const page = Math.max(1, parseInt(req.query.page, 10) || 1);
   const limit = Math.min(50, Math.max(1, parseInt(req.query.limit, 10) || 10));
@@ -97,9 +89,7 @@ const getAllResults = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Get any student's result details (Admin)
-// @route   GET /api/results/:id
-// @access  Admin
+ 
 const getResultById = asyncHandler(async (req, res) => {
   const result = await Result.findById(req.params.id)
     .populate("user", "name email college course")
@@ -118,9 +108,7 @@ const getResultById = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Get student's performance statistics
-// @route   GET /api/results/my-stats
-// @access  Private
+ 
 const getMyResultStats = asyncHandler(async (req, res) => {
   const stats = await Result.aggregate([
     {
@@ -157,7 +145,7 @@ const getMyResultStats = asyncHandler(async (req, res) => {
   };
 
   delete data._id;
-  
+
   data.averagePercentage = Number(
     data.averagePercentage.toFixed(2)
   );

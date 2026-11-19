@@ -3,51 +3,22 @@ const TestAttempt = require("../models/TestAttempt");
 const UserProgress = require("../models/UserProgress");
 const Bookmark = require("../models/Bookmark");
 
-
-console.log("TestAttempt type:", typeof TestAttempt);
-console.log("TestAttempt value:", TestAttempt);
-console.log(
-  "TestAttempt.countDocuments type:",
-  typeof TestAttempt.countDocuments
-);
-
-// GET STUDENT DASHBOARD
 const getDashboard = async (req, res) => {
   try {
     const userId = req.user._id;
+    const totalTests = await TestAttempt.countDocuments({user: userId, status: "completed",});
+    const testResults = await TestAttempt.find({user: userId, status: "completed",}).sort({ createdAt: -1 });
 
-    // Total completed tests
-    const totalTests = await TestAttempt.countDocuments({
-      user: userId,
-      status: "completed",
-    });
+    const averageScore =testResults.length > 0 ? (
+            testResults.reduce((total, attempt) => total + (attempt.percentage || 0), 0 ) / testResults.length).toFixed(2): 0;
 
-    // Test results
-    const testResults = await TestAttempt.find({
-      user: userId,
-      status: "completed",
-    }).sort({ createdAt: -1 });
 
-    // Average score
-    const averageScore =
-      testResults.length > 0
-        ? (
-            testResults.reduce(
-              (total, attempt) => total + (attempt.percentage || 0),
-              0
-            ) / testResults.length
-          ).toFixed(2)
-        : 0;
-
-    // Bookmarks count
     const totalBookmarks = await Bookmark.countDocuments({
       user: userId,
     });
 
-    // User progress
-    const progress = await UserProgress.find({
-      user: userId,
-    });
+     
+    const progress = await UserProgress.find({user: userId,});
 
     res.status(200).json({
       success: true,

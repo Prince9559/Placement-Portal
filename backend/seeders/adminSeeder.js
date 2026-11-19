@@ -6,9 +6,7 @@ const User = require("../models/User");
 
 const createAdmin = async () => {
   try {
-    if (!process.env.ADMIN_NAME ||
-        !process.env.ADMIN_EMAIL ||
-        !process.env.ADMIN_PASSWORD) {
+    if (!process.env.ADMIN_NAME ||!process.env.ADMIN_EMAIL ||!process.env.ADMIN_PASSWORD) {
       throw new Error("ADMIN_NAME, ADMIN_EMAIL and ADMIN_PASSWORD are required in .env");
     }
 

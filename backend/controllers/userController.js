@@ -1,8 +1,7 @@
 
 const User = require("../models/User");
 
-// GET PROFILE
-const getProfile = async (req, res) => {
+ const getProfile = async (req, res) => {
   try {
     res.status(200).json({
       success: true,
@@ -17,26 +16,10 @@ const getProfile = async (req, res) => {
   }
 };
 
-// UPDATE PROFILE
-const updateProfile = async (req, res) => {
+ const updateProfile = async (req, res) => {
   try {
-    const {
-      name,
-      phone,
-      college,
-      course,
-      graduationYear,
-      skills,
-    } = req.body;
-
-    const allowedUpdates = {
-      name,
-      phone,
-      college,
-      course,
-      graduationYear,
-      skills,
-    };
+    const {name,phone,college,course,graduationYear,skills,} = req.body;
+    const allowedUpdates = {name,phone,college,course,graduationYear,skills,};
 
     Object.keys(allowedUpdates).forEach((key) => {
       if (allowedUpdates[key] === undefined) {

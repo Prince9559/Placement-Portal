@@ -102,7 +102,6 @@ const getAdminDashboard = asyncHandler(async (req, res) => {
   });
 });
 
-// 2. GET ALL USERS WITH SEARCH, FILTER AND PAGINATION
 const getAllUsers = asyncHandler(async (req, res) => {
   const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
   const limit = Math.min(
@@ -171,7 +170,6 @@ const getAllUsers = asyncHandler(async (req, res) => {
   });
 });
 
-// 3. GET SINGLE USER
 const getUserById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -198,7 +196,6 @@ const getUserById = asyncHandler(async (req, res) => {
   });
 });
 
-// 4. ACTIVATE OR DEACTIVATE USER
 const updateUserStatus = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { isActive } = req.body;
@@ -249,7 +246,7 @@ const updateUserStatus = asyncHandler(async (req, res) => {
   });
 });
 
-// 5. CHANGE USER ROLE
+
 const updateUserRole = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { role } = req.body;

@@ -18,14 +18,11 @@ const hasValidOptions = (options) => {
   );
 };
 
-// GET ALL QUESTIONS - STUDENT
+ 
 const getQuestions = async (req, res) => {
   try {
     const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
-    const limit = Math.min(
-      Math.max(parseInt(req.query.limit, 10) || 10, 1),
-      50
-    );
+    const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 10, 1),50);
 
     const filter = { isActive: true };
 
@@ -84,7 +81,7 @@ const getQuestions = async (req, res) => {
   }
 };
 
-// GET SINGLE QUESTION - STUDENT
+
 const getQuestionById = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
@@ -118,7 +115,7 @@ const getQuestionById = async (req, res) => {
   }
 };
 
-// CREATE QUESTION - ADMIN
+
 const createQuestion = async (req, res) => {
   try {
     const {
@@ -185,7 +182,7 @@ const createQuestion = async (req, res) => {
   }
 };
 
-// UPDATE QUESTION - ADMIN
+ 
 const updateQuestion = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
@@ -232,10 +229,7 @@ const updateQuestion = async (req, res) => {
       });
     }
 
-    if (
-      updates.difficulty &&
-      !validDifficulties.includes(updates.difficulty)
-    ) {
+    if (updates.difficulty &&!validDifficulties.includes(updates.difficulty) ) {
       return res.status(400).json({
         success: false,
         message: "Invalid difficulty",
@@ -278,7 +272,7 @@ const updateQuestion = async (req, res) => {
   }
 };
 
-// DELETE QUESTION - ADMIN (SOFT DELETE)
+ 
 const deleteQuestion = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {

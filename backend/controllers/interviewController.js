@@ -10,18 +10,12 @@ const validCategories = [
 
 const validDifficulties = ["easy", "medium", "hard"];
 
-// GET ALL INTERVIEW QUESTIONS - STUDENT
 const getInterviewQuestions = async (req, res) => {
   try {
     const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
-
-    const limit = Math.min(
-      Math.max(parseInt(req.query.limit, 10) || 10, 1),
-      50
-    );
+    const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 10, 1),50);
 
     const filter = { isActive: true };
-
     if (req.query.category) {
       if (!validCategories.includes(req.query.category)) {
         return res.status(400).json({
@@ -79,7 +73,7 @@ const getInterviewQuestions = async (req, res) => {
   }
 };
 
-// GET SINGLE INTERVIEW QUESTION - STUDENT
+ 
 const getInterviewQuestionById = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
@@ -113,7 +107,7 @@ const getInterviewQuestionById = async (req, res) => {
   }
 };
 
-// GET INTERVIEW ANSWER - STUDENT
+
 const getInterviewAnswer = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
@@ -147,7 +141,7 @@ const getInterviewAnswer = async (req, res) => {
   }
 };
 
-// CREATE INTERVIEW QUESTION - ADMIN
+ 
 const createInterviewQuestion = async (req, res) => {
   try {
     const {
@@ -209,7 +203,7 @@ const createInterviewQuestion = async (req, res) => {
   }
 };
 
-// UPDATE INTERVIEW QUESTION - ADMIN
+ 
 const updateInterviewQuestion = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {

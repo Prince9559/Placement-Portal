@@ -4,13 +4,7 @@ const path = require("path");
 
 const storage = multer.memoryStorage();
 
-const allowedMimeTypes = {
-  ".pdf": ["application/pdf"],
-  ".doc": ["application/msword"],
-  ".docx": [
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  ],
-};
+const allowedMimeTypes = {".pdf": ["application/pdf"],".doc": ["application/msword"],".docx": ["application/vnd.openxmlformats-officedocument.wordprocessingml.document",],};
 
 const fileFilter = (req, file, cb) => {
   const extension = path.extname(file.originalname).toLowerCase();

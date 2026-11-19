@@ -21,24 +21,13 @@ const validDifficulties = ["easy", "medium", "hard"];
 const validateTestCases = (cases) => {
   return (
     Array.isArray(cases) &&
-    cases.every(
-      (item) =>
-        item &&
-        typeof item.input === "string" &&
-        typeof item.output === "string"
-    )
-  );
+    cases.every( (item) =>item && typeof item.input === "string" &&typeof item.output === "string"));
 };
 
-// GET ALL CODING QUESTIONS - STUDENT
 const getCodingQuestions = async (req, res) => {
   try {
     const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
-    const limit = Math.min(
-      Math.max(parseInt(req.query.limit, 10) || 10, 1),
-      50
-    );
-
+    const limit = Math.min( Math.max(parseInt(req.query.limit, 10) || 10, 1), 50);
     const filter = { isActive: true };
 
     if (req.query.category) {
@@ -96,7 +85,6 @@ const getCodingQuestions = async (req, res) => {
   }
 };
 
-// GET SINGLE CODING QUESTION - STUDENT
 const getCodingQuestionById = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
@@ -130,7 +118,6 @@ const getCodingQuestionById = async (req, res) => {
   }
 };
 
-// CREATE CODING QUESTION - ADMIN
 const createCodingQuestion = async (req, res) => {
   try {
     const {
@@ -222,7 +209,6 @@ const createCodingQuestion = async (req, res) => {
   }
 };
 
-// UPDATE CODING QUESTION - ADMIN
 const updateCodingQuestion = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
@@ -331,7 +317,6 @@ const updateCodingQuestion = async (req, res) => {
   }
 };
 
-// DELETE CODING QUESTION - ADMIN (SOFT DELETE)
 const deleteCodingQuestion = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {

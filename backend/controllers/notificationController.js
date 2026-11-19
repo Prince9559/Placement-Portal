@@ -5,20 +5,10 @@ const Notification = require("../models/Notification");
 const User = require("../models/User");
 const asyncHandler = require("../utils/asyncHandler");
 
-// @desc    Create notification
-// @route   POST /api/notifications
-// @access  Admin
 const createNotification = asyncHandler(async (req, res) => {
   const { title, message, type, recipient, link } = req.body;
 
-  if (
-    !title ||
-    !message ||
-    typeof title !== "string" ||
-    typeof message !== "string" ||
-    !title.trim() ||
-    !message.trim()
-  ) {
+  if (!title ||!message ||typeof title !== "string" ||typeof message !== "string" ||!title.trim() ||!message.trim()) {
     return res.status(400).json({
       success: false,
       message: "Title and message are required",
@@ -49,8 +39,7 @@ const createNotification = asyncHandler(async (req, res) => {
     });
   }
 
-  // recipient is optional. null means notification for all students.
-  let recipientId = null;
+   let recipientId = null;
 
   if (recipient !== undefined && recipient !== null && recipient !== "") {
     if (!mongoose.Types.ObjectId.isValid(recipient)) {
@@ -95,9 +84,7 @@ const createNotification = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Get logged-in student's notifications
-// @route   GET /api/notifications
-// @access  Private
+ 
 const getMyNotifications = asyncHandler(async (req, res) => {
   const page = Math.max(1, parseInt(req.query.page, 10) || 1);
   const limit = Math.min(
@@ -120,8 +107,7 @@ const getMyNotifications = asyncHandler(async (req, res) => {
     .skip((page - 1) * limit)
     .limit(limit);
 
-  // Calculate read status separately for each student.
-  const data = notifications.map((notification) => {
+   const data = notifications.map((notification) => {
     const item = notification.toObject();
 
     if (item.recipient === null) {
@@ -130,8 +116,7 @@ const getMyNotifications = asyncHandler(async (req, res) => {
       );
     }
 
-    // Do not expose internal read tracking data.
-    delete item.readBy;
+     delete item.readBy;
 
     return item;
   });
@@ -146,9 +131,7 @@ const getMyNotifications = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Get all notifications (admin)
-// @route   GET /api/notifications/admin/all
-// @access  Admin
+ 
 const getAllNotifications = asyncHandler(async (req, res) => {
   const page = Math.max(1, parseInt(req.query.page, 10) || 1);
   const limit = Math.min(
@@ -175,9 +158,7 @@ const getAllNotifications = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Get unread notification count
-// @route   GET /api/notifications/unread-count
-// @access  Private
+ 
 const getUnreadCount = asyncHandler(async (req, res) => {
   const notifications = await Notification.find({
     $or: [
@@ -209,9 +190,7 @@ const getUnreadCount = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Mark notification as read
-// @route   PATCH /api/notifications/:id/read
-// @access  Private
+ 
 const markAsRead = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -238,8 +217,7 @@ const markAsRead = asyncHandler(async (req, res) => {
   }
 
   if (notification.recipient === null) {
-    // For global notifications, track read status per student.
-    const alreadyRead = notification.readBy.some(
+     const alreadyRead = notification.readBy.some(
       (entry) => entry.user.toString() === req.user._id.toString()
     );
 
@@ -271,9 +249,7 @@ const markAsRead = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Delete notification
-// @route   DELETE /api/notifications/:id
-// @access  Admin
+ 
 const deleteNotification = asyncHandler(async (req, res) => {
   const { id } = req.params;
 

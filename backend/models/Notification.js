@@ -70,13 +70,13 @@ const notificationSchema = new mongoose.Schema(
   }
 );
 
-// Efficiently fetch notifications for a user.
+ 
 notificationSchema.index({
   recipient: 1,
   createdAt: -1,
 });
 
-// Efficiently find unread notifications.
+ 
 notificationSchema.index({
   recipient: 1,
   isRead: 1,
