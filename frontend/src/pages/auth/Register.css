@@ -1,0 +1,32 @@
+
+.register-card {
+  max-width: 500px;
+}
+
+.register-card .auth-heading {
+  margin-bottom: 24px;
+}
+
+.register-card .form-group {
+  margin-bottom: 15px;
+}
+
+.register-card select {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #334155;
+  outline: none;
+}
+
+.register-card select:focus {
+  border-color: #2563eb;
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: 22px 18px;
+  }
+}
