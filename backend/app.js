@@ -1,28 +1,17 @@
 
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
 
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
-  ...(process.env.CLIENT_URL
-    ? process.env.CLIENT_URL.split(",").map((url) => url.trim())
-    : []),
+  process.env.CLIENT_URL,
 ];
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Origin not allowed by CORS"));
-    },
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: allowedOrigins.filter(Boolean),
   })
 );
 
@@ -64,8 +53,5 @@ app.get("/api/health", (req, res) => {
     status: "OK",
   });
 });
-
-app.use(require("./middleware/notFoundMiddleware"));
-app.use(require("./middleware/errorMiddleware"));
 
 module.exports = app;
