@@ -14,6 +14,13 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("placement_portal_token");
 
+    console.log("API REQUEST:", config.url);
+    console.log("TOKEN EXISTS:", Boolean(token));
+    console.log(
+      "AUTH HEADER EXISTS:",
+      Boolean(config.headers.Authorization)
+    );
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

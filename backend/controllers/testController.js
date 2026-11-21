@@ -503,6 +503,42 @@ const startTest = async (req, res) => {
   }
 };
 
+// Get complete test details for admin (including correct answers)
+const getAdminTestById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid test ID",
+      });
+    }
+
+    const test = await Test.findById(id).populate(
+      "createdBy",
+      "name email"
+    );
+
+    if (!test) {
+      return res.status(404).json({
+        success: false,
+        message: "Test not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      test,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // STUDENT: SUBMIT TEST AND CALCULATE RESULT
 const submitTest = async (req, res) => {
   try {
@@ -750,6 +786,7 @@ module.exports = {
   createTest,
   getTests,
   getTestById,
+  getAdminTestById,
   updateTest,
   deleteTest,
   startTest,
