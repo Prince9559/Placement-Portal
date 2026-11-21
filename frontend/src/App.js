@@ -14,7 +14,7 @@ import CodingQuestions from "./pages/admin/CodingQuestions";
 import InterviewQuestions from "./pages/admin/InterviewQuestions";
 import Tests from "./pages/admin/Tests";
 import Results from "./pages/admin/Results";
-import Notifications from "./pages/admin/Notifications";
+import AdminNotifications from "./pages/admin/Notifications";
 import Settings from "./pages/admin/Settings";
 
 // Student Pages
@@ -26,17 +26,21 @@ import ResultDetails from "./pages/student/ResultDetails";
 import StudyMaterial from "./pages/student/StudyMaterial";
 import MyBookmarks from "./pages/student/MyBookmarks";
 import MyProgress from "./pages/student/MyProgress";
+import Coding from "./pages/student/Coding";
+import Interview from "./pages/student/Interview";
+import StudentNotifications from "./pages/student/Notifications";
 
 function App() {
   return (
     <Routes>
+      {/* Default Route */}
       <Route path="/" element={<Navigate to="/login" replace />} />
 
       {/* Authentication */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Admin */}
+      {/* Admin Routes */}
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/students/:id" element={<StudentDetails />} />
@@ -46,10 +50,10 @@ function App() {
       <Route path="/admin/materials" element={<Materials />} />
       <Route path="/admin/tests" element={<Tests />} />
       <Route path="/admin/results" element={<Results />} />
-      <Route path="/admin/notifications" element={<Notifications />} />
+      <Route path="/admin/notifications" element={<AdminNotifications />} />
       <Route path="/admin/settings" element={<Settings />} />
 
-      {/* Student */}
+      {/* Student Routes */}
       <Route path="/student/dashboard" element={<StudentDashboard />} />
       <Route path="/student/tests" element={<PracticeTests />} />
       <Route path="/student/tests/:id/attempt" element={<TestAttempt />} />
@@ -58,6 +62,9 @@ function App() {
       <Route path="/student/materials" element={<StudyMaterial />} />
       <Route path="/student/bookmarks" element={<MyBookmarks />} />
       <Route path="/student/progress" element={<MyProgress />} />
+      <Route path="/student/coding" element={<Coding />} />
+      <Route path="/student/interview" element={<Interview />} />
+      <Route path="/student/notifications" element={<StudentNotifications />} />
 
       {/* Not Found */}
       <Route path="*" element={<Navigate to="/login" replace />} />

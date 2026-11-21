@@ -9,11 +9,14 @@ import {
   CalendarDays,
   CheckCircle2,
   Clock3,
+  Code2,
   FileText,
   LogOut,
   RefreshCw,
   Target,
   TrendingUp,
+  MessageSquare,
+  Bell,
 } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -32,6 +35,7 @@ function Dashboard() {
     recentResults: [],
     progress: [],
   });
+
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -68,6 +72,7 @@ function Dashboard() {
 
   const formatDate = (date) => {
     if (!date) return "—";
+
     return new Date(date).toLocaleDateString("en-IN", {
       day: "numeric",
       month: "short",
@@ -94,8 +99,11 @@ function Dashboard() {
           <div className="student-brand-icon">
             <BookOpen size={23} />
           </div>
+
           <div>
-            <h2>Placement<span>Pro</span></h2>
+            <h2>
+              Placement<span>Pro</span>
+            </h2>
             <p>STUDENT PORTAL</p>
           </div>
         </div>
@@ -121,6 +129,14 @@ function Dashboard() {
 
           <button
             className="student-nav-link"
+            onClick={() => navigate("/student/results")}
+          >
+            <Award size={19} />
+            <span>My Results</span>
+          </button>
+
+          <button
+            className="student-nav-link"
             onClick={() => navigate("/student/materials")}
           >
             <BookOpen size={19} />
@@ -142,6 +158,30 @@ function Dashboard() {
             <TrendingUp size={19} />
             <span>My Progress</span>
           </button>
+
+          <button
+            className="student-nav-link"
+            onClick={() => navigate("/student/coding")}
+          >
+            <Code2 size={19} />
+            <span>Coding Practice</span>
+          </button>
+
+          <button
+            className="student-nav-link"
+            onClick={() => navigate("/student/interview")}
+          >
+            <MessageSquare size={19} />
+            <span>Interview Preparation</span>
+          </button>
+
+          <button
+            className="student-nav-link"
+            onClick={() => navigate("/student/notifications")}
+          >
+            <Bell size={19} />
+            <span>Notifications</span>
+          </button>
         </nav>
 
         <div className="student-sidebar-bottom">
@@ -149,6 +189,7 @@ function Dashboard() {
             <div className="student-avatar">
               {firstName.charAt(0).toUpperCase()}
             </div>
+
             <div className="student-user-info">
               <strong>{displayName}</strong>
               <span>Student Account</span>
@@ -165,7 +206,9 @@ function Dashboard() {
       <main className="student-main">
         <header className="student-topbar">
           <div>
-            <span className="student-topbar-label">STUDENT WORKSPACE</span>
+            <span className="student-topbar-label">
+              STUDENT WORKSPACE
+            </span>
             <h1>My Dashboard</h1>
           </div>
 
@@ -181,6 +224,7 @@ function Dashboard() {
               />
               {refreshing ? "Refreshing..." : "Refresh"}
             </button>
+
             <div className="student-topbar-avatar">
               {firstName.charAt(0).toUpperCase()}
             </div>
@@ -189,13 +233,18 @@ function Dashboard() {
 
         <section className="student-welcome">
           <div className="student-welcome-content">
-            <span className="student-welcome-tag">YOUR PLACEMENT JOURNEY</span>
+            <span className="student-welcome-tag">
+              YOUR PLACEMENT JOURNEY
+            </span>
+
             <h2>Welcome back, {firstName}! 👋</h2>
+
             <p>
               Track your preparation, review your performance and keep moving
               closer to your placement goals.
             </p>
           </div>
+
           <div className="student-welcome-art">
             <div className="welcome-art-circle">
               <Award size={58} />
@@ -208,6 +257,7 @@ function Dashboard() {
             <div className="student-stat-icon purple">
               <FileText size={22} />
             </div>
+
             <div className="student-stat-content">
               <span>Completed Tests</span>
               <h3>{dashboard.totalTests ?? 0}</h3>
@@ -219,9 +269,12 @@ function Dashboard() {
             <div className="student-stat-icon green">
               <Target size={22} />
             </div>
+
             <div className="student-stat-content">
               <span>Average Score</span>
-              <h3>{Number(dashboard.averageScore || 0).toFixed(1)}%</h3>
+              <h3>
+                {Number(dashboard.averageScore || 0).toFixed(1)}%
+              </h3>
               <small>Overall performance</small>
             </div>
           </div>
@@ -230,6 +283,7 @@ function Dashboard() {
             <div className="student-stat-icon orange">
               <Bookmark size={22} />
             </div>
+
             <div className="student-stat-content">
               <span>My Bookmarks</span>
               <h3>{dashboard.totalBookmarks ?? 0}</h3>
@@ -241,6 +295,7 @@ function Dashboard() {
             <div className="student-stat-icon blue">
               <TrendingUp size={22} />
             </div>
+
             <div className="student-stat-content">
               <span>Progress Topics</span>
               <h3>{dashboard.progress?.length ?? 0}</h3>
@@ -256,6 +311,7 @@ function Dashboard() {
                 <h3>Recent Test Results</h3>
                 <p>Your latest completed tests</p>
               </div>
+
               <button
                 className="student-text-btn"
                 onClick={() => navigate("/student/results")}
@@ -286,6 +342,7 @@ function Dashboard() {
                             result.title ||
                             "Practice Test"}
                         </strong>
+
                         <span>
                           <CalendarDays size={13} />
                           {formatDate(result.createdAt)}
@@ -293,7 +350,9 @@ function Dashboard() {
                       </div>
 
                       <div className="student-result-score">
-                        <strong className={scoreClass}>{score.toFixed(1)}%</strong>
+                        <strong className={scoreClass}>
+                          {score.toFixed(1)}%
+                        </strong>
                         <span>Score</span>
                       </div>
                     </div>
@@ -305,8 +364,12 @@ function Dashboard() {
                 <div className="student-empty-icon">
                   <FileText size={28} />
                 </div>
+
                 <h4>No test results yet</h4>
-                <p>Complete your first practice test to see your results here.</p>
+                <p>
+                  Complete your first practice test to see your results here.
+                </p>
+
                 <button onClick={() => navigate("/student/tests")}>
                   Explore Tests
                 </button>
@@ -320,7 +383,11 @@ function Dashboard() {
                 <h3>Learning Progress</h3>
                 <p>Your topic-wise preparation</p>
               </div>
-              <TrendingUp size={21} className="student-panel-heading-icon" />
+
+              <TrendingUp
+                size={21}
+                className="student-panel-heading-icon"
+              />
             </div>
 
             {dashboard.progress?.length > 0 ? (
@@ -328,7 +395,14 @@ function Dashboard() {
                 {dashboard.progress.map((item, index) => {
                   const progressValue = Math.min(
                     100,
-                    Math.max(0, Number(item.progress || item.completionPercentage || 0))
+                    Math.max(
+                      0,
+                      Number(
+                        item.progress ||
+                          item.completionPercentage ||
+                          0
+                      )
+                    )
                   );
 
                   return (
@@ -338,10 +412,15 @@ function Dashboard() {
                     >
                       <div className="student-progress-label">
                         <strong>
-                          {item.topic || item.category || item.subject || "Learning"}
+                          {item.topic ||
+                            item.category ||
+                            item.subject ||
+                            "Learning"}
                         </strong>
+
                         <span>{progressValue}%</span>
                       </div>
+
                       <div className="student-progress-track">
                         <div
                           className="student-progress-fill"
@@ -357,8 +436,11 @@ function Dashboard() {
                 <div className="student-empty-icon">
                   <TrendingUp size={27} />
                 </div>
+
                 <h4>Progress will appear here</h4>
-                <p>Start practising to build your learning progress.</p>
+                <p>
+                  Start practising to build your learning progress.
+                </p>
               </div>
             )}
           </div>
@@ -380,10 +462,12 @@ function Dashboard() {
               <div className="student-quick-icon purple">
                 <FileText size={23} />
               </div>
+
               <div>
                 <strong>Practice Tests</strong>
                 <span>Test your knowledge</span>
               </div>
+
               <span className="student-quick-arrow">→</span>
             </button>
 
@@ -394,10 +478,12 @@ function Dashboard() {
               <div className="student-quick-icon blue">
                 <BookOpen size={23} />
               </div>
+
               <div>
                 <strong>Study Materials</strong>
                 <span>Learn new concepts</span>
               </div>
+
               <span className="student-quick-arrow">→</span>
             </button>
 
@@ -408,10 +494,12 @@ function Dashboard() {
               <div className="student-quick-icon orange">
                 <Bookmark size={23} />
               </div>
+
               <div>
                 <strong>My Bookmarks</strong>
                 <span>Revisit saved questions</span>
               </div>
+
               <span className="student-quick-arrow">→</span>
             </button>
           </div>
@@ -419,8 +507,10 @@ function Dashboard() {
 
         <footer className="student-dashboard-footer">
           <span>PlacementPro Student Portal</span>
+
           <span>
-            <CheckCircle2 size={14} /> Keep learning, keep growing
+            <CheckCircle2 size={14} />
+            Keep learning, keep growing
           </span>
         </footer>
       </main>

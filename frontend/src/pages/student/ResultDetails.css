@@ -374,3 +374,22 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+.result-detail-back,
+.result-detail-primary {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.result-detail-back:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.result-detail-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(85, 88, 232, 0.2);
+}
+
+.result-detail-primary:active {
+  transform: translateY(0);
+}
