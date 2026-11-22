@@ -1,17 +1,37 @@
-
 const express = require("express");
 const cors = require("cors");
+
 const app = express();
 
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
+  "https://placement-portal-flax.vercel.app",
   process.env.CLIENT_URL,
-];
+]
+  .filter(Boolean)
+  .map((origin) => origin.trim().replace(/\/$/, ""));
 
 app.use(
   cors({
-    origin: allowedOrigins.filter(Boolean),
+    origin: (origin, callback) => {
+      // Allow requests without an Origin header (e.g. server-to-server)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      const normalizedOrigin = origin.trim().replace(/\/$/, "");
+
+      if (allowedOrigins.includes(normalizedOrigin)) {
+        return callback(null, true);
+      }
+
+      console.log("CORS blocked origin:", origin);
+      return callback(new Error("Not allowed by CORS"));
+    },
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 204,
   })
 );
 
