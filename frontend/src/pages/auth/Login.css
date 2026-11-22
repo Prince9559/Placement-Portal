@@ -1,8 +1,4 @@
-
-/* =====================================
-   LOGIN PAGE
-===================================== */
-
+ 
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -13,11 +9,7 @@
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
-
-/* =====================================
-   MAIN LOGIN CARD
-===================================== */
-
+ 
 .auth-card {
   width: 100%;
   max-width: 950px;
@@ -30,11 +22,7 @@
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.10);
   box-sizing: border-box;
 }
-
-/* =====================================
-   LEFT DESIGN PANEL
-===================================== */
-
+ 
 .auth-left-panel {
   position: relative;
   overflow: hidden;
@@ -51,8 +39,6 @@
   justify-content: center;
   box-sizing: border-box;
 }
-
-/* Background circles */
 
 .auth-left-panel::before {
   content: "";
@@ -76,8 +62,6 @@
   left: -130px;
 }
 
-/* Logo icon */
-
 .auth-brand-icon {
   width: 65px;
   height: 65px;
@@ -91,8 +75,6 @@
   position: relative;
   z-index: 1;
 }
-
-/* Brand content */
 
 .auth-brand-content {
   position: relative;
@@ -130,9 +112,6 @@
   color: #e2e9ff;
   margin: 0;
 }
-
-/* Brand footer */
-
 .auth-brand-footer {
   position: relative;
   z-index: 1;
@@ -140,10 +119,6 @@
   font-size: 12px;
   color: #dce5ff;
 }
-
-/* =====================================
-   RIGHT LOGIN PANEL
-===================================== */
 
 .auth-right-panel {
   width: 100%;
@@ -153,10 +128,6 @@
   justify-content: center;
   box-sizing: border-box;
 }
-
-/* =====================================
-   HEADING
-===================================== */
 
 .auth-heading {
   text-align: left;
@@ -176,10 +147,6 @@
   line-height: 1.6;
   margin: 0;
 }
-
-/* =====================================
-   ROLE SELECTION - TEXT TABS
-===================================== */
 
 .auth-role-selection {
   display: flex;
@@ -222,10 +189,6 @@
   border-radius: 3px 3px 0 0;
 }
 
-/* =====================================
-   SELECTED ROLE HEADING
-===================================== */
-
 .auth-selected-heading {
   margin-bottom: 22px;
 }
@@ -242,10 +205,6 @@
   margin: 0;
   line-height: 1.5;
 }
-
-/* =====================================
-   FORM
-===================================== */
 
 .form-group {
   display: flex;
@@ -278,10 +237,6 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* =====================================
-   PASSWORD SHOW / HIDE EYE ICON
-===================================== */
-
 .password-input-wrapper {
   position: relative;
   width: 100%;
@@ -312,10 +267,6 @@
   color: #2563eb;
 }
 
-/* =====================================
-   LOGIN BUTTON
-===================================== */
-
 .auth-button {
   width: 100%;
   padding: 14px;
@@ -337,10 +288,6 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-/* =====================================
-   FOOTER
-===================================== */
 
 .auth-footer {
   margin-top: 23px;
@@ -364,10 +311,6 @@
   font-size: 12px;
 }
 
-/* =====================================
-   TABLET RESPONSIVE
-===================================== */
-
 @media (max-width: 650px) {
   .auth-card {
     min-height: auto;
@@ -381,11 +324,6 @@
     padding: 25px 25px;
   }
 }
-
-/* =====================================
-   MOBILE RESPONSIVE
-===================================== */
-
 @media (max-width: 650px) {
   .auth-page {
     padding: 16px;
@@ -454,10 +392,6 @@
     font-size: 13px;
   }
 }
-
-/* =====================================
-   SMALL MOBILE
-===================================== */
 
 @media (max-width: 380px) {
   .auth-right-panel {

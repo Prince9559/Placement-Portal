@@ -119,12 +119,8 @@ const Notifications = () => {
   return (
     <div className="student-notifications-page">
 
-      {/* Dashboard Topbar - Always Visible */}
       <header className="notifications-topbar">
-        <button
-          type="button"
-          className="notifications-back-btn"
-          onClick={() => navigate("/student/dashboard")}
+        <button type="button" className="notifications-back-btn" onClick={() => navigate("/student/dashboard")}
         >
           <ArrowLeft size={18} />
           <span>Dashboard</span>
@@ -138,7 +134,7 @@ const Notifications = () => {
         </div>
       ) : (
         <>
-          {/* Page Header */}
+          
           <div className="student-notifications-header">
             <div>
               <span className="notifications-eyebrow">
@@ -163,7 +159,6 @@ const Notifications = () => {
             </div>
           </div>
 
-          {/* Notification Summary */}
           <div className="notifications-summary">
             <div className="notifications-summary-icon">
               <Bell size={22} />
@@ -180,9 +175,7 @@ const Notifications = () => {
             </div>
 
             {unreadCount > 0 && (
-              <button
-                type="button"
-                onClick={markAllAsRead}
+              <button type="button" onClick={markAllAsRead}
               >
                 <CheckCheck size={18} />
                 Mark All as Read
@@ -190,7 +183,6 @@ const Notifications = () => {
             )}
           </div>
 
-          {/* Error Message */}
           {error && (
             <div className="notifications-error">
               <Info size={18} />
@@ -198,7 +190,6 @@ const Notifications = () => {
             </div>
           )}
 
-          {/* Notifications Content */}
           <div className="notifications-content">
             <div className="notifications-section-heading">
               <h2>Recent Notifications</h2>
@@ -259,10 +250,7 @@ const Notifications = () => {
                     </div>
 
                     {!notification.isRead && (
-                      <button
-                        type="button"
-                        className="notification-read-btn"
-                        onClick={() => markAsRead(notification._id)}
+                      <button type="button" className="notification-read-btn" onClick={() => markAsRead(notification._id)}
                         title="Mark as read"
                       >
                         <Check size={18} />

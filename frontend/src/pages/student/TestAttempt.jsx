@@ -36,7 +36,6 @@ function TestAttempt() {
 
       let data = attempt;
 
-      // If the page was refreshed, ask the backend to resume the attempt.
       if (!data?.attemptId || !data?.questions?.length) {
         data = await testService.startTest(id);
       }
@@ -192,8 +191,7 @@ function TestAttempt() {
             </div>
           )}
 
-          <button
-            className="attempt-primary-btn"
+          <button className="attempt-primary-btn"
             onClick={() => navigate("/student/tests")}
           >
             <RotateCcw size={18} />
@@ -218,8 +216,7 @@ function TestAttempt() {
   return (
     <main className="attempt-page">
       <header className="attempt-header">
-        <button
-          className="attempt-back-btn"
+        <button className="attempt-back-btn"
           onClick={() => navigate("/student/tests")}
         >
           <ArrowLeft size={18} />
@@ -269,10 +266,7 @@ function TestAttempt() {
                 const selected = answers[activeQuestion._id] === index;
 
                 return (
-                  <button
-                    type="button"
-                    key={index}
-                    className={`attempt-option ${selected ? "selected" : ""}`}
+                  <button type="button" key={index} className={`attempt-option ${selected ? "selected" : ""}`}
                     onClick={() => selectAnswer(activeQuestion._id, index)}
                     disabled={submitting}
                   >
@@ -295,25 +289,20 @@ function TestAttempt() {
             </div>
 
             <div className="attempt-question-actions">
-              <button
-                className="attempt-secondary-btn"
-                disabled={currentQuestion === 0}
+              <button className="attempt-secondary-btn" disabled={currentQuestion === 0}
                 onClick={() => setCurrentQuestion((value) => value - 1)}
               >
                 Previous
               </button>
 
               {currentQuestion < questions.length - 1 ? (
-                <button
-                  className="attempt-primary-btn"
+                <button className="attempt-primary-btn"
                   onClick={() => setCurrentQuestion((value) => value + 1)}
                 >
                   Next Question
                 </button>
               ) : (
-                <button
-                  className="attempt-submit-btn"
-                  onClick={() => handleSubmit(false)}
+                <button className="attempt-submit-btn" onClick={() => handleSubmit(false)}
                   disabled={submitting}
                 >
                   {submitting ? (
@@ -335,8 +324,7 @@ function TestAttempt() {
 
             <div className="question-number-grid">
               {questions.map((question, index) => (
-                <button
-                  key={question._id}
+                <button key={question._id}
                   className={[
                     "question-number",
                     currentQuestion === index ? "current" : "",
@@ -366,9 +354,7 @@ function TestAttempt() {
               </div>
             </div>
 
-            <button
-              className="attempt-submit-btn sidebar-submit"
-              onClick={() => handleSubmit(false)}
+            <button className="attempt-submit-btn sidebar-submit" onClick={() => handleSubmit(false)}
               disabled={submitting}
             >
               <Send size={17} />

@@ -15,8 +15,7 @@ const authService = {
     const response = await api.post("/auth/login", credentials);
 
     const data = response.data;
-
-    // Backend response se token aur user extract karo.
+    
     const token =
       data.token ||
       data.data?.token ||

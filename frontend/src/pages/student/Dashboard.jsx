@@ -202,7 +202,7 @@ function Dashboard() {
           </button>
         </nav>
 
-        {/* Student avatar and account details at sidebar bottom */}
+        
         <div className="student-sidebar-bottom">
           <div className="student-sidebar-user">
             <div className="student-avatar">
@@ -227,9 +227,8 @@ function Dashboard() {
           </div>
 
           <div className="student-topbar-actions">
-            {/* Refresh button */}
-            <button
-              className="student-refresh-btn"
+            
+            <button className="student-refresh-btn"
               onClick={async () => {
                 await fetchDashboard(true);
                 await fetchUnreadCount();
@@ -243,7 +242,7 @@ function Dashboard() {
               {refreshing ? "Refreshing..." : "Refresh"}
             </button>
 
-            {/* Logout button beside Refresh */}
+            
             <button
               className="student-logout"
               onClick={handleLogout}

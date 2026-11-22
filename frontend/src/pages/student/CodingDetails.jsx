@@ -51,9 +51,7 @@ function CodingDetails() {
 
   return (
     <div className="coding-details-page">
-      <button
-        className="coding-back-btn"
-        onClick={() => navigate("/student/coding")}
+      <button className="coding-back-btn" onClick={() => navigate("/student/coding")}
       >
         <ArrowLeft size={18} /> Back to Coding Practice
       </button>

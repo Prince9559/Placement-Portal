@@ -59,7 +59,6 @@ function Interview() {
   const [answerLoading, setAnswerLoading] = useState(null);
   const [error, setError] = useState("");
 
-  // Search Debouncing
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
@@ -68,7 +67,6 @@ function Interview() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  // Fetch Interview Questions
   const fetchQuestions = useCallback(async () => {
     try {
       setLoading(true);
@@ -121,25 +119,21 @@ function Interview() {
     fetchQuestions();
   }, [fetchQuestions]);
 
-  // Category Filter
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
     setPage(1);
   };
 
-  // Difficulty Filter
   const handleDifficultyChange = (value) => {
     setDifficulty(value);
     setPage(1);
   };
 
-  // Search Handler
   const handleSearchChange = (value) => {
     setSearch(value);
     setPage(1);
   };
 
-  // Fetch Answer
   const handleQuestionClick = async (questionId) => {
     if (openQuestion === questionId) {
       setOpenQuestion(null);
@@ -175,7 +169,6 @@ function Interview() {
     }
   };
 
-  // Category Label
   const getCategoryLabel = (category) => {
     return (
       categories.find((item) => item.value === category)?.label ||
@@ -183,7 +176,6 @@ function Interview() {
     );
   };
 
-  // Pagination
   const handlePreviousPage = () => {
     if (page > 1) {
       setPage((previous) => previous - 1);
@@ -199,10 +191,7 @@ function Interview() {
   return (
     <div className="interview-page">
 
-      {/* Dashboard Button */}
-      <button
-        type="button"
-        className="interview-dashboard-btn"
+      <button type="button" className="interview-dashboard-btn"
         onClick={() => navigate("/student/dashboard")}
       >
         <ArrowLeft size={18} />
@@ -243,11 +232,9 @@ function Interview() {
           </div>
         </div>
 
-        {/* Category Tabs */}
         <div className="interview-tabs">
           {categories.map((category) => (
-            <button
-              key={category.value}
+            <button key={category.value}
               className={
                 activeCategory === category.value ? "active" : ""
               }
@@ -260,16 +247,11 @@ function Interview() {
           ))}
         </div>
 
-        {/* Search and Difficulty Filters */}
         <div className="interview-filters">
           <div className="interview-search">
             <Search size={18} />
 
-            <input
-              type="text"
-              placeholder="Search by topic..."
-              value={search}
-              onChange={(event) =>
+            <input type="text" placeholder="Search by topic..." value={search} onChange={(event) =>
                 handleSearchChange(event.target.value)
               }
             />
@@ -289,7 +271,6 @@ function Interview() {
           </select>
         </div>
 
-        {/* Loading State */}
         {loading ? (
           <div className="interview-loading">
             <Loader2 size={28} className="interview-spinner" />
@@ -311,7 +292,6 @@ function Interview() {
           </div>
         ) : (
           <>
-            {/* Question List */}
             <div className="interview-topic-list">
               {questions.map((question) => {
                 const Icon =
@@ -322,9 +302,7 @@ function Interview() {
                 const answer = answers[question._id];
 
                 return (
-                  <article
-                    className="interview-topic-card"
-                    key={question._id}
+                  <article className="interview-topic-card" key={question._id}
                   >
                     <div className="interview-topic-heading">
                       <div className="interview-topic-icon">
@@ -407,7 +385,6 @@ function Interview() {
               })}
             </div>
 
-            {/* Pagination */}
             {pagination.totalPages > 1 && (
               <div className="interview-pagination">
                 <button
@@ -437,7 +414,6 @@ function Interview() {
               </div>
             )}
 
-            {/* Total Questions */}
             <div className="interview-total-count">
               Showing {questions.length} of {pagination.total} questions
             </div>

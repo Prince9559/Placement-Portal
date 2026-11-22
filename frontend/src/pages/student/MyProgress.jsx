@@ -101,18 +101,14 @@ function MyProgress() {
   return (
     <div className="my-progress-page">
       <header className="progress-topbar">
-        <button
-          className="progress-back-btn"
+        <button className="progress-back-btn"
           onClick={() => navigate("/student/dashboard")}
         >
           <ArrowLeft size={18} />
           Dashboard
         </button>
 
-        <button
-          className="progress-refresh-btn"
-          onClick={loadProgress}
-          disabled={loading}
+        <button className="progress-refresh-btn" onClick={loadProgress} disabled={loading}
         >
           <RefreshCw size={17} className={loading ? "progress-spin" : ""} />
           Refresh
@@ -196,9 +192,7 @@ function MyProgress() {
               Start practicing questions and tests to see your learning progress
               here.
             </p>
-            <button
-              className="progress-primary-btn"
-              onClick={() => navigate("/student/tests")}
+            <button className="progress-primary-btn" onClick={() => navigate("/student/tests")}
             >
               Start Practicing
               <ChevronRight size={18} />

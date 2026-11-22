@@ -89,7 +89,6 @@ function PracticeTests() {
       }
 
       toast.success(response.message || "Test started successfully!");
-
       navigate(`/student/tests/${test._id}/attempt`, {
         state: {
           attemptId: response.attemptId,
@@ -116,9 +115,7 @@ function PracticeTests() {
   return (
     <div className="practice-page">
       <header className="practice-header">
-        <button
-          className="practice-back-btn"
-          onClick={() => navigate("/student/dashboard")}
+        <button className="practice-back-btn" onClick={() => navigate("/student/dashboard")}
         >
           <ArrowLeft size={18} />
           Dashboard
@@ -126,10 +123,7 @@ function PracticeTests() {
 
         <div className="practice-header-actions">
           <span className="practice-header-label">STUDENT WORKSPACE</span>
-          <button
-            className="practice-refresh-btn"
-            onClick={() => fetchTests(1, true)}
-            disabled={refreshing}
+          <button className="practice-refresh-btn" onClick={() => fetchTests(1, true)} disabled={refreshing}
             aria-label="Refresh tests"
           >
             <RefreshCw
@@ -205,18 +199,11 @@ function PracticeTests() {
           <div className="practice-filters">
             <div className="practice-search">
               <Search size={18} />
-              <input
-                type="text"
-                placeholder="Search tests..."
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
+              <input type="text" placeholder="Search tests..." value={search} onChange={(event) => setSearch(event.target.value)}
               />
             </div>
 
-            <select
-              value={category}
-              onChange={(event) => setCategory(event.target.value)}
-              aria-label="Filter by category"
+            <select value={category} onChange={(event) => setCategory(event.target.value)} aria-label="Filter by category"
             >
               {categories.map((item) => (
                 <option key={item.value} value={item.value}>
@@ -279,10 +266,7 @@ function PracticeTests() {
                       <strong>{test.passingMarks ?? "—"}</strong>
                     </div>
 
-                    <button
-                      className="practice-start-btn"
-                      onClick={() => handleStartTest(test)}
-                      disabled={startingId === test._id}
+                    <button className="practice-start-btn" onClick={() => handleStartTest(test)} disabled={startingId === test._id}
                     >
                       {startingId === test._id ? (
                         "Starting..."
@@ -299,9 +283,7 @@ function PracticeTests() {
 
             {pagination.totalPages > 1 && (
               <div className="practice-pagination">
-                <button
-                  disabled={pagination.page <= 1}
-                  onClick={() => fetchTests(pagination.page - 1)}
+                <button disabled={pagination.page <= 1}  onClick={() => fetchTests(pagination.page - 1)}
                 >
                   Previous
                 </button>
@@ -310,9 +292,7 @@ function PracticeTests() {
                   Page {pagination.page} of {pagination.totalPages}
                 </span>
 
-                <button
-                  disabled={pagination.page >= pagination.totalPages}
-                  onClick={() => fetchTests(pagination.page + 1)}
+                <button disabled={pagination.page >= pagination.totalPages} onClick={() => fetchTests(pagination.page + 1)}
                 >
                   Next
                 </button>

@@ -7,7 +7,7 @@
   font-family: "Inter", "Segoe UI", sans-serif;
 }
 
-/* Sidebar */
+
 .student-sidebar {
   width: 255px;
   min-width: 255px;
@@ -68,8 +68,6 @@
   padding: 0 12px 12px;
   flex-shrink: 0;
 }
-
-/* Sidebar navigation */
 .student-nav {
   display: flex;
   flex-direction: column;
@@ -127,7 +125,6 @@
   flex-shrink: 0;
 }
 
-/* Notification count */
 .student-notification-count {
   display: inline-flex;
   align-items: center;
@@ -143,7 +140,6 @@
   font-weight: 700;
 }
 
-/* Sidebar bottom student information */
 .student-sidebar-bottom {
   margin-top: auto;
   flex-shrink: 0;
@@ -191,7 +187,6 @@
   font-size: 10px;
 }
 
-/* Main area */
 .student-main {
   flex: 1;
   min-width: 0;
@@ -200,7 +195,6 @@
   padding: 27px 38px 20px;
 }
 
-/* Topbar */
 .student-topbar {
   display: flex;
   align-items: center;
@@ -260,8 +254,6 @@
 .refresh-spinning {
   animation: student-spin 1s linear infinite;
 }
-
-/* Topbar logout button */
 .student-topbar-actions .student-logout {
   width: auto;
   display: flex;
@@ -290,8 +282,6 @@
     transform: rotate(360deg);
   }
 }
-
-/* Welcome banner */
 .student-welcome {
   min-height: 190px;
   padding: 29px 35px;
@@ -380,7 +370,6 @@
   box-shadow: 0 0 0 13px rgba(255, 255, 255, 0.05);
 }
 
-/* Statistics */
 .student-stats-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -467,7 +456,6 @@
   margin-top: 5px;
 }
 
-/* Panels */
 .student-content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
@@ -609,7 +597,6 @@
   color: #e05252;
 }
 
-/* Progress */
 .student-progress-list {
   padding-top: 19px;
   display: flex;
@@ -653,7 +640,6 @@
   transition: width 0.5s ease;
 }
 
-/* Empty state */
 .student-empty-state {
   min-height: 240px;
   display: flex;
@@ -709,7 +695,6 @@
   background: #5838b7;
 }
 
-/* Quick access */
 .student-quick-section {
   margin-bottom: 28px;
 }
@@ -774,7 +759,6 @@
   transform: translateX(4px);
 }
 
-/* Footer */
 .student-dashboard-footer {
   border-top: 1px solid #e9edf4;
   padding: 17px 0 4px;
@@ -793,7 +777,6 @@
   color: #16a078;
 }
 
-/* Loading */
 .student-dashboard-loading {
   min-height: 100vh;
   display: flex;
@@ -815,7 +798,6 @@
   animation: student-spin 0.8s linear infinite;
 }
 
-/* Responsive */
 @media (max-width: 1200px) {
   .student-main {
     padding: 25px 25px 18px;

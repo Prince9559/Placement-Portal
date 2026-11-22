@@ -5,8 +5,6 @@
   color: #172033;
 }
 
-/* Topbar */
-
 .progress-topbar {
   display: flex;
   align-items: center;
@@ -42,8 +40,6 @@
   opacity: 0.65;
   cursor: not-allowed;
 }
-
-/* Hero */
 
 .progress-hero {
   display: flex;
@@ -91,8 +87,6 @@
   background: rgba(255, 255, 255, 0.14);
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
-
-/* Stats */
 
 .progress-stats-grid {
   display: grid;
@@ -162,8 +156,6 @@
   color: #172033;
 }
 
-/* Content */
-
 .progress-content-section {
   background: #fff;
   padding: 28px;
@@ -187,8 +179,6 @@
   font-size: 14px;
   color: #64748b;
 }
-
-/* Topic Cards */
 
 .progress-topic-list {
   display: flex;
@@ -295,8 +285,6 @@
   font-size: 12px;
 }
 
-/* Loading */
-
 .progress-loading {
   min-height: 220px;
   display: flex;
@@ -326,8 +314,6 @@
 .progress-spin {
   animation: progressLoaderSpin 1s linear infinite;
 }
-
-/* Empty state */
 
 .progress-empty {
   min-height: 280px;
@@ -383,8 +369,6 @@
   transform: translateY(-2px);
 }
 
-/* Bottom banner */
-
 .progress-bottom-banner {
   display: flex;
   align-items: center;
@@ -438,8 +422,6 @@
   background: #4338ca;
   transform: translateY(-2px);
 }
-
-/* Responsive */
 
 @media (max-width: 1100px) {
   .progress-stats-grid {

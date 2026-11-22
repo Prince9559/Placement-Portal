@@ -6,8 +6,6 @@
   color: #1e293b;
 }
 
-/* Header */
-
 .interview-header {
   display: flex;
   align-items: center;
@@ -46,8 +44,6 @@
   flex-shrink: 0;
 }
 
-/* Welcome Section */
-
 .interview-welcome {
   margin: 23px 0;
   padding: 25px;
@@ -69,8 +65,6 @@
   line-height: 1.6;
 }
 
-/* Main Content */
-
 .interview-content {
   padding: 25px;
   border: 1px solid #e8edf5;
@@ -88,9 +82,6 @@
   color: #64748b;
   font-size: 13px;
 }
-
-/* Category Tabs */
-
 .interview-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -119,8 +110,6 @@
   background: #0f766e;
   color: white;
 }
-
-/* Search and Filters */
 
 .interview-filters {
   display: flex;
@@ -177,9 +166,6 @@
 .interview-filters select:focus {
   border-color: #0f766e;
 }
-
-/* Topic Cards */
-
 .interview-topic-list {
   display: grid;
   gap: 18px;
@@ -225,8 +211,6 @@
   text-transform: capitalize;
 }
 
-/* Questions */
-
 .interview-question {
   border-top: 1px solid #edf0f5;
 }
@@ -255,8 +239,6 @@
   flex-shrink: 0;
   color: #0f766e;
 }
-
-/* Answers */
 
 .interview-answer {
   margin: 0 0 14px;
@@ -295,8 +277,6 @@
   line-height: 1.6;
 }
 
-/* Loading */
-
 .interview-loading {
   display: flex;
   flex-direction: column;
@@ -330,8 +310,6 @@
     transform: rotate(360deg);
   }
 }
-
-/* Empty and Error State */
 
 .interview-empty {
   display: flex;
@@ -371,9 +349,7 @@
 .interview-empty button:hover {
   background: #115e59;
 }
-
-/* Responsive Design */
-
+ 
 @media (max-width: 700px) {
   .interview-page {
     padding: 18px;
@@ -454,9 +430,6 @@
     font-size: 13px;
   }
 }
-
-
-/* Pagination Fix */
 
 .interview-pagination {
   display: flex;
@@ -545,10 +518,6 @@
     font-size: 12px;
   }
 }
-
-
-
-/* Dashboard Back Button */
 
 .interview-dashboard-btn {
   display: inline-flex !important;

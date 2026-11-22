@@ -116,17 +116,11 @@ function Coding() {
           <div className="coding-search">
             <Search size={18} />
 
-            <input
-              type="text"
-              placeholder="Search questions..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+            <input type="text" placeholder="Search questions..."  value={search} onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
-          <select
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
+          <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}
           >
             <option value="All">All Difficulties</option>
             <option value="Easy">Easy</option>
@@ -147,9 +141,7 @@ function Coding() {
             </div>
           ) : questions.length > 0 ? (
             questions.map((question) => (
-              <article
-                className="coding-question-card"
-                key={question._id}
+              <article className="coding-question-card" key={question._id}
               >
                 <div className="coding-question-main">
                   <div className="coding-question-icon">
@@ -168,15 +160,12 @@ function Coding() {
                 </div>
 
                 <div className="coding-question-action">
-                  <span
-                    className={`coding-difficulty ${question.difficulty}`}
+                  <span className={`coding-difficulty ${question.difficulty}`}
                   >
                     {question.difficulty}
                   </span>
 
-                  <button
-                    type="button"
-                    onClick={() =>
+                  <button type="button" onClick={() =>
                       navigate(`/student/coding/${question._id}`)
                     }
                   >
@@ -199,5 +188,4 @@ function Coding() {
     </div>
   );
 }
-
 export default Coding;

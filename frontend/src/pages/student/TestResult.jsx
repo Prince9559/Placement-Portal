@@ -1,10 +1,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ArrowLeft, Award, BookOpen, CheckCircle2, Clock3, Search,
-  TrendingUp, XCircle, RefreshCw, ChevronRight, ClipboardList,
-} from "lucide-react";
+import {ArrowLeft, Award, BookOpen, CheckCircle2, Clock3, Search,TrendingUp, XCircle, RefreshCw, ChevronRight, ClipboardList,} from "lucide-react";
 import { toast } from "react-toastify";
 import testService from "../../services/testService";
 import "./TestResult.css";
@@ -90,9 +87,7 @@ function Results() {
     <main className="results-page">
       <header className="results-header">
         <div className="results-header-inner">
-          <button
-            className="results-back-btn"
-            onClick={() => navigate("/student/dashboard")}
+          <button className="results-back-btn" onClick={() => navigate("/student/dashboard")}
           >
             <ArrowLeft size={18} />
             Dashboard
@@ -104,10 +99,7 @@ function Results() {
             <p>Track your progress and review your completed tests.</p>
           </div>
 
-          <button
-            className="results-refresh-btn"
-            onClick={() => fetchResults(true)}
-            disabled={refreshing}
+          <button className="results-refresh-btn" onClick={() => fetchResults(true)} disabled={refreshing}
           >
             <RefreshCw size={17} className={refreshing ? "results-spin" : ""} />
             Refresh
@@ -143,10 +135,7 @@ function Results() {
             </div>
             <div className="results-search">
               <Search size={17} />
-              <input
-                type="search"
-                placeholder="Search tests..."
-                value={search}
+              <input type="search"  placeholder="Search tests..." value={search}
                 onChange={(event) => setSearch(event.target.value)}
               />
             </div>
@@ -237,8 +226,7 @@ function Results() {
                         {formatDate(item.completedAt)}
                       </td>
                       <td>
-                        <button
-                          className="result-view-btn"
+                        <button className="result-view-btn"
                           onClick={() => navigate(`/student/results/${item._id}`)}
                         >
                           Details <ChevronRight size={16} />
@@ -264,8 +252,7 @@ function Results() {
                       <strong>{item.score} / {item.totalMarks}</strong>
                       <span>{Number(item.percentage || 0).toFixed(1)}%</span>
                     </div>
-                    <button
-                      className="result-view-btn"
+                    <button className="result-view-btn"
                       onClick={() => navigate(`/student/results/${item._id}`)}
                     >
                       View Result Details <ChevronRight size={16} />

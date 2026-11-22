@@ -150,9 +150,7 @@ function StudyMaterials() {
     <main className="study-materials-page">
       <header className="sm-header">
         <div className="sm-header-inner">
-          <button
-            className="sm-back-btn"
-            onClick={() => navigate("/student/dashboard")}
+          <button className="sm-back-btn" onClick={() => navigate("/student/dashboard")}
           >
             <ArrowLeft size={18} />
             Dashboard
@@ -167,14 +165,9 @@ function StudyMaterials() {
             </p>
           </div>
 
-          <button
-            className="sm-refresh-btn"
-            onClick={() => fetchMaterials(true)}
-            disabled={refreshing}
+          <button className="sm-refresh-btn" onClick={() => fetchMaterials(true)} disabled={refreshing}
           >
-            <RefreshCw
-              size={17}
-              className={refreshing ? "sm-spin" : ""}
+            <RefreshCw size={17} className={refreshing ? "sm-spin" : ""}
             />
             Refresh
           </button>
@@ -209,16 +202,10 @@ function StudyMaterials() {
           <div className="sm-toolbar">
             <div className="sm-search">
               <Search size={18} />
-              <input
-                type="search"
-                placeholder="Search by title or keyword..."
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
+              <input type="search" placeholder="Search by title or keyword..."  value={search} onChange={(event) => setSearch(event.target.value)}
               />
               {search && (
-                <button
-                  onClick={() => setSearch("")}
-                  aria-label="Clear search"
+                <button onClick={() => setSearch("")} aria-label="Clear search"
                 >
                   <X size={16} />
                 </button>
@@ -233,10 +220,7 @@ function StudyMaterials() {
 
           <div className="sm-category-list">
             {categories.map((item) => (
-              <button
-                key={item}
-                className={category === item ? "active" : ""}
-                onClick={() => setCategory(item)}
+              <button key={item} className={category === item ? "active" : ""}  onClick={() => setCategory(item)}
               >
                 {formatLabel(item)}
               </button>
@@ -265,8 +249,7 @@ function StudyMaterials() {
                   : "Study resources will appear here when they are published."}
               </p>
               {(search || category !== "all") && (
-                <button
-                  className="sm-primary-btn"
+                <button className="sm-primary-btn"
                   onClick={() => {
                     setSearch("");
                     setCategory("all");
@@ -302,16 +285,11 @@ function StudyMaterials() {
                   </p>
 
                   <div className="sm-card-footer">
-                    <button
-                      className="sm-details-btn"
-                      onClick={() => setSelectedMaterial(item)}
+                    <button className="sm-details-btn" onClick={() => setSelectedMaterial(item)}
                     >
                       View Details
                     </button>
-                    <button
-                      className="sm-open-btn"
-                      onClick={() => openMaterial(item)}
-                      aria-label="Open resource"
+                    <button className="sm-open-btn" onClick={() => openMaterial(item)} aria-label="Open resource"
                     >
                       {item.type === "pdf" || item.type === "document" ? (
                         <Download size={17} />
@@ -329,21 +307,13 @@ function StudyMaterials() {
       </section>
 
       {selectedMaterial && (
-        <div
-          className="sm-modal-overlay"
+        <div className="sm-modal-overlay"
           onClick={() => setSelectedMaterial(null)}
         >
-          <section
-            className="sm-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="sm-modal-title"
+          <section className="sm-modal" role="dialog" aria-modal="true" aria-labelledby="sm-modal-title"
             onClick={(event) => event.stopPropagation()}
           >
-            <button
-              className="sm-modal-close"
-              onClick={() => setSelectedMaterial(null)}
-              aria-label="Close details"
+            <button className="sm-modal-close" onClick={() => setSelectedMaterial(null)} aria-label="Close details"
             >
               <X size={20} />
             </button>
@@ -373,9 +343,7 @@ function StudyMaterials() {
               </div>
             </div>
 
-            <button
-              className="sm-modal-open-btn"
-              onClick={() => openMaterial(selectedMaterial)}
+            <button className="sm-modal-open-btn" onClick={() => openMaterial(selectedMaterial)}
             >
               <ExternalLink size={17} />
               Open Learning Resource

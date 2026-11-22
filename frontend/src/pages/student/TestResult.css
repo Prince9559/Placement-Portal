@@ -1,16 +1,10 @@
-
-/* ================================
-   STUDENT TEST RESULTS PAGE
-================================ */
-
+ 
 .results-page {
   min-height: 100vh;
   background: #f5f7fc;
   color: #172033;
   padding-bottom: 50px;
 }
-
-/* Header */
 
 .results-header {
   background: linear-gradient(120deg, #171b4b 0%, #34318a 55%, #5145b5 100%);
@@ -113,8 +107,6 @@
   cursor: not-allowed;
 }
 
-/* Main content */
-
 .results-content {
   max-width: 1250px;
   width: calc(100% - 48px);
@@ -122,8 +114,6 @@
   position: relative;
   z-index: 2;
 }
-
-/* Statistics */
 
 .results-stats-grid {
   display: grid;
@@ -195,8 +185,6 @@
   font-weight: 800;
 }
 
-/* Results panel */
-
 .results-list-panel {
   background: #fff;
   border: 1px solid #edf0f7;
@@ -258,8 +246,6 @@
   color: #a5adbd;
 }
 
-/* Filters */
-
 .results-filter-row {
   display: flex;
   align-items: center;
@@ -290,8 +276,6 @@
   color: #fff;
   box-shadow: 0 4px 12px rgba(92, 74, 196, 0.2);
 }
-
-/* Table */
 
 .results-table-wrap {
   width: 100%;
@@ -458,8 +442,6 @@
   transform: translateY(-1px);
 }
 
-/* Mobile result cards */
-
 .results-mobile-list {
   display: none;
 }
@@ -518,8 +500,6 @@
   width: 100%;
   min-height: 40px;
 }
-
-/* Loading and empty states */
 
 .results-state {
   min-height: 260px;
@@ -582,8 +562,6 @@
   transform: translateY(-2px);
 }
 
-/* Animations */
-
 .results-spin {
   animation: resultsSpin 1s linear infinite;
 }
@@ -593,8 +571,6 @@
     transform: rotate(360deg);
   }
 }
-
-/* Tablet */
 
 @media (max-width: 1000px) {
   .results-stats-grid {
@@ -609,8 +585,6 @@
     padding: 21px;
   }
 }
-
-/* Mobile */
 
 @media (max-width: 650px) {
   .results-header {
@@ -728,8 +702,6 @@
     min-height: 230px;
   }
 }
-
-/* Small mobile */
 
 @media (max-width: 380px) {
   .results-content {

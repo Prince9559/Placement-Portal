@@ -5,8 +5,6 @@
   background: #f5f7fb;
   color: #1e293b;
 }
-
-/* Dashboard Topbar */
 .notifications-topbar {
   display: flex;
   align-items: center;
@@ -46,7 +44,6 @@
   flex-shrink: 0;
 }
 
-/* Page Header */
 .student-notifications-header {
   display: flex;
   align-items: center;
@@ -103,7 +100,6 @@
   font-weight: 700;
 }
 
-/* Summary */
 .notifications-summary {
   display: flex;
   align-items: center;
@@ -167,7 +163,6 @@
   cursor: not-allowed;
 }
 
-/* Error */
 .notifications-error {
   display: flex;
   align-items: center;
@@ -185,7 +180,6 @@
   font-size: 13px;
 }
 
-/* Main Content */
 .notifications-content {
   padding: 25px;
   border: 1px solid #e8edf5;
@@ -208,7 +202,6 @@
   font-size: 13px;
 }
 
-/* Notification List */
 .notifications-list {
   display: grid;
   gap: 12px;
@@ -291,7 +284,6 @@
   text-decoration: underline;
 }
 
-/* Mark Read */
 .notification-read-btn {
   display: flex;
   align-items: center;
@@ -311,7 +303,6 @@
   background: #eef2ff;
 }
 
-/* Empty and Loading */
 .notifications-empty {
   display: flex;
   flex-direction: column;
@@ -348,7 +339,6 @@
   }
 }
 
-/* Responsive */
 @media (max-width: 700px) {
   .student-notifications-page {
     padding: 18px;

@@ -95,9 +95,7 @@ function MyBookmarks() {
   return (
     <div className="bookmarks-page">
       <header className="bookmarks-topbar">
-        <button
-          className="bookmark-back-btn"
-          onClick={() => navigate("/student/dashboard")}
+        <button className="bookmark-back-btn" onClick={() => navigate("/student/dashboard")}
         >
           <ArrowLeft size={18} />
           Dashboard
@@ -131,18 +129,12 @@ function MyBookmarks() {
         <section className="bookmark-toolbar">
           <div className="bookmark-search">
             <Search size={19} />
-            <input
-              type="text"
-              placeholder="Search your saved questions..."
-              value={search}
+            <input type="text" placeholder="Search your saved questions..." value={search}
               onChange={(event) => setSearch(event.target.value)}
             />
           </div>
 
-          <button
-            className="bookmark-refresh-btn"
-            onClick={loadBookmarks}
-            disabled={loading}
+          <button className="bookmark-refresh-btn" onClick={loadBookmarks} disabled={loading}
           >
             <RefreshCw size={17} className={loading ? "bookmark-spinning" : ""} />
             Refresh
@@ -223,11 +215,7 @@ function MyBookmarks() {
                       )}
                   </div>
 
-                  <button
-                    className="bookmark-remove-btn"
-                    onClick={() => handleRemove(item)}
-                    disabled={removingId === questionId}
-                    title="Remove bookmark"
+                  <button className="bookmark-remove-btn" onClick={() => handleRemove(item)} disabled={removingId === questionId} title="Remove bookmark"
                   >
                     <Trash2 size={17} />
                     {removingId === questionId ? "Removing..." : "Remove"}

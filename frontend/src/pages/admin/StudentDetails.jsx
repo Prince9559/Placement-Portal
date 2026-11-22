@@ -57,8 +57,7 @@ function StudentDetails() {
 
   return (
     <div className="student-details-page">
-      <button
-        className="student-back-btn"
+      <button className="student-back-btn"
         onClick={() => navigate("/admin/students")}
       >
         <ArrowLeft size={18} /> Back to Students

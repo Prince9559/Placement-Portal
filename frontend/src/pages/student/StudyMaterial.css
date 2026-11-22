@@ -1,16 +1,10 @@
-
-/* =====================================
-   STUDENT STUDY MATERIALS
-===================================== */
-
+ 
 .study-materials-page {
   min-height: 100vh;
   padding-bottom: 50px;
   background: #f5f7fc;
   color: #202943;
 }
-
-/* Header */
 
 .sm-header {
   position: relative;
@@ -111,8 +105,6 @@
   line-height: 1.7;
 }
 
-/* Main content */
-
 .sm-content {
   position: relative;
   z-index: 2;
@@ -120,8 +112,6 @@
   max-width: 1250px;
   margin: -40px auto 0;
 }
-
-/* Overview */
 
 .sm-overview-card {
   display: flex;
@@ -193,8 +183,6 @@
   font-size: 11px;
 }
 
-/* Library panel */
-
 .sm-library-panel {
   padding: 27px;
   border: 1px solid #edf0f7;
@@ -218,8 +206,6 @@
   color: #929bad;
   font-size: 12px;
 }
-
-/* Toolbar */
 
 .sm-toolbar {
   display: flex;
@@ -281,8 +267,6 @@
   white-space: nowrap;
 }
 
-/* Category filters */
-
 .sm-category-list {
   display: flex;
   align-items: center;
@@ -315,8 +299,6 @@
   background: #2878bb;
   box-shadow: 0 4px 12px rgba(40, 120, 187, 0.2);
 }
-
-/* Resource grid */
 
 .sm-grid {
   display: grid;
@@ -472,8 +454,6 @@
   transform: translateY(-1px);
 }
 
-/* Loading and empty states */
-
 .sm-state {
   min-height: 270px;
   display: flex;
@@ -528,8 +508,6 @@
 .sm-primary-btn:hover {
   background: #1e6199;
 }
-
-/* Details modal */
 
 .sm-modal-overlay {
   position: fixed;
@@ -673,8 +651,6 @@
   to { transform: rotate(360deg); }
 }
 
-/* Tablet */
-
 @media (max-width: 1000px) {
   .sm-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -688,8 +664,6 @@
     padding: 22px;
   }
 }
-
-/* Mobile */
 
 @media (max-width: 650px) {
   .sm-header {
@@ -830,9 +804,6 @@
     font-size: 19px;
   }
 }
-
-/* Small mobile */
-
 @media (max-width: 380px) {
   .sm-content {
     width: calc(100% - 20px);

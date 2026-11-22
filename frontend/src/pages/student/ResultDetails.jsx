@@ -1,10 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  ArrowLeft, Award, CheckCircle2, XCircle, MinusCircle,
-  Clock3, CalendarDays, Target, BookOpen, RefreshCw,
-} from "lucide-react";
+import {ArrowLeft, Award, CheckCircle2, XCircle, MinusCircle,Clock3, CalendarDays, Target, BookOpen, RefreshCw,} from "lucide-react";
 import { toast } from "react-toastify";
 import testService from "../../services/testService";
 import "./ResultDetails.css";
@@ -64,9 +61,7 @@ function ResultDetails() {
     <main className="result-detail-page">
       <header className="result-detail-header">
         <div className="result-detail-header-inner">
-          <button
-            className="result-detail-back"
-            onClick={() => navigate("/student/results")}
+          <button  className="result-detail-back" onClick={() => navigate("/student/results")}
           >
             <ArrowLeft size={18} />
             All Results
@@ -140,9 +135,7 @@ function ResultDetails() {
               {result.passed ? "Passed" : "Not Passed"}
             </strong>
           </div>
-          <button
-            className="result-detail-primary"
-            onClick={() => navigate("/student/tests")}
+          <button className="result-detail-primary" onClick={() => navigate("/student/tests")}
           >
             Practice More Tests
           </button>
