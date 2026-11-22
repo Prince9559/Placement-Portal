@@ -29,6 +29,7 @@ import MyProgress from "./pages/student/MyProgress";
 import Coding from "./pages/student/Coding";
 import Interview from "./pages/student/Interview";
 import StudentNotifications from "./pages/student/Notifications";
+import CodingDetails from "./pages/student/CodingDetails";
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
       <Route path="/student/bookmarks" element={<MyBookmarks />} />
       <Route path="/student/progress" element={<MyProgress />} />
       <Route path="/student/coding" element={<Coding />} />
+      <Route path="/student/coding/:id" element={<CodingDetails />} />
       <Route path="/student/interview" element={<Interview />} />
       <Route path="/student/notifications" element={<StudentNotifications />} />
 

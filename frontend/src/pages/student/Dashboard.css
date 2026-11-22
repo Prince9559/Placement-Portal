@@ -21,6 +21,7 @@
   top: 0;
   height: 100vh;
   z-index: 10;
+  overflow: hidden;
 }
 
 .student-brand {
@@ -28,6 +29,7 @@
   align-items: center;
   gap: 12px;
   padding: 0 8px 35px;
+  flex-shrink: 0;
 }
 
 .student-brand-icon {
@@ -64,16 +66,37 @@
   font-weight: 800;
   letter-spacing: 1.5px;
   padding: 0 12px 12px;
+  flex-shrink: 0;
 }
 
+/* Sidebar navigation */
 .student-nav {
   display: flex;
   flex-direction: column;
   gap: 7px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 10px;
+}
+
+.student-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.student-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.student-nav::-webkit-scrollbar-thumb {
+  background: #39465c;
+  border-radius: 10px;
 }
 
 .student-nav-link {
   width: 100%;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 13px;
@@ -85,6 +108,7 @@
   font-size: 13px;
   font-weight: 600;
   text-align: left;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
@@ -99,8 +123,30 @@
   box-shadow: 0 5px 14px rgba(91, 67, 194, 0.25);
 }
 
+.student-nav-link svg {
+  flex-shrink: 0;
+}
+
+/* Notification count */
+.student-notification-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 6px;
+  margin-left: auto;
+  border-radius: 20px;
+  background: #ef4444;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Sidebar bottom student information */
 .student-sidebar-bottom {
   margin-top: auto;
+  flex-shrink: 0;
   border-top: 1px solid #293447;
   padding-top: 19px;
 }
@@ -109,16 +155,15 @@
   display: flex;
   align-items: center;
   gap: 11px;
-  padding: 0 5px 17px;
+  padding: 0 5px;
   min-width: 0;
 }
 
-.student-avatar,
-.student-topbar-avatar {
+.student-avatar {
   width: 39px;
   height: 39px;
   min-width: 39px;
-  border-radius: 12px;
+  border-radius: 50%;
   display: grid;
   place-items: center;
   color: #fff;
@@ -146,27 +191,6 @@
   font-size: 10px;
 }
 
-.student-logout {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: transparent;
-  border: 1px solid #344155;
-  border-radius: 9px;
-  color: #cbd5e1;
-  font-size: 12px;
-  font-weight: 600;
-  transition: 0.2s;
-}
-
-.student-logout:hover {
-  background: rgba(239, 68, 68, 0.12);
-  border-color: #ef4444;
-  color: #fca5a5;
-}
-
 /* Main area */
 .student-main {
   flex: 1;
@@ -176,6 +200,7 @@
   padding: 27px 38px 20px;
 }
 
+/* Topbar */
 .student-topbar {
   display: flex;
   align-items: center;
@@ -202,7 +227,7 @@
 .student-topbar-actions {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
 }
 
 .student-refresh-btn {
@@ -217,6 +242,7 @@
   border-radius: 9px;
   font-size: 12px;
   font-weight: 700;
+  cursor: pointer;
   transition: 0.2s;
 }
 
@@ -235,16 +261,34 @@
   animation: student-spin 1s linear infinite;
 }
 
+/* Topbar logout button */
+.student-topbar-actions .student-logout {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.student-topbar-actions .student-logout:hover {
+  background: #fff1f2;
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
 @keyframes student-spin {
   to {
     transform: rotate(360deg);
   }
-}
-
-.student-topbar-avatar {
-  width: 41px;
-  height: 41px;
-  border-radius: 50%;
 }
 
 /* Welcome banner */
@@ -470,6 +514,7 @@
   font-size: 11px;
   font-weight: 800;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .student-text-btn:hover {
@@ -656,6 +701,7 @@
   font-size: 10px;
   font-weight: 700;
   margin-top: 15px;
+  cursor: pointer;
   transition: 0.2s;
 }
 
@@ -689,6 +735,7 @@
   border: 1px solid #edf0f6;
   border-radius: 12px;
   text-align: left;
+  cursor: pointer;
   transition: 0.2s;
 }
 
@@ -727,6 +774,7 @@
   transform: translateX(4px);
 }
 
+/* Footer */
 .student-dashboard-footer {
   border-top: 1px solid #e9edf4;
   padding: 17px 0 4px;
@@ -816,6 +864,7 @@
     height: auto;
     min-height: auto;
     padding: 15px 14px;
+    overflow: visible;
   }
 
   .student-brand {
@@ -828,9 +877,11 @@
   }
 
   .student-nav {
+    flex: none;
     flex-direction: row;
     gap: 6px;
     overflow-x: auto;
+    overflow-y: hidden;
     padding-bottom: 3px;
   }
 
@@ -857,15 +908,10 @@
     gap: 8px;
   }
 
-  .student-refresh-btn {
+  .student-refresh-btn,
+  .student-topbar-actions .student-logout {
     padding: 9px 10px;
     font-size: 10px;
-  }
-
-  .student-topbar-avatar {
-    width: 35px;
-    height: 35px;
-    min-width: 35px;
   }
 
   .student-welcome {

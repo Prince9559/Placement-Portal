@@ -1,6 +1,8 @@
 
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
+  ArrowLeft,
   Bell,
   Plus,
   Search,
@@ -25,6 +27,8 @@ const initialForm = {
 };
 
 const Notifications = () => {
+  const navigate = useNavigate();
+
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -38,18 +42,22 @@ const Notifications = () => {
   const fetchNotifications = useCallback(async () => {
     try {
       setLoading(true);
+
       const response = await api.get("/notifications/admin/all", {
         params: { page, limit: 10 },
       });
 
       const result = response.data;
+
       setNotifications(result.data || []);
       setPagination({
         total: result.total || 0,
         pages: result.pages || 1,
       });
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to load notifications");
+      toast.error(
+        error.response?.data?.message || "Failed to load notifications"
+      );
     } finally {
       setLoading(false);
     }
@@ -61,6 +69,7 @@ const Notifications = () => {
 
   const filteredNotifications = notifications.filter((item) => {
     const query = search.toLowerCase();
+
     return (
       item.title?.toLowerCase().includes(query) ||
       item.message?.toLowerCase().includes(query) ||
@@ -71,7 +80,11 @@ const Notifications = () => {
 
   const updateField = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleCreate = async (e) => {
@@ -96,7 +109,9 @@ const Notifications = () => {
       };
 
       const response = await api.post("/notifications", payload);
+
       toast.success(response.data.message || "Notification created");
+
       setShowModal(false);
       setForm(initialForm);
       setPage(1);
@@ -105,7 +120,9 @@ const Notifications = () => {
         fetchNotifications();
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to create notification");
+      toast.error(
+        error.response?.data?.message || "Failed to create notification"
+      );
     } finally {
       setSaving(false);
     }
@@ -116,6 +133,7 @@ const Notifications = () => {
 
     try {
       await api.delete(`/notifications/${deleteId}`);
+
       toast.success("Notification deleted successfully");
       setDeleteId(null);
 
@@ -125,7 +143,9 @@ const Notifications = () => {
         fetchNotifications();
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to delete notification");
+      toast.error(
+        error.response?.data?.message || "Failed to delete notification"
+      );
     }
   };
 
@@ -139,43 +159,71 @@ const Notifications = () => {
 
   return (
     <div className="admin-notifications">
+      {/* Header */}
       <div className="notification-header">
         <div>
-          <h1><Bell size={25} /> Notifications</h1>
+          <button
+            type="button"
+            className="notification-dashboard-btn"
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            <ArrowLeft size={17} />
+            <span>Dashboard</span>
+          </button>
+
+          <h1>
+            <Bell size={25} /> Notifications
+          </h1>
+
           <p>Create and manage notifications for students.</p>
         </div>
-        <button className="notification-primary-btn" onClick={() => setShowModal(true)}>
+
+        <button
+          className="notification-primary-btn"
+          onClick={() => setShowModal(true)}
+        >
           <Plus size={18} /> Create Notification
         </button>
       </div>
 
+      {/* Statistics */}
       <div className="notification-stats">
         <div className="notification-stat-card">
           <span>Total Notifications</span>
           <strong>{pagination.total}</strong>
           <Bell size={25} />
         </div>
+
         <div className="notification-stat-card">
           <span>Current Page</span>
-          <strong>{page} / {pagination.pages}</strong>
+          <strong>
+            {page} / {pagination.pages}
+          </strong>
           <Megaphone size={25} />
         </div>
       </div>
 
+      {/* Toolbar */}
       <div className="notification-toolbar">
         <div className="notification-search">
           <Search size={18} />
+
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search title, message or type..."
           />
         </div>
-        <button className="notification-refresh-btn" onClick={fetchNotifications}>
+
+        <button
+          className="notification-refresh-btn"
+          onClick={fetchNotifications}
+        >
           <RefreshCw size={17} /> Refresh
         </button>
       </div>
 
+      {/* Notifications Table */}
       <div className="notification-table-card">
         <div className="notification-table-heading">
           <h2>All Notifications</h2>
@@ -183,7 +231,9 @@ const Notifications = () => {
         </div>
 
         {loading ? (
-          <div className="notification-empty">Loading notifications...</div>
+          <div className="notification-empty">
+            Loading notifications...
+          </div>
         ) : filteredNotifications.length === 0 ? (
           <div className="notification-empty">
             <Bell size={35} />
@@ -203,6 +253,7 @@ const Notifications = () => {
                   <th>Action</th>
                 </tr>
               </thead>
+
               <tbody>
                 {filteredNotifications.map((item) => (
                   <tr key={item._id}>
@@ -210,16 +261,23 @@ const Notifications = () => {
                       <strong>{item.title}</strong>
                       <small>{item.message}</small>
                     </td>
+
                     <td>
                       <span className="notification-type">
                         {item.type}
                       </span>
                     </td>
+
                     <td>
                       {item.recipient?.name || "All Students"}
                     </td>
-                    <td>{item.createdBy?.name || "Admin"}</td>
+
+                    <td>
+                      {item.createdBy?.name || "Admin"}
+                    </td>
+
                     <td>{formatDate(item.createdAt)}</td>
+
                     <td>
                       <button
                         className="notification-delete-btn"
@@ -236,6 +294,7 @@ const Notifications = () => {
           </div>
         )}
 
+        {/* Pagination */}
         <div className="notification-pagination">
           <button
             disabled={page <= 1}
@@ -243,7 +302,11 @@ const Notifications = () => {
           >
             <ChevronLeft size={17} /> Previous
           </button>
-          <span>Page {page} of {pagination.pages}</span>
+
+          <span>
+            Page {page} of {pagination.pages}
+          </span>
+
           <button
             disabled={page >= pagination.pages}
             onClick={() => setPage((prev) => prev + 1)}
@@ -253,19 +316,26 @@ const Notifications = () => {
         </div>
       </div>
 
+      {/* Create Notification Modal */}
       {showModal && (
         <div className="notification-modal-overlay">
           <div className="notification-modal">
             <div className="notification-modal-header">
               <div>
-                <h2><Send size={20} /> Create Notification</h2>
+                <h2>
+                  <Send size={20} /> Create Notification
+                </h2>
                 <p>Send an announcement to students.</p>
               </div>
-              <button onClick={() => setShowModal(false)}><X /></button>
+
+              <button onClick={() => setShowModal(false)}>
+                <X />
+              </button>
             </div>
 
             <form onSubmit={handleCreate}>
               <label>Title *</label>
+
               <input
                 name="title"
                 value={form.title}
@@ -276,6 +346,7 @@ const Notifications = () => {
               />
 
               <label>Message *</label>
+
               <textarea
                 name="message"
                 value={form.message}
@@ -287,7 +358,12 @@ const Notifications = () => {
               />
 
               <label>Notification Type</label>
-              <select name="type" value={form.type} onChange={updateField}>
+
+              <select
+                name="type"
+                value={form.type}
+                onChange={updateField}
+              >
                 <option value="general">General</option>
                 <option value="test">Test</option>
                 <option value="study-material">Study Material</option>
@@ -296,6 +372,7 @@ const Notifications = () => {
               </select>
 
               <label>Recipient User ID (optional)</label>
+
               <input
                 name="recipient"
                 value={form.recipient}
@@ -304,6 +381,7 @@ const Notifications = () => {
               />
 
               <label>Link (optional)</label>
+
               <input
                 name="link"
                 value={form.link}
@@ -312,9 +390,13 @@ const Notifications = () => {
               />
 
               <div className="notification-form-actions">
-                <button type="button" onClick={() => setShowModal(false)}>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                >
                   Cancel
                 </button>
+
                 <button type="submit" disabled={saving}>
                   <Send size={16} />
                   {saving ? "Sending..." : "Send Notification"}
@@ -325,14 +407,25 @@ const Notifications = () => {
         </div>
       )}
 
+      {/* Delete Confirmation Modal */}
       {deleteId && (
         <div className="notification-modal-overlay">
           <div className="notification-delete-modal">
             <h2>Delete Notification?</h2>
-            <p>This notification will be permanently deleted.</p>
+
+            <p>
+              This notification will be permanently deleted.
+            </p>
+
             <div className="notification-form-actions">
-              <button onClick={() => setDeleteId(null)}>Cancel</button>
-              <button className="notification-confirm-delete" onClick={handleDelete}>
+              <button onClick={() => setDeleteId(null)}>
+                Cancel
+              </button>
+
+              <button
+                className="notification-confirm-delete"
+                onClick={handleDelete}
+              >
                 Delete
               </button>
             </div>

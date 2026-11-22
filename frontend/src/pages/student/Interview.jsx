@@ -1,101 +1,223 @@
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
+  ArrowLeft,
   MessageSquare,
   ChevronDown,
   ChevronUp,
-  BriefcaseBusiness,
   Users,
   Code2,
+  BriefcaseBusiness,
+  Loader2,
+  Search,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
+import { toast } from "react-toastify";
+import interviewService from "../../services/interviewService";
 import "./Interview.css";
 
-const interviewTopics = [
-  {
-    id: 1,
-    category: "HR Interview",
-    icon: Users,
-    questions: [
-      {
-        question: "Tell me about yourself.",
-        answer:
-          "Introduce yourself briefly. Explain your education, technical skills, projects and career goals. Keep your answer clear and relevant to the job.",
-      },
-      {
-        question: "What are your strengths?",
-        answer:
-          "Mention strengths relevant to the role, such as problem-solving, teamwork, communication and willingness to learn. Support your answer with a short example.",
-      },
-      {
-        question: "Why should we hire you?",
-        answer:
-          "Explain how your skills, projects, learning attitude and dedication can contribute to the company and the role.",
-      },
-    ],
-  },
-  {
-    id: 2,
-    category: "Technical Interview",
-    icon: Code2,
-    questions: [
-      {
-        question: "What is the difference between let, const and var?",
-        answer:
-          "var is function-scoped, while let and const are block-scoped. A let variable can be reassigned, but a const variable cannot be reassigned.",
-      },
-      {
-        question: "What is Object-Oriented Programming?",
-        answer:
-          "Object-Oriented Programming is a programming approach based on objects and classes. Its main concepts include encapsulation, inheritance, polymorphism and abstraction.",
-      },
-      {
-        question: "What is the difference between SQL and NoSQL?",
-        answer:
-          "SQL databases generally store structured data in tables. NoSQL databases support flexible data models such as documents, key-value pairs and graphs.",
-      },
-    ],
-  },
-  {
-    id: 3,
-    category: "Group Discussion",
-    icon: BriefcaseBusiness,
-    questions: [
-      {
-        question: "How do you start a group discussion?",
-        answer:
-          "Understand the topic, introduce the main idea clearly and support your opening point with a relevant example or fact.",
-      },
-      {
-        question: "How should you handle disagreement?",
-        answer:
-          "Listen carefully, respect other opinions and explain your point politely with logical reasons. Avoid interrupting others.",
-      },
-    ],
-  },
+const categories = [
+  { value: "all", label: "All Topics" },
+  { value: "hr", label: "HR Interview" },
+  { value: "technical", label: "Technical Interview" },
+  { value: "behavioral", label: "Behavioral Interview" },
+  { value: "managerial", label: "Managerial Interview" },
 ];
 
+const categoryIcons = {
+  hr: Users,
+  technical: Code2,
+  behavioral: MessageSquare,
+  managerial: BriefcaseBusiness,
+};
+
+const LIMIT = 10;
+
 function Interview() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const navigate = useNavigate();
+
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [difficulty, setDifficulty] = useState("all");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  const [questions, setQuestions] = useState([]);
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    limit: LIMIT,
+    totalPages: 0,
+  });
+
+  const [page, setPage] = useState(1);
   const [openQuestion, setOpenQuestion] = useState(null);
+  const [answers, setAnswers] = useState({});
 
-  const visibleTopics =
-    activeCategory === "All"
-      ? interviewTopics
-      : interviewTopics.filter(
-          (topic) => topic.category === activeCategory
-        );
+  const [loading, setLoading] = useState(true);
+  const [answerLoading, setAnswerLoading] = useState(null);
+  const [error, setError] = useState("");
 
-  const toggleQuestion = (id) => {
-    setOpenQuestion(openQuestion === id ? null : id);
+  // Search Debouncing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  // Fetch Interview Questions
+  const fetchQuestions = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const params = {
+        page,
+        limit: LIMIT,
+      };
+
+      if (activeCategory !== "all") {
+        params.category = activeCategory;
+      }
+
+      if (difficulty !== "all") {
+        params.difficulty = difficulty;
+      }
+
+      if (debouncedSearch.trim()) {
+        params.topic = debouncedSearch.trim();
+      }
+
+      const response = await interviewService.getQuestions(params);
+
+      setQuestions(response.questions || []);
+
+      setPagination(
+        response.pagination || {
+          total: 0,
+          page: 1,
+          limit: LIMIT,
+          totalPages: 0,
+        }
+      );
+
+      setOpenQuestion(null);
+    } catch (err) {
+      console.error("Interview questions error:", err);
+
+      setError(
+        err.response?.data?.message ||
+          "Unable to load interview questions."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [activeCategory, difficulty, debouncedSearch, page]);
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
+
+  // Category Filter
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    setPage(1);
+  };
+
+  // Difficulty Filter
+  const handleDifficultyChange = (value) => {
+    setDifficulty(value);
+    setPage(1);
+  };
+
+  // Search Handler
+  const handleSearchChange = (value) => {
+    setSearch(value);
+    setPage(1);
+  };
+
+  // Fetch Answer
+  const handleQuestionClick = async (questionId) => {
+    if (openQuestion === questionId) {
+      setOpenQuestion(null);
+      return;
+    }
+
+    setOpenQuestion(questionId);
+
+    if (answers[questionId]) {
+      return;
+    }
+
+    try {
+      setAnswerLoading(questionId);
+
+      const response = await interviewService.getAnswer(questionId);
+
+      setAnswers((previous) => ({
+        ...previous,
+        [questionId]: response.answer,
+      }));
+    } catch (err) {
+      console.error("Interview answer error:", err);
+
+      toast.error(
+        err.response?.data?.message ||
+          "Unable to load the answer."
+      );
+
+      setOpenQuestion(null);
+    } finally {
+      setAnswerLoading(null);
+    }
+  };
+
+  // Category Label
+  const getCategoryLabel = (category) => {
+    return (
+      categories.find((item) => item.value === category)?.label ||
+      category
+    );
+  };
+
+  // Pagination
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage((previous) => previous - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < pagination.totalPages) {
+      setPage((previous) => previous + 1);
+    }
   };
 
   return (
     <div className="interview-page">
+
+      {/* Dashboard Button */}
+      <button
+        type="button"
+        className="interview-dashboard-btn"
+        onClick={() => navigate("/student/dashboard")}
+      >
+        <ArrowLeft size={18} />
+        <span>Dashboard</span>
+      </button>
+
       <header className="interview-header">
         <div>
-          <span className="interview-eyebrow">CAREER DEVELOPMENT</span>
+          <span className="interview-eyebrow">
+            CAREER DEVELOPMENT
+          </span>
           <h1>Interview Preparation</h1>
-          <p>Prepare confidently for HR, technical and group discussions.</p>
+          <p>
+            Prepare confidently for HR, technical and other interviews.
+          </p>
         </div>
 
         <div className="interview-header-icon">
@@ -115,68 +237,122 @@ function Interview() {
         <div className="interview-section-heading">
           <div>
             <h2>Interview Questions</h2>
-            <p>Select a category to explore questions and answers.</p>
+            <p>
+              Select a category and difficulty to explore questions.
+            </p>
           </div>
         </div>
 
+        {/* Category Tabs */}
         <div className="interview-tabs">
-          <button
-            className={activeCategory === "All" ? "active" : ""}
-            onClick={() => {
-              setActiveCategory("All");
-              setOpenQuestion(null);
-            }}
-          >
-            All Topics
-          </button>
-
-          {interviewTopics.map((topic) => (
+          {categories.map((category) => (
             <button
-              key={topic.id}
+              key={category.value}
               className={
-                activeCategory === topic.category ? "active" : ""
+                activeCategory === category.value ? "active" : ""
               }
-              onClick={() => {
-                setActiveCategory(topic.category);
-                setOpenQuestion(null);
-              }}
+              onClick={() =>
+                handleCategoryChange(category.value)
+              }
             >
-              {topic.category}
+              {category.label}
             </button>
           ))}
         </div>
 
-        <div className="interview-topic-list">
-          {visibleTopics.map((topic) => {
-            const TopicIcon = topic.icon;
+        {/* Search and Difficulty Filters */}
+        <div className="interview-filters">
+          <div className="interview-search">
+            <Search size={18} />
 
-            return (
-              <article className="interview-topic-card" key={topic.id}>
-                <div className="interview-topic-heading">
-                  <div className="interview-topic-icon">
-                    <TopicIcon size={21} />
-                  </div>
-                  <div>
-                    <h3>{topic.category}</h3>
-                    <span>{topic.questions.length} Questions</span>
-                  </div>
-                </div>
+            <input
+              type="text"
+              placeholder="Search by topic..."
+              value={search}
+              onChange={(event) =>
+                handleSearchChange(event.target.value)
+              }
+            />
+          </div>
 
-                <div className="interview-question-list">
-                  {topic.questions.map((item, index) => {
-                    const questionId = `${topic.id}-${index}`;
-                    const isOpen = openQuestion === questionId;
+          <select
+            value={difficulty}
+            onChange={(event) =>
+              handleDifficultyChange(event.target.value)
+            }
+            aria-label="Filter by difficulty"
+          >
+            <option value="all">All Difficulties</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
 
-                    return (
-                      <div
-                        className="interview-question"
-                        key={questionId}
-                      >
+        {/* Loading State */}
+        {loading ? (
+          <div className="interview-loading">
+            <Loader2 size={28} className="interview-spinner" />
+            <p>Loading interview questions...</p>
+          </div>
+        ) : error ? (
+          <div className="interview-empty">
+            <p>{error}</p>
+            <button onClick={fetchQuestions}>Try Again</button>
+          </div>
+        ) : questions.length === 0 ? (
+          <div className="interview-empty">
+            <MessageSquare size={32} />
+            <h3>No Questions Found</h3>
+            <p>
+              No interview questions are available for the selected
+              filters.
+            </p>
+          </div>
+        ) : (
+          <>
+            {/* Question List */}
+            <div className="interview-topic-list">
+              {questions.map((question) => {
+                const Icon =
+                  categoryIcons[question.category] ||
+                  MessageSquare;
+
+                const isOpen = openQuestion === question._id;
+                const answer = answers[question._id];
+
+                return (
+                  <article
+                    className="interview-topic-card"
+                    key={question._id}
+                  >
+                    <div className="interview-topic-heading">
+                      <div className="interview-topic-icon">
+                        <Icon size={21} />
+                      </div>
+
+                      <div>
+                        <h3>
+                          {getCategoryLabel(question.category)}
+                        </h3>
+
+                        <span>
+                          {question.topic} ·{" "}
+                          {question.difficulty || "medium"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="interview-question-list">
+                      <div className="interview-question">
                         <button
                           className="interview-question-toggle"
-                          onClick={() => toggleQuestion(questionId)}
+                          onClick={() =>
+                            handleQuestionClick(question._id)
+                          }
                         >
-                          <span>{item.question}</span>
+                          <span>{question.question}</span>
+
                           {isOpen ? (
                             <ChevronUp size={19} />
                           ) : (
@@ -186,18 +362,87 @@ function Interview() {
 
                         {isOpen && (
                           <div className="interview-answer">
-                            <strong>Suggested Answer</strong>
-                            <p>{item.answer}</p>
+                            {answerLoading === question._id ? (
+                              <div className="interview-answer-loading">
+                                <Loader2
+                                  size={20}
+                                  className="interview-spinner"
+                                />
+                                <span>Loading answer...</span>
+                              </div>
+                            ) : answer ? (
+                              <>
+                                <strong>Suggested Answer</strong>
+                                <p>{answer.answer}</p>
+
+                                {answer.sampleAnswer && (
+                                  <>
+                                    <strong>Sample Answer</strong>
+                                    <p>{answer.sampleAnswer}</p>
+                                  </>
+                                )}
+
+                                {answer.tips?.length > 0 && (
+                                  <>
+                                    <strong>Interview Tips</strong>
+                                    <ul>
+                                      {answer.tips.map(
+                                        (tip, index) => (
+                                          <li key={index}>
+                                            {tip}
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  </>
+                                )}
+                              </>
+                            ) : null}
                           </div>
                         )}
                       </div>
-                    );
-                  })}
-                </div>
-              </article>
-            );
-          })}
-        </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+            {/* Pagination */}
+            {pagination.totalPages > 1 && (
+              <div className="interview-pagination">
+                <button
+                  className="interview-pagination-btn"
+                  onClick={handlePreviousPage}
+                  disabled={page <= 1 || loading}
+                >
+                  <ChevronLeft size={18} />
+                  <span>Previous</span>
+                </button>
+
+                <span className="interview-pagination-info">
+                  Page {pagination.page} of{" "}
+                  {pagination.totalPages}
+                </span>
+
+                <button
+                  className="interview-pagination-btn"
+                  onClick={handleNextPage}
+                  disabled={
+                    page >= pagination.totalPages || loading
+                  }
+                >
+                  <span>Next</span>
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
+
+            {/* Total Questions */}
+            <div className="interview-total-count">
+              Showing {questions.length} of {pagination.total} questions
+            </div>
+          </>
+        )}
       </section>
     </div>
   );

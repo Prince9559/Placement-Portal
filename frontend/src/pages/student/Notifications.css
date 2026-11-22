@@ -6,6 +6,47 @@
   color: #1e293b;
 }
 
+/* Dashboard Topbar */
+.notifications-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 5;
+}
+
+.notifications-back-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition: all 0.2s ease;
+}
+
+.notifications-back-btn:hover {
+  background: #eef2ff;
+  border-color: #a5b4fc;
+  color: #4338ca;
+}
+
+.notifications-back-btn svg {
+  flex-shrink: 0;
+}
+
+/* Page Header */
 .student-notifications-header {
   display: flex;
   align-items: center;
@@ -38,6 +79,7 @@
   position: relative;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   width: 68px;
   height: 68px;
   border-radius: 18px;
@@ -61,6 +103,7 @@
   font-weight: 700;
 }
 
+/* Summary */
 .notifications-summary {
   display: flex;
   align-items: center;
@@ -83,8 +126,9 @@
   color: #4f46e5;
 }
 
-.notifications-summary > div:nth-child(2) {
+.notifications-summary-details {
   flex: 1;
+  min-width: 0;
 }
 
 .notifications-summary strong {
@@ -102,6 +146,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  flex-shrink: 0;
   padding: 10px 14px;
   border: 1px solid #c7d2fe;
   border-radius: 8px;
@@ -110,6 +155,11 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.notifications-summary button:hover {
+  background: #e0e7ff;
 }
 
 .notifications-summary button:disabled {
@@ -117,6 +167,25 @@
   cursor: not-allowed;
 }
 
+/* Error */
+.notifications-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 13px 16px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.notifications-error p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Main Content */
 .notifications-content {
   padding: 25px;
   border: 1px solid #e8edf5;
@@ -139,6 +208,7 @@
   font-size: 13px;
 }
 
+/* Notification List */
 .notifications-list {
   display: grid;
   gap: 12px;
@@ -211,6 +281,17 @@
   font-size: 11px;
 }
 
+.notification-view-link a {
+  color: #4338ca;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.notification-view-link a:hover {
+  text-decoration: underline;
+}
+
+/* Mark Read */
 .notification-read-btn {
   display: flex;
   align-items: center;
@@ -230,7 +311,12 @@
   background: #eef2ff;
 }
 
+/* Empty and Loading */
 .notifications-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 50px 15px;
   text-align: center;
   color: #94a3b8;
@@ -246,9 +332,35 @@
   font-size: 13px;
 }
 
+.notifications-loader {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 14px;
+  border: 3px solid #e0e7ff;
+  border-top-color: #4f46e5;
+  border-radius: 50%;
+  animation: notifications-spin 0.8s linear infinite;
+}
+
+@keyframes notifications-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
 @media (max-width: 700px) {
   .student-notifications-page {
     padding: 18px;
+  }
+
+  .notifications-topbar {
+    margin-bottom: 18px;
+  }
+
+  .notifications-back-btn {
+    min-height: 40px;
+    padding: 9px 13px;
   }
 
   .student-notifications-header {
@@ -266,6 +378,10 @@
 
   .notifications-summary {
     flex-wrap: wrap;
+  }
+
+  .notifications-summary-details {
+    flex-basis: calc(100% - 65px);
   }
 
   .notifications-summary button {
@@ -287,5 +403,36 @@
 
   .notification-read-btn {
     margin-left: 58px;
+  }
+}
+
+@media (max-width: 420px) {
+  .student-notifications-page {
+    padding: 14px;
+  }
+
+  .student-notifications-header {
+    padding: 18px;
+  }
+
+  .student-notifications-header h1 {
+    font-size: 22px;
+  }
+
+  .notifications-header-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .student-notification-card {
+    gap: 10px;
+  }
+
+  .student-notification-details {
+    flex-basis: calc(100% - 53px);
+  }
+
+  .notification-read-btn {
+    margin-left: 53px;
   }
 }

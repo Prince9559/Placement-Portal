@@ -1,5 +1,5 @@
-
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   BarChart3,
   Search,
@@ -12,12 +12,15 @@ import {
   XCircle,
   FileText,
   TrendingUp,
+  ArrowLeft,
 } from "lucide-react";
 import { toast } from "react-toastify";
 import api from "../../services/api";
 import "./Results.css";
 
 const Results = () => {
+  const navigate = useNavigate();
+
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -126,6 +129,15 @@ const Results = () => {
     <div className="admin-results">
       <div className="results-header">
         <div>
+          <button
+            type="button"
+            className="results-dashboard-btn"
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            <ArrowLeft size={17} />
+            <span>Dashboard</span>
+          </button>
+
           <h1>
             <BarChart3 size={27} /> Results & Analytics
           </h1>

@@ -1,9 +1,10 @@
-
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   Search, Plus, Edit, Trash2, RefreshCw, X,
-  MessageSquare, ChevronLeft, ChevronRight, Eye, EyeOff
+  MessageSquare, ChevronLeft, ChevronRight, Eye, EyeOff,
+  ArrowLeft
 } from "lucide-react";
 import api from "../../services/api";
 import "./InterviewQuestions.css";
@@ -23,6 +24,8 @@ const emptyForm = {
 };
 
 function InterviewQuestions() {
+  const navigate = useNavigate();
+
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -203,8 +206,21 @@ function InterviewQuestions() {
     <div className="interview-admin-page">
       <div className="interview-page-header">
         <div>
+          <button
+            type="button"
+            className="interview-dashboard-btn"
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            <ArrowLeft size={17} />
+            <span>Dashboard</span>
+          </button>
+
           <span className="interview-eyebrow">ADMIN PANEL</span>
-          <h1><MessageSquare size={28} /> Interview Questions</h1>
+
+          <h1>
+            <MessageSquare size={28} /> Interview Questions
+          </h1>
+
           <p>Manage technical, HR and behavioral interview questions.</p>
         </div>
 
@@ -310,12 +326,14 @@ function InterviewQuestions() {
                         >
                           <Eye size={17} />
                         </button>
+
                         <button
                           title="Edit"
                           onClick={() => openEditModal(q._id)}
                         >
                           <Edit size={17} />
                         </button>
+
                         <button
                           title="Delete"
                           className="delete"
@@ -345,7 +363,9 @@ function InterviewQuestions() {
           >
             <ChevronLeft size={18} />
           </button>
+
           <span>Page {page} of {pagination.totalPages || 1}</span>
+
           <button
             disabled={page >= pagination.totalPages}
             onClick={() => setPage(p => p + 1)}
@@ -360,9 +380,12 @@ function InterviewQuestions() {
           <div className="interview-modal">
             <div className="interview-modal-header">
               <div>
-                <h2>{editingId ? "Edit Interview Question" : "Add Interview Question"}</h2>
+                <h2>
+                  {editingId ? "Edit Interview Question" : "Add Interview Question"}
+                </h2>
                 <p>Enter question details and suggested answer.</p>
               </div>
+
               <button type="button" onClick={() => setModalOpen(false)}>
                 <X size={22} />
               </button>
@@ -460,12 +483,17 @@ function InterviewQuestions() {
                 >
                   Cancel
                 </button>
+
                 <button
                   type="submit"
                   className="interview-primary-btn"
                   disabled={saving}
                 >
-                  {saving ? "Saving..." : editingId ? "Update Question" : "Create Question"}
+                  {saving
+                    ? "Saving..."
+                    : editingId
+                      ? "Update Question"
+                      : "Create Question"}
                 </button>
               </div>
             </form>
@@ -478,6 +506,7 @@ function InterviewQuestions() {
           <div className="interview-modal interview-answer-modal">
             <div className="interview-modal-header">
               <h2>Interview Answer</h2>
+
               <button type="button" onClick={() => setAnswerModal(false)}>
                 <X size={22} />
               </button>
@@ -488,6 +517,7 @@ function InterviewQuestions() {
             ) : answerData ? (
               <>
                 <h3>{answerData.question}</h3>
+
                 <h4>Suggested Answer</h4>
                 <p className="interview-answer-text">{answerData.answer}</p>
 

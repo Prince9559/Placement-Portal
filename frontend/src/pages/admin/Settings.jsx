@@ -1,5 +1,5 @@
-
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Settings as SettingsIcon,
   User,
@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Save,
   RotateCcw,
+  ArrowLeft,
 } from "lucide-react";
 import { toast } from "react-toastify";
 import "./Settings.css";
@@ -19,6 +20,8 @@ const defaultPreferences = {
 };
 
 const Settings = () => {
+  const navigate = useNavigate();
+
   const [admin, setAdmin] = useState({
     name: "Admin",
     email: "Not available",
@@ -86,6 +89,15 @@ const Settings = () => {
     <div className="admin-settings">
       <div className="settings-page-header">
         <div>
+          <button
+            type="button"
+            className="settings-dashboard-btn"
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            <ArrowLeft size={17} />
+            <span>Dashboard</span>
+          </button>
+
           <h1>
             <SettingsIcon size={26} />
             Admin Settings

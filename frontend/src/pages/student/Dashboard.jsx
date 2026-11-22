@@ -8,7 +8,6 @@ import {
   BookOpen,
   CalendarDays,
   CheckCircle2,
-  Clock3,
   Code2,
   FileText,
   LogOut,
@@ -17,10 +16,12 @@ import {
   TrendingUp,
   MessageSquare,
   Bell,
+  UserRound,
 } from "lucide-react";
 import { toast } from "react-toastify";
 
 import dashboardService from "../../services/dashboardService";
+import notificationService from "../../services/notificationService";
 import useAuth from "../../hooks/useAuth";
 import "./Dashboard.css";
 
@@ -36,6 +37,7 @@ function Dashboard() {
     progress: [],
   });
 
+  const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -54,9 +56,19 @@ function Dashboard() {
     }
   }, []);
 
+  const fetchUnreadCount = useCallback(async () => {
+    try {
+      const response = await notificationService.getUnreadCount();
+      setUnreadCount(response.unreadCount || 0);
+    } catch (error) {
+      console.error("Unread notification count error:", error);
+    }
+  }, []);
+
   useEffect(() => {
     fetchDashboard();
-  }, [fetchDashboard]);
+    fetchUnreadCount();
+  }, [fetchDashboard, fetchUnreadCount]);
 
   const handleLogout = () => {
     logout();
@@ -181,9 +193,16 @@ function Dashboard() {
           >
             <Bell size={19} />
             <span>Notifications</span>
+
+            {unreadCount > 0 && (
+              <span className="student-notification-count">
+                {unreadCount}
+              </span>
+            )}
           </button>
         </nav>
 
+        {/* Student avatar and account details at sidebar bottom */}
         <div className="student-sidebar-bottom">
           <div className="student-sidebar-user">
             <div className="student-avatar">
@@ -195,11 +214,6 @@ function Dashboard() {
               <span>Student Account</span>
             </div>
           </div>
-
-          <button className="student-logout" onClick={handleLogout}>
-            <LogOut size={18} />
-            <span>Logout</span>
-          </button>
         </div>
       </aside>
 
@@ -213,9 +227,13 @@ function Dashboard() {
           </div>
 
           <div className="student-topbar-actions">
+            {/* Refresh button */}
             <button
               className="student-refresh-btn"
-              onClick={() => fetchDashboard(true)}
+              onClick={async () => {
+                await fetchDashboard(true);
+                await fetchUnreadCount();
+              }}
               disabled={refreshing}
             >
               <RefreshCw
@@ -225,9 +243,14 @@ function Dashboard() {
               {refreshing ? "Refreshing..." : "Refresh"}
             </button>
 
-            <div className="student-topbar-avatar">
-              {firstName.charAt(0).toUpperCase()}
-            </div>
+            {/* Logout button beside Refresh */}
+            <button
+              className="student-logout"
+              onClick={handleLogout}
+            >
+              <LogOut size={17} />
+              <span>Logout</span>
+            </button>
           </div>
         </header>
 
@@ -272,9 +295,7 @@ function Dashboard() {
 
             <div className="student-stat-content">
               <span>Average Score</span>
-              <h3>
-                {Number(dashboard.averageScore || 0).toFixed(1)}%
-              </h3>
+              <h3>{Number(dashboard.averageScore || 0).toFixed(1)}%</h3>
               <small>Overall performance</small>
             </div>
           </div>

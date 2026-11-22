@@ -13,6 +13,7 @@ import {
   UserCog,
   X,
   AlertTriangle,
+  ArrowLeft,
 } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -151,11 +152,20 @@ function Students() {
     <div className="students-page">
       <div className="students-header">
         <div>
-          <span className="students-eyebrow">ADMINISTRATION</span>
-          <h1>Students Management</h1>
-          <p>Manage student accounts, profiles and permissions.</p>
-        </div>
+  <button
+    type="button"
+    className="students-dashboard-btn"
+    onClick={() => navigate("/admin/dashboard")}
+  >
+    <ArrowLeft size={17} />
+    <span>Dashboard</span>
+  </button>
 
+  <span className="students-eyebrow">ADMINISTRATION</span>
+
+  <h1>Students Management</h1>
+  <p>Manage student accounts, profiles and permissions.</p>
+</div>
         <button
           type="button"
           className="students-refresh-btn"

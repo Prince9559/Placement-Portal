@@ -1,6 +1,8 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
+  ArrowLeft,
   Bell,
   CheckCheck,
   ClipboardList,
@@ -9,192 +11,273 @@ import {
   Info,
   Check,
 } from "lucide-react";
+
+import notificationService from "../../services/notificationService";
 import "./Notifications.css";
 
-const initialNotifications = [
-  {
-    id: 1,
-    title: "Welcome to PlacementPro",
-    message: "Welcome! Start your placement preparation from your student dashboard.",
-    type: "general",
-    date: "Today",
-    read: false,
-  },
-  {
-    id: 2,
-    title: "Practice Tests",
-    message: "Explore practice tests to improve your preparation and track your performance.",
-    type: "test",
-    date: "Today",
-    read: false,
-  },
-  {
-    id: 3,
-    title: "Study Materials Available",
-    message: "Visit the Study Materials section to explore learning resources.",
-    type: "material",
-    date: "Yesterday",
-    read: true,
-  },
-  {
-    id: 4,
-    title: "Placement Preparation",
-    message: "Keep practising coding and interview questions to prepare for placements.",
-    type: "announcement",
-    date: "Yesterday",
-    read: true,
-  },
-];
+const Notifications = () => {
+  const navigate = useNavigate();
 
-function Notifications() {
-  const [notifications, setNotifications] = useState(
-    initialNotifications
-  );
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const unreadCount = notifications.filter(
-    (notification) => !notification.read
-  ).length;
+  const fetchNotifications = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-  const markAsRead = (id) => {
-    setNotifications((previous) =>
-      previous.map((notification) =>
-        notification.id === id
-          ? { ...notification, read: true }
-          : notification
-      )
-    );
+      const response = await notificationService.getMyNotifications();
+
+      const notificationList = response.data || [];
+
+      setNotifications(notificationList);
+      setUnreadCount(
+        notificationList.filter((item) => !item.isRead).length
+      );
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Failed to load notifications"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const markAllAsRead = () => {
-    setNotifications((previous) =>
-      previous.map((notification) => ({
-        ...notification,
-        read: true,
-      }))
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  const markAsRead = async (id) => {
+    try {
+      await notificationService.markAsRead(id);
+
+      setNotifications((prev) =>
+        prev.map((item) =>
+          item._id === id ? { ...item, isRead: true } : item
+        )
+      );
+
+      setUnreadCount((prev) => Math.max(0, prev - 1));
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          "Failed to mark notification as read"
+      );
+    }
+  };
+
+  const markAllAsRead = async () => {
+    const unreadNotifications = notifications.filter(
+      (item) => !item.isRead
     );
+
+    try {
+      for (const item of unreadNotifications) {
+        await notificationService.markAsRead(item._id);
+      }
+
+      setNotifications((prev) =>
+        prev.map((item) => ({ ...item, isRead: true }))
+      );
+
+      setUnreadCount(0);
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+          "Failed to mark all as read"
+      );
+
+      await fetchNotifications();
+    }
   };
 
   const getNotificationIcon = (type) => {
     switch (type) {
       case "test":
-        return <ClipboardList size={21} />;
-      case "material":
-        return <BookOpen size={21} />;
+        return <ClipboardList size={20} />;
+
+      case "study-material":
+        return <BookOpen size={20} />;
+
+      case "placement":
+        return <Megaphone size={20} />;
+
       case "announcement":
-        return <Megaphone size={21} />;
+        return <Bell size={20} />;
+
       default:
-        return <Info size={21} />;
+        return <Info size={20} />;
     }
+  };
+
+  const formatDate = (date) => {
+    return new Date(date).toLocaleString();
   };
 
   return (
     <div className="student-notifications-page">
-      <header className="student-notifications-header">
-        <div>
-          <span className="notifications-eyebrow">
-            STUDENT WORKSPACE
-          </span>
-          <h1>Notifications</h1>
-          <p>Stay updated with your placement preparation.</p>
-        </div>
 
-        <div className="notifications-header-icon">
-          <Bell size={34} />
-          {unreadCount > 0 && (
-            <span className="notifications-badge">
-              {unreadCount}
-            </span>
-          )}
-        </div>
-      </header>
-
-      <section className="notifications-summary">
-        <div className="notifications-summary-icon">
-          <Bell size={23} />
-        </div>
-
-        <div>
-          <strong>{unreadCount} Unread Notifications</strong>
-          <p>
-            {unreadCount > 0
-              ? "You have updates waiting to be read."
-              : "You are all caught up!"}
-          </p>
-        </div>
-
+      {/* Dashboard Topbar - Always Visible */}
+      <header className="notifications-topbar">
         <button
           type="button"
-          onClick={markAllAsRead}
-          disabled={unreadCount === 0}
+          className="notifications-back-btn"
+          onClick={() => navigate("/student/dashboard")}
         >
-          <CheckCheck size={17} />
-          Mark All as Read
+          <ArrowLeft size={18} />
+          <span>Dashboard</span>
         </button>
-      </section>
+      </header>
 
-      <section className="notifications-content">
-        <div className="notifications-section-heading">
-          <div>
-            <h2>Recent Notifications</h2>
-            <p>Your latest updates and announcements</p>
-          </div>
+      {loading ? (
+        <div className="notifications-empty">
+          <div className="notifications-loader"></div>
+          <p>Loading notifications...</p>
         </div>
+      ) : (
+        <>
+          {/* Page Header */}
+          <div className="student-notifications-header">
+            <div>
+              <span className="notifications-eyebrow">
+                STUDENT UPDATES
+              </span>
 
-        {notifications.length > 0 ? (
-          <div className="notifications-list">
-            {notifications.map((notification) => (
-              <article
-                className={`student-notification-card ${
-                  notification.read ? "read" : "unread"
-                }`}
-                key={notification.id}
+              <h1>Notifications</h1>
+
+              <p>
+                Stay updated with announcements and important activities.
+              </p>
+            </div>
+
+            <div className="notifications-header-icon">
+              <Bell size={28} />
+
+              {unreadCount > 0 && (
+                <span className="notifications-badge">
+                  {unreadCount}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Notification Summary */}
+          <div className="notifications-summary">
+            <div className="notifications-summary-icon">
+              <Bell size={22} />
+            </div>
+
+            <div className="notifications-summary-details">
+              <strong>
+                You have {unreadCount} unread notifications
+              </strong>
+
+              <p>
+                Check your latest updates and announcements.
+              </p>
+            </div>
+
+            {unreadCount > 0 && (
+              <button
+                type="button"
+                onClick={markAllAsRead}
               >
-                <div className="student-notification-icon">
-                  {getNotificationIcon(notification.type)}
-                </div>
+                <CheckCheck size={18} />
+                Mark All as Read
+              </button>
+            )}
+          </div>
 
-                <div className="student-notification-details">
-                  <div className="student-notification-title-row">
-                    <h3>{notification.title}</h3>
+          {/* Error Message */}
+          {error && (
+            <div className="notifications-error">
+              <Info size={18} />
+              <p>{error}</p>
+            </div>
+          )}
 
-                    {!notification.read && (
-                      <span className="notification-new-label">
-                        NEW
+          {/* Notifications Content */}
+          <div className="notifications-content">
+            <div className="notifications-section-heading">
+              <h2>Recent Notifications</h2>
+              <p>Your latest notifications and updates.</p>
+            </div>
+
+            {notifications.length === 0 ? (
+              <div className="notifications-empty">
+                <Bell size={40} />
+
+                <h3>No notifications yet</h3>
+
+                <p>
+                  New announcements will appear here.
+                </p>
+              </div>
+            ) : (
+              <div className="notifications-list">
+                {notifications.map((notification) => (
+                  <div
+                    key={notification._id}
+                    className={`student-notification-card ${
+                      notification.isRead ? "read" : "unread"
+                    }`}
+                  >
+                    <div className="student-notification-icon">
+                      {getNotificationIcon(notification.type)}
+                    </div>
+
+                    <div className="student-notification-details">
+                      <div className="student-notification-title-row">
+                        <h3>{notification.title}</h3>
+
+                        {!notification.isRead && (
+                          <span className="notification-new-label">
+                            NEW
+                          </span>
+                        )}
+                      </div>
+
+                      <p>{notification.message}</p>
+
+                      <span className="student-notification-date">
+                        {formatDate(notification.createdAt)}
                       </span>
+
+                      {notification.link && (
+                        <p className="notification-view-link">
+                          <a
+                            href={notification.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details
+                          </a>
+                        </p>
+                      )}
+                    </div>
+
+                    {!notification.isRead && (
+                      <button
+                        type="button"
+                        className="notification-read-btn"
+                        onClick={() => markAsRead(notification._id)}
+                        title="Mark as read"
+                      >
+                        <Check size={18} />
+                        Mark Read
+                      </button>
                     )}
                   </div>
-
-                  <p>{notification.message}</p>
-
-                  <span className="student-notification-date">
-                    {notification.date}
-                  </span>
-                </div>
-
-                {!notification.read && (
-                  <button
-                    type="button"
-                    className="notification-read-btn"
-                    onClick={() => markAsRead(notification.id)}
-                    title="Mark as read"
-                  >
-                    <Check size={18} />
-                    <span>Mark Read</span>
-                  </button>
-                )}
-              </article>
-            ))}
+                ))}
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="notifications-empty">
-            <Bell size={35} />
-            <h3>No notifications</h3>
-            <p>You don't have any notifications right now.</p>
-          </div>
-        )}
-      </section>
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default Notifications;

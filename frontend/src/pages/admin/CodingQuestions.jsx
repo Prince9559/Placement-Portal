@@ -1,9 +1,18 @@
 
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  Search, Plus, Edit, Trash2, RefreshCw, X,
-  Code2, ChevronLeft, ChevronRight
+  ArrowLeft,
+  Search,
+  Plus,
+  Edit,
+  Trash2,
+  RefreshCw,
+  X,
+  Code2,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import api from "../../services/api";
 import "./CodingQuestions.css";
@@ -32,6 +41,8 @@ const emptyForm = {
 };
 
 function CodingQuestions() {
+  const navigate = useNavigate();
+
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -237,8 +248,21 @@ function CodingQuestions() {
     <div className="coding-admin-page">
       <div className="coding-page-header">
         <div>
+          <button
+            type="button"
+            className="coding-dashboard-btn"
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            <ArrowLeft size={17} />
+            <span>Dashboard</span>
+          </button>
+
           <span className="coding-eyebrow">ADMIN PANEL</span>
-          <h1><Code2 size={28} /> Coding Questions</h1>
+
+          <h1>
+            <Code2 size={28} /> Coding Questions
+          </h1>
+
           <p>Manage programming questions and test cases.</p>
         </div>
 
@@ -319,6 +343,7 @@ function CodingQuestions() {
                   <th>Actions</th>
                 </tr>
               </thead>
+
               <tbody>
                 {questions.map(q => (
                   <tr key={q._id}>
@@ -326,16 +351,21 @@ function CodingQuestions() {
                       <strong>{q.title}</strong>
                       <small>{q.description.slice(0, 75)}...</small>
                     </td>
+
                     <td>{q.category}</td>
+
                     <td>
                       <span className={`coding-difficulty ${q.difficulty}`}>
                         {q.difficulty}
                       </span>
                     </td>
+
                     <td>{q.sampleTestCases?.length || 0}</td>
+
                     <td>
                       <span className="coding-status">Active</span>
                     </td>
+
                     <td>
                       <div className="coding-actions">
                         <button
@@ -344,6 +374,7 @@ function CodingQuestions() {
                         >
                           <Edit size={17} />
                         </button>
+
                         <button
                           title="Delete"
                           className="delete"
@@ -373,7 +404,11 @@ function CodingQuestions() {
           >
             <ChevronLeft size={18} />
           </button>
-          <span>Page {page} of {pagination.totalPages || 1}</span>
+
+          <span>
+            Page {page} of {pagination.totalPages || 1}
+          </span>
+
           <button
             disabled={page >= pagination.totalPages}
             onClick={() => setPage(p => p + 1)}
@@ -388,10 +423,16 @@ function CodingQuestions() {
           <div className="coding-modal">
             <div className="coding-modal-header">
               <div>
-                <h2>{editingId ? "Edit Coding Question" : "Add Coding Question"}</h2>
+                <h2>
+                  {editingId ? "Edit Coding Question" : "Add Coding Question"}
+                </h2>
                 <p>Enter problem details and test cases.</p>
               </div>
-              <button type="button" onClick={() => setModalOpen(false)}>
+
+              <button
+                type="button"
+                onClick={() => setModalOpen(false)}
+              >
                 <X size={22} />
               </button>
             </div>
@@ -464,7 +505,11 @@ function CodingQuestions() {
               <div className="coding-test-section">
                 <div className="coding-test-heading">
                   <h3>Sample Test Cases</h3>
-                  <button type="button" onClick={() => addTestCase("sampleTestCases")}>
+
+                  <button
+                    type="button"
+                    onClick={() => addTestCase("sampleTestCases")}
+                  >
                     <Plus size={15} /> Add
                   </button>
                 </div>
@@ -473,6 +518,7 @@ function CodingQuestions() {
                   <div className="coding-test-card" key={index}>
                     <div className="coding-test-card-heading">
                       <strong>Sample Case {index + 1}</strong>
+
                       <button
                         type="button"
                         onClick={() => removeTestCase("sampleTestCases", index)}
@@ -480,23 +526,41 @@ function CodingQuestions() {
                         <X size={16} />
                       </button>
                     </div>
+
                     <label>Input</label>
                     <textarea
                       rows="2"
                       value={item.input}
-                      onChange={e => updateTestCase("sampleTestCases", index, "input", e.target.value)}
+                      onChange={e => updateTestCase(
+                        "sampleTestCases",
+                        index,
+                        "input",
+                        e.target.value
+                      )}
                     />
+
                     <label>Output</label>
                     <textarea
                       rows="2"
                       value={item.output}
-                      onChange={e => updateTestCase("sampleTestCases", index, "output", e.target.value)}
+                      onChange={e => updateTestCase(
+                        "sampleTestCases",
+                        index,
+                        "output",
+                        e.target.value
+                      )}
                     />
+
                     <label>Explanation</label>
                     <textarea
                       rows="2"
                       value={item.explanation}
-                      onChange={e => updateTestCase("sampleTestCases", index, "explanation", e.target.value)}
+                      onChange={e => updateTestCase(
+                        "sampleTestCases",
+                        index,
+                        "explanation",
+                        e.target.value
+                      )}
                     />
                   </div>
                 ))}
@@ -505,7 +569,11 @@ function CodingQuestions() {
               <div className="coding-test-section">
                 <div className="coding-test-heading">
                   <h3>Hidden Test Cases</h3>
-                  <button type="button" onClick={() => addTestCase("hiddenTestCases")}>
+
+                  <button
+                    type="button"
+                    onClick={() => addTestCase("hiddenTestCases")}
+                  >
                     <Plus size={15} /> Add
                   </button>
                 </div>
@@ -514,6 +582,7 @@ function CodingQuestions() {
                   <div className="coding-test-card" key={index}>
                     <div className="coding-test-card-heading">
                       <strong>Hidden Case {index + 1}</strong>
+
                       <button
                         type="button"
                         onClick={() => removeTestCase("hiddenTestCases", index)}
@@ -521,17 +590,29 @@ function CodingQuestions() {
                         <X size={16} />
                       </button>
                     </div>
+
                     <label>Input</label>
                     <textarea
                       rows="2"
                       value={item.input}
-                      onChange={e => updateTestCase("hiddenTestCases", index, "input", e.target.value)}
+                      onChange={e => updateTestCase(
+                        "hiddenTestCases",
+                        index,
+                        "input",
+                        e.target.value
+                      )}
                     />
+
                     <label>Output</label>
                     <textarea
                       rows="2"
                       value={item.output}
-                      onChange={e => updateTestCase("hiddenTestCases", index, "output", e.target.value)}
+                      onChange={e => updateTestCase(
+                        "hiddenTestCases",
+                        index,
+                        "output",
+                        e.target.value
+                      )}
                     />
                   </div>
                 ))}
@@ -568,6 +649,7 @@ function CodingQuestions() {
                     onChange={e => updateField("timeLimit", e.target.value)}
                   />
                 </div>
+
                 <div>
                   <label>Memory Limit (MB)</label>
                   <input
@@ -587,12 +669,17 @@ function CodingQuestions() {
                 >
                   Cancel
                 </button>
+
                 <button
                   type="submit"
                   className="coding-primary-btn"
                   disabled={saving}
                 >
-                  {saving ? "Saving..." : editingId ? "Update Question" : "Create Question"}
+                  {saving
+                    ? "Saving..."
+                    : editingId
+                    ? "Update Question"
+                    : "Create Question"}
                 </button>
               </div>
             </form>

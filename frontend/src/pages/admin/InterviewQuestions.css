@@ -9,12 +9,48 @@
 .interview-page-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
   margin-bottom: 28px;
 }
 
+/* Header content: button first, eyebrow below it */
+.interview-page-header > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.interview-dashboard-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: fit-content;
+  min-height: 34px;
+  padding: 0 12px;
+  margin-bottom: 13px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.interview-dashboard-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #1e293b;
+  transform: translateY(-1px);
+}
+
 .interview-eyebrow {
+  display: block;
+  margin-bottom: 5px;
   color: #6366f1;
   font-size: 12px;
   font-weight: 800;
@@ -403,5 +439,11 @@
 
   .interview-modal {
     padding: 18px;
+  }
+
+  .interview-dashboard-btn {
+    min-height: 32px;
+    padding: 0 10px;
+    font-size: 12px;
   }
 }

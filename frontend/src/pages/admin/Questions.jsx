@@ -1,6 +1,8 @@
-import "./Questions";
+
 import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
+  ArrowLeft,
   Plus,
   Search,
   RefreshCw,
@@ -42,6 +44,8 @@ const categories = ["aptitude", "reasoning", "verbal", "technical"];
 const difficulties = ["easy", "medium", "hard"];
 
 function Questions() {
+  const navigate = useNavigate();
+
   const [questions, setQuestions] = useState([]);
   const [pagination, setPagination] = useState({
     total: 0,
@@ -324,6 +328,15 @@ function Questions() {
     <div className="questions-page">
       <div className="questions-header">
         <div>
+          <button
+            type="button"
+            className="questions-dashboard-btn"
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            <ArrowLeft size={17} />
+            <span>Dashboard</span>
+          </button>
+
           <span className="questions-eyebrow">CONTENT MANAGEMENT</span>
           <h1>Questions Management</h1>
           <p>Create, organize and manage your placement preparation questions.</p>

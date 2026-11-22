@@ -1,93 +1,105 @@
-
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
+  ArrowLeft,
   Code2,
   Search,
   CheckCircle2,
   Clock3,
   Filter,
 } from "lucide-react";
+
+import codingService from "../../services/codingService";
 import "./Coding.css";
 
-const codingQuestions = [
-  {
-    id: 1,
-    title: "Two Sum",
-    topic: "Arrays",
-    difficulty: "Easy",
-    description: "Find two numbers in an array whose sum equals a target.",
-  },
-  {
-    id: 2,
-    title: "Reverse a String",
-    topic: "Strings",
-    difficulty: "Easy",
-    description: "Reverse the given string without using a built-in reverse method.",
-  },
-  {
-    id: 3,
-    title: "Valid Parentheses",
-    topic: "Stack",
-    difficulty: "Medium",
-    description: "Check whether the brackets in a string are balanced.",
-  },
-  {
-    id: 4,
-    title: "Binary Search",
-    topic: "Searching",
-    difficulty: "Medium",
-    description: "Find the position of a target element in a sorted array.",
-  },
-  {
-    id: 5,
-    title: "Longest Substring",
-    topic: "Strings",
-    difficulty: "Hard",
-    description: "Find the longest substring without repeating characters.",
-  },
-];
-
 function Coding() {
+  const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("All");
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const filteredQuestions = useMemo(() => {
-    return codingQuestions.filter((question) => {
-      const matchesSearch =
-        question.title.toLowerCase().includes(search.toLowerCase()) ||
-        question.topic.toLowerCase().includes(search.toLowerCase());
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
-      const matchesDifficulty =
-        difficulty === "All" || question.difficulty === difficulty;
+        const params = {};
 
-      return matchesSearch && matchesDifficulty;
-    });
+        if (search.trim()) {
+          params.search = search.trim();
+        }
+
+        if (difficulty !== "All") {
+          params.difficulty = difficulty.toLowerCase();
+        }
+
+        const data = await codingService.getCodingQuestions(params);
+
+        setQuestions(data.questions || []);
+      } catch (err) {
+        setError(
+          err.response?.data?.message ||
+            "Unable to load coding questions."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuestions();
   }, [search, difficulty]);
 
   return (
     <div className="coding-page">
+      {/* Topbar */}
+      <header className="coding-topbar">
+        <button
+          type="button"
+          className="coding-back-btn"
+          onClick={() => navigate("/student/dashboard")}
+        >
+          <ArrowLeft size={18} />
+          Dashboard
+        </button>
+      </header>
+
+      {/* Page Header */}
       <header className="coding-header">
         <div>
-          <span className="coding-eyebrow">PLACEMENT PREPARATION</span>
+          <span className="coding-eyebrow">
+            PLACEMENT PREPARATION
+          </span>
+
           <h1>Coding Practice</h1>
-          <p>Improve your problem-solving skills with coding challenges.</p>
+
+          <p>
+            Improve your problem-solving skills with coding challenges.
+          </p>
         </div>
+
         <div className="coding-header-icon">
           <Code2 size={34} />
         </div>
       </header>
 
+      {/* Stats */}
       <section className="coding-stats">
         <div className="coding-stat-card">
           <Code2 size={22} />
+
           <div>
-            <strong>{codingQuestions.length}</strong>
+            <strong>{questions.length}</strong>
             <span>Available Questions</span>
           </div>
         </div>
 
         <div className="coding-stat-card">
           <CheckCircle2 size={22} />
+
           <div>
             <strong>0</strong>
             <span>Solved Questions</span>
@@ -96,6 +108,7 @@ function Coding() {
 
         <div className="coding-stat-card">
           <Clock3 size={22} />
+
           <div>
             <strong>3</strong>
             <span>Difficulty Levels</span>
@@ -103,21 +116,25 @@ function Coding() {
         </div>
       </section>
 
+      {/* Practice Questions */}
       <section className="coding-content">
         <div className="coding-section-heading">
           <div>
             <h2>Practice Questions</h2>
             <p>Choose a problem and start practising.</p>
           </div>
+
           <Filter size={21} />
         </div>
 
+        {/* Filters */}
         <div className="coding-filters">
           <div className="coding-search">
             <Search size={18} />
+
             <input
               type="text"
-              placeholder="Search questions or topics..."
+              placeholder="Search questions..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -134,10 +151,23 @@ function Coding() {
           </select>
         </div>
 
+        {/* Question List */}
         <div className="coding-question-list">
-          {filteredQuestions.length > 0 ? (
-            filteredQuestions.map((question) => (
-              <article className="coding-question-card" key={question.id}>
+          {loading ? (
+            <div className="coding-empty">
+              <p>Loading coding questions...</p>
+            </div>
+          ) : error ? (
+            <div className="coding-empty">
+              <h3>Unable to Load Questions</h3>
+              <p>{error}</p>
+            </div>
+          ) : questions.length > 0 ? (
+            questions.map((question) => (
+              <article
+                className="coding-question-card"
+                key={question._id}
+              >
                 <div className="coding-question-main">
                   <div className="coding-question-icon">
                     <Code2 size={21} />
@@ -145,21 +175,26 @@ function Coding() {
 
                   <div className="coding-question-info">
                     <h3>{question.title}</h3>
+
                     <p>{question.description}</p>
-                    <span className="coding-topic">{question.topic}</span>
+
+                    <span className="coding-topic">
+                      {question.category}
+                    </span>
                   </div>
                 </div>
 
                 <div className="coding-question-action">
                   <span
-                    className={`coding-difficulty ${question.difficulty.toLowerCase()}`}
+                    className={`coding-difficulty ${question.difficulty}`}
                   >
                     {question.difficulty}
                   </span>
+
                   <button
                     type="button"
                     onClick={() =>
-                      alert("Coding editor backend abhi connect nahi hua hai.")
+                      navigate(`/student/coding/${question._id}`)
                     }
                   >
                     Solve Problem
@@ -170,7 +205,9 @@ function Coding() {
           ) : (
             <div className="coding-empty">
               <Search size={30} />
-              <h3>No questions found</h3>
+
+              <h3>No Questions Found</h3>
+
               <p>Try another search term or difficulty.</p>
             </div>
           )}
