@@ -1,8 +1,4 @@
 
-/* =====================================
-   REGISTER PAGE
-===================================== */
-
 .register-page {
   min-height: 100vh;
   display: flex;
@@ -13,10 +9,6 @@
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
-
-/* =====================================
-   MAIN REGISTER CARD
-===================================== */
 
 .register-card {
   width: 100%;
@@ -30,20 +22,11 @@
   box-sizing: border-box;
 }
 
-/* =====================================
-   LEFT DESIGN PANEL
-===================================== */
-
 .register-left-panel {
   position: relative;
   overflow: hidden;
   padding: 55px 45px;
-  background: linear-gradient(
-    135deg,
-    #2447b8,
-    #365bc9 55%,
-    #5943c9
-  );
+  background: linear-gradient(135deg, #2447b8, #365bc9 55%, #5943c9);
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -73,8 +56,6 @@
   left: -130px;
 }
 
-/* LOGO */
-
 .register-brand-icon {
   width: 65px;
   height: 65px;
@@ -88,9 +69,7 @@
   position: relative;
   z-index: 1;
 }
-
-/* BRAND CONTENT */
-
+ 
 .register-brand-content {
   position: relative;
   z-index: 1;
@@ -134,11 +113,7 @@
   font-size: 11px;
   color: #dce5ff;
 }
-
-/* =====================================
-   RIGHT REGISTER PANEL
-===================================== */
-
+ 
 .register-right-panel {
   width: 100%;
   padding: 38px 45px;
@@ -147,9 +122,7 @@
   justify-content: center;
   box-sizing: border-box;
 }
-
-/* HEADING */
-
+ 
 .register-heading {
   margin-bottom: 24px;
 }
@@ -167,11 +140,7 @@
   line-height: 1.6;
   margin: 0;
 }
-
-/* =====================================
-   FORM GRID
-===================================== */
-
+ 
 .register-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -212,11 +181,7 @@
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
-
-/* =====================================
-   PASSWORD EYE ICON
-===================================== */
-
+ 
 .register-password-wrapper {
   position: relative;
   width: 100%;
@@ -255,11 +220,7 @@
   outline-offset: 3px;
   border-radius: 4px;
 }
-
-/* =====================================
-   REGISTER BUTTON
-===================================== */
-
+ 
 .register-button {
   width: 100%;
   padding: 13px;
@@ -282,11 +243,7 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-/* =====================================
-   FOOTER
-===================================== */
-
+ 
 .register-footer {
   margin-top: 19px;
   text-align: center;
@@ -303,11 +260,7 @@
 .register-footer a:hover {
   text-decoration: underline;
 }
-
-/* =====================================
-   TABLET RESPONSIVE
-===================================== */
-
+ 
 @media (max-width: 900px) {
   .register-card {
     max-width: 750px;
@@ -330,11 +283,7 @@
     grid-template-columns: 1fr;
   }
 }
-
-/* =====================================
-   MOBILE RESPONSIVE
-===================================== */
-
+ 
 @media (max-width: 650px) {
   .register-page {
     padding: 15px;
