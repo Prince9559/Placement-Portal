@@ -8,7 +8,6 @@ import {
   RefreshCw,
   ArrowLeft,
   BookOpen,
-  AlertCircle,
 } from "lucide-react";
 import { toast } from "react-toastify";
 

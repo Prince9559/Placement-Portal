@@ -10,8 +10,6 @@ import {
   Activity,
   ChevronRight,
 } from "lucide-react";
-import { toast } from "react-toastify";
-
 import progressService from "../../services/progressService";
 import "./MyProgress.css";
 

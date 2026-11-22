@@ -16,7 +16,6 @@ import {
   TrendingUp,
   MessageSquare,
   Bell,
-  UserRound,
 } from "lucide-react";
 import { toast } from "react-toastify";
 
