@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {
-  Search, Plus, Edit, Trash2, RefreshCw, X,
-  MessageSquare, ChevronLeft, ChevronRight, Eye, EyeOff,
-  ArrowLeft
-} from "lucide-react";
+import {Search, Plus, Edit, Trash2, RefreshCw, X, MessageSquare, ChevronLeft, ChevronRight, Eye, EyeOff,ArrowLeft} from "lucide-react";
 import api from "../../services/api";
 import "./InterviewQuestions.css";
 
@@ -106,7 +102,6 @@ function InterviewQuestions() {
         tags: (q.tags || []).join(", ")
       });
 
-      // Answers are intentionally excluded from the normal question endpoint.
       const answerResponse = await api.get(`/interview/${id}/answer`);
       const answer = answerResponse.data.answer;
 
@@ -206,11 +201,7 @@ function InterviewQuestions() {
     <div className="interview-admin-page">
       <div className="interview-page-header">
         <div>
-          <button
-            type="button"
-            className="interview-dashboard-btn"
-            onClick={() => navigate("/admin/dashboard")}
-          >
+          <button type="button" className="interview-dashboard-btn" onClick={() => navigate("/admin/dashboard")}>
             <ArrowLeft size={17} />
             <span>Dashboard</span>
           </button>
@@ -232,23 +223,10 @@ function InterviewQuestions() {
       <div className="interview-toolbar">
         <div className="interview-search">
           <Search size={18} />
-          <input
-            value={search}
-            onChange={e => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            placeholder="Search by topic..."
-          />
+          <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} placeholder="Search by topic..."/>
         </div>
 
-        <select
-          value={category}
-          onChange={e => {
-            setCategory(e.target.value);
-            setPage(1);
-          }}
-        >
+        <select value={category} onChange={e => { setCategory(e.target.value); setPage(1);}}>
           <option value="">All Categories</option>
           {categories.map(item => (
             <option key={item} value={item}>
@@ -257,24 +235,14 @@ function InterviewQuestions() {
           ))}
         </select>
 
-        <select
-          value={difficulty}
-          onChange={e => {
-            setDifficulty(e.target.value);
-            setPage(1);
-          }}
-        >
+        <select value={difficulty} onChange={e => { setDifficulty(e.target.value); setPage(1); }}>
           <option value="">All Difficulties</option>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
 
-        <button
-          className="interview-refresh-btn"
-          onClick={fetchQuestions}
-          title="Refresh"
-        >
+        <button className="interview-refresh-btn" onClick={fetchQuestions} title="Refresh">
           <RefreshCw size={18} />
         </button>
       </div>
@@ -357,19 +325,13 @@ function InterviewQuestions() {
         </span>
 
         <div>
-          <button
-            disabled={page <= 1}
-            onClick={() => setPage(p => p - 1)}
-          >
+          <button disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
             <ChevronLeft size={18} />
           </button>
 
           <span>Page {page} of {pagination.totalPages || 1}</span>
 
-          <button
-            disabled={page >= pagination.totalPages}
-            onClick={() => setPage(p => p + 1)}
-          >
+          <button disabled={page >= pagination.totalPages} onClick={() => setPage(p => p + 1)}>
             <ChevronRight size={18} />
           </button>
         </div>
@@ -393,21 +355,12 @@ function InterviewQuestions() {
 
             <form onSubmit={handleSubmit}>
               <label>Question *</label>
-              <textarea
-                required
-                rows="3"
-                value={form.question}
-                onChange={e => updateField("question", e.target.value)}
-                placeholder="Enter interview question..."
-              />
+              <textarea required rows="3" value={form.question} onChange={e => updateField("question", e.target.value)}  placeholder="Enter interview question..."/>
 
               <div className="interview-form-grid">
                 <div>
                   <label>Category *</label>
-                  <select
-                    value={form.category}
-                    onChange={e => updateField("category", e.target.value)}
-                  >
+                  <select value={form.category} onChange={e => updateField("category", e.target.value)}>
                     {categories.map(item => (
                       <option key={item} value={item}>{item}</option>
                     ))}
@@ -416,20 +369,12 @@ function InterviewQuestions() {
 
                 <div>
                   <label>Topic *</label>
-                  <input
-                    required
-                    value={form.topic}
-                    onChange={e => updateField("topic", e.target.value)}
-                    placeholder="e.g. JavaScript"
-                  />
+                  <input required value={form.topic} onChange={e => updateField("topic", e.target.value)} placeholder="e.g. JavaScript"/>
                 </div>
 
                 <div>
                   <label>Difficulty</label>
-                  <select
-                    value={form.difficulty}
-                    onChange={e => updateField("difficulty", e.target.value)}
-                  >
+                  <select value={form.difficulty} onChange={e => updateField("difficulty", e.target.value)}>
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
@@ -438,57 +383,26 @@ function InterviewQuestions() {
               </div>
 
               <label>Answer *</label>
-              <textarea
-                required
-                rows="5"
-                value={form.answer}
-                onChange={e => updateField("answer", e.target.value)}
-                placeholder="Enter suggested answer..."
-              />
+              <textarea required rows="5" value={form.answer} onChange={e => updateField("answer", e.target.value)} placeholder="Enter suggested answer..."/>
 
               <label>Sample Answer</label>
-              <textarea
-                rows="4"
-                value={form.sampleAnswer}
-                onChange={e => updateField("sampleAnswer", e.target.value)}
-              />
+              <textarea rows="4" value={form.sampleAnswer} onChange={e => updateField("sampleAnswer", e.target.value)}/>
 
               <label>Tips (one per line)</label>
-              <textarea
-                rows="3"
-                value={form.tips}
-                onChange={e => updateField("tips", e.target.value)}
-                placeholder="Be confident&#10;Give practical examples"
-              />
+              <textarea rows="3" value={form.tips} onChange={e => updateField("tips", e.target.value)} placeholder="Be confident&#10;Give practical examples"/>
 
               <label>Companies (comma separated)</label>
-              <input
-                value={form.companies}
-                onChange={e => updateField("companies", e.target.value)}
-                placeholder="Google, Amazon, Microsoft"
-              />
+              <input value={form.companies} onChange={e => updateField("companies", e.target.value)} placeholder="Google, Amazon, Microsoft" />
 
               <label>Tags (comma separated)</label>
-              <input
-                value={form.tags}
-                onChange={e => updateField("tags", e.target.value)}
-                placeholder="javascript, frontend"
-              />
+              <inpu value={form.tags} onChange={e => updateField("tags", e.target.value)} placeholder="javascript, frontend"/>
 
               <div className="interview-modal-actions">
-                <button
-                  type="button"
-                  className="interview-cancel-btn"
-                  onClick={() => setModalOpen(false)}
-                >
+                <button type="button" className="interview-cancel-btn" onClick={() => setModalOpen(false)}>
                   Cancel
                 </button>
 
-                <button
-                  type="submit"
-                  className="interview-primary-btn"
-                  disabled={saving}
-                >
+                <button type="submit" className="interview-primary-btn" disabled={saving}>
                   {saving
                     ? "Saving..."
                     : editingId

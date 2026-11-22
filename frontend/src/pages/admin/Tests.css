@@ -337,7 +337,7 @@
   cursor: not-allowed;
 }
 
-/* Modal */
+
 .tests-modal-overlay {
   position: fixed;
   inset: 0;
@@ -588,7 +588,7 @@
   background: #e2e8f0;
 }
 
-/* View modal */
+
 .tests-view-modal {
   max-width: 750px;
 }
@@ -661,7 +661,7 @@
   color: #64748b;
 }
 
-/* Confirmation modal */
+
 .tests-confirm-modal {
   max-width: 430px;
   padding-bottom: 20px;
@@ -688,7 +688,7 @@
   background: #b91c1c;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .admin-tests {
     padding: 16px;

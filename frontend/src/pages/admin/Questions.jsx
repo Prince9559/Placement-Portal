@@ -1,26 +1,8 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  Plus,
-  Search,
-  RefreshCw,
-  Pencil,
-  Trash2,
-  Eye,
-  X,
-  CheckCircle,
-  BookOpen,
-  Filter,
-  ChevronLeft,
-  ChevronRight,
-  LoaderCircle,
-  AlertCircle,
-  Tag,
-} from "lucide-react";
+import {ArrowLeft,Plus,Search,RefreshCw, Pencil,Trash2,Eye,X,CheckCircle,BookOpen, Filter,ChevronLeft,ChevronRight,LoaderCircle,AlertCircle,Tag,} from "lucide-react";
 import { toast } from "react-toastify";
-
 import questionService from "../../services/questionService";
 import "./Questions.css";
 
@@ -328,10 +310,7 @@ function Questions() {
     <div className="questions-page">
       <div className="questions-header">
         <div>
-          <button
-            type="button"
-            className="questions-dashboard-btn"
-            onClick={() => navigate("/admin/dashboard")}
+          <button type="button" className="questions-dashboard-btn" onClick={() => navigate("/admin/dashboard")}
           >
             <ArrowLeft size={17} />
             <span>Dashboard</span>
@@ -384,27 +363,17 @@ function Questions() {
         <div className="questions-toolbar">
           <div className="questions-search">
             <Search size={19} />
-            <input
-              type="text"
-              placeholder="Search by topic..."
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
+            <input type="text" placeholder="Search by topic..." value={search} onChange={(event) => setSearch(event.target.value)}
             />
             {search && (
-              <button
-                type="button"
-                onClick={() => setSearch("")}
-                aria-label="Clear search"
+              <button type="button" onClick={() => setSearch("")} aria-label="Clear search"
               >
                 <X size={17} />
               </button>
             )}
           </div>
 
-          <select
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-            aria-label="Filter by category"
+          <select value={category} onChange={(event) => setCategory(event.target.value)} aria-label="Filter by category"
           >
             <option value="">All Categories</option>
             {categories.map((item) => (
@@ -414,10 +383,7 @@ function Questions() {
             ))}
           </select>
 
-          <select
-            value={difficulty}
-            onChange={(event) => setDifficulty(event.target.value)}
-            aria-label="Filter by difficulty"
+          <select value={difficulty} onChange={(event) => setDifficulty(event.target.value)} aria-label="Filter by difficulty"
           >
             <option value="">All Difficulties</option>
             {difficulties.map((item) => (
@@ -427,11 +393,7 @@ function Questions() {
             ))}
           </select>
 
-          <button
-            className="questions-refresh-btn"
-            onClick={() => fetchQuestions(1)}
-            disabled={loading}
-            title="Refresh questions"
+          <button className="questions-refresh-btn" onClick={() => fetchQuestions(1)} disabled={loading} title="Refresh questions"
           >
             <RefreshCw size={18} className={loading ? "spin" : ""} />
           </button>
@@ -457,7 +419,6 @@ function Questions() {
                 <th>ACTIONS</th>
               </tr>
             </thead>
-
             <tbody>
               {loading ? (
                 <tr>
@@ -496,25 +457,14 @@ function Questions() {
                     <td>{item.options?.length || 0} options</td>
                     <td>
                       <div className="question-actions">
-                        <button
-                          className="view"
-                          title="View question"
-                          onClick={() => openViewModal(item._id)}
+                        <button className="view" title="View question" onClick={() => openViewModal(item._id)}
                         >
                           <Eye size={17} />
                         </button>
-                        <button
-                          className="edit"
-                          title="Edit question"
-                          onClick={() => openEditModal(item._id)}
-                        >
+                        <button className="edit" title="Edit question" onClick={() => openEditModal(item._id)} >
                           <Pencil size={17} />
                         </button>
-                        <button
-                          className="delete"
-                          title="Deactivate question"
-                          disabled={deletingId === item._id}
-                          onClick={() => handleDelete(item._id)}
+                        <button className="delete" title="Deactivate question" disabled={deletingId === item._id} onClick={() => handleDelete(item._id)}
                         >
                           {deletingId === item._id ? (
                             <LoaderCircle size={17} className="spin" />
@@ -537,9 +487,7 @@ function Questions() {
           </span>
 
           <div>
-            <button
-              disabled={loading || pagination.page <= 1}
-              onClick={() => fetchQuestions(pagination.page - 1)}
+            <button disabled={loading || pagination.page <= 1} onClick={() => fetchQuestions(pagination.page - 1)}
             >
               <ChevronLeft size={18} />
               Previous
@@ -569,12 +517,7 @@ function Questions() {
                 <span>QUESTION LIBRARY</span>
                 <h2>{editingId ? "Edit Question" : "Add New Question"}</h2>
               </div>
-              <button
-                type="button"
-                onClick={closeFormModal}
-                disabled={saving}
-                aria-label="Close"
-              >
+              <button type="button" onClick={closeFormModal} disabled={saving} aria-label="Close">
                 <X size={21} />
               </button>
             </div>
@@ -583,24 +526,14 @@ function Questions() {
               <div className="question-form-body">
                 <div className="question-form-group full">
                   <label>Question <span>*</span></label>
-                  <textarea
-                    rows="3"
-                    placeholder="Enter your question..."
-                    value={form.question}
-                    onChange={(event) =>
-                      updateField("question", event.target.value)
-                    }
-                    required
+                  <textarea rows="3" placeholder="Enter your question..." value={form.question} onChange={(event) => updateField("question", event.target.value)} required
                   />
                 </div>
 
                 <div className="question-form-grid">
                   <div className="question-form-group">
                     <label>Category <span>*</span></label>
-                    <select
-                      value={form.category}
-                      onChange={(event) =>
-                        updateField("category", event.target.value)
+                    <select value={form.category} onChange={(event) => updateField("category", event.target.value)
                       }
                     >
                       {categories.map((item) => (
@@ -611,9 +544,7 @@ function Questions() {
 
                   <div className="question-form-group">
                     <label>Difficulty <span>*</span></label>
-                    <select
-                      value={form.difficulty}
-                      onChange={(event) =>
+                    <select value={form.difficulty} onChange={(event) =>
                         updateField("difficulty", event.target.value)
                       }
                     >
@@ -625,10 +556,7 @@ function Questions() {
 
                   <div className="question-form-group">
                     <label>Topic <span>*</span></label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Percentage"
-                      value={form.topic}
+                    <input type="text" placeholder="e.g. Percentage" value={form.topic}
                       onChange={(event) =>
                         updateField("topic", event.target.value)
                       }
@@ -638,10 +566,7 @@ function Questions() {
 
                   <div className="question-form-group">
                     <label>Company</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. TCS, Infosys"
-                      value={form.company}
+                    <input type="text" placeholder="e.g. TCS, Infosys" value={form.company}
                       onChange={(event) =>
                         updateField("company", event.target.value)
                       }
@@ -664,10 +589,7 @@ function Questions() {
                       key={index}
                     >
                       <label className="correct-radio" title="Mark as correct">
-                        <input
-                          type="radio"
-                          name="correctOption"
-                          checked={option.isCorrect}
+                        <input type="radio" name="correctOption" checked={option.isCorrect}
                           onChange={() =>
                             updateOption(index, "isCorrect", true)
                           }
@@ -675,10 +597,7 @@ function Questions() {
                         <span>{String.fromCharCode(65 + index)}</span>
                       </label>
 
-                      <input
-                        type="text"
-                        placeholder={`Option ${index + 1}`}
-                        value={option.text}
+                      <input type="text" placeholder={`Option ${index + 1}`} value={option.text}
                         onChange={(event) =>
                           updateOption(index, "text", event.target.value)
                         }
@@ -688,10 +607,7 @@ function Questions() {
                         <span className="correct-answer-label">Correct</span>
                       )}
 
-                      <button
-                        type="button"
-                        className="remove-option-btn"
-                        disabled={form.options.length <= 2}
+                      <button type="button" className="remove-option-btn" disabled={form.options.length <= 2}
                         onClick={() => removeOption(index)}
                         title="Remove option"
                       >
@@ -701,21 +617,14 @@ function Questions() {
                   ))}
                 </div>
 
-                <button
-                  type="button"
-                  className="add-option-btn"
-                  onClick={addOption}
-                  disabled={form.options.length >= 6}
+                <button type="button" className="add-option-btn" onClick={addOption} disabled={form.options.length >= 6}
                 >
                   <Plus size={16} /> Add Option
                 </button>
 
                 <div className="question-form-group full">
                   <label>Explanation</label>
-                  <textarea
-                    rows="3"
-                    placeholder="Explain why the correct answer is right..."
-                    value={form.explanation}
+                  <textare rows="3" placeholder="Explain why the correct answer is right..." value={form.explanation}
                     onChange={(event) =>
                       updateField("explanation", event.target.value)
                     }
@@ -725,10 +634,7 @@ function Questions() {
                 <div className="question-form-group full">
                   <label>Tags</label>
                   <div className="question-tag-input">
-                    <input
-                      type="text"
-                      placeholder="Enter a tag and press Add"
-                      value={tagInput}
+                    <input type="text" placeholder="Enter a tag and press Add" value={tagInput}
                       onChange={(event) => setTagInput(event.target.value)}
                       onKeyDown={(event) => {
                         if (event.key === "Enter") {
@@ -746,9 +652,7 @@ function Questions() {
                     {form.tags.map((tag) => (
                       <span key={tag}>
                         <Tag size={13} /> {tag}
-                        <button
-                          type="button"
-                          onClick={() => removeTag(tag)}
+                        <button type="button" onClick={() => removeTag(tag)}
                           aria-label={`Remove ${tag}`}
                         >
                           <X size={13} />
@@ -760,18 +664,11 @@ function Questions() {
               </div>
 
               <div className="question-modal-footer">
-                <button
-                  type="button"
-                  className="question-cancel-btn"
-                  onClick={closeFormModal}
-                  disabled={saving}
+                <button  type="button"  className="question-cancel-btn" onClick={closeFormModal} disabled={saving}
                 >
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  className="question-save-btn"
-                  disabled={saving}
+                <button type="submit" className="question-save-btn" disabled={saving}
                 >
                   {saving ? (
                     <>
@@ -805,9 +702,7 @@ function Questions() {
                 <span>QUESTION DETAILS</span>
                 <h2>View Question</h2>
               </div>
-              <button
-                onClick={() => setViewModalOpen(false)}
-                aria-label="Close"
+              <button onClick={() => setViewModalOpen(false)} aria-label="Close"
               >
                 <X size={21} />
               </button>
@@ -864,15 +759,11 @@ function Questions() {
             </div>
 
             <div className="question-modal-footer">
-              <button
-                className="question-cancel-btn"
-                onClick={() => setViewModalOpen(false)}
+              <button className="question-cancel-btn" onClick={() => setViewModalOpen(false)}
               >
                 Close
               </button>
-              <button
-                className="question-save-btn"
-                onClick={() => {
+              <button className="question-save-btn" onClick={() => {
                   setViewModalOpen(false);
                   openEditModal(selectedQuestion._id);
                 }}

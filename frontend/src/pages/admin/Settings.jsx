@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Settings as SettingsIcon,
-  User,
-  Bell,
-  LayoutDashboard,
-  ShieldCheck,
-  Save,
-  RotateCcw,
-  ArrowLeft,
-} from "lucide-react";
+import {Settings as SettingsIcon,User,Bell,LayoutDashboard,ShieldCheck,Save,RotateCcw,ArrowLeft,} from "lucide-react";
 import { toast } from "react-toastify";
 import "./Settings.css";
 
@@ -89,10 +80,7 @@ const Settings = () => {
     <div className="admin-settings">
       <div className="settings-page-header">
         <div>
-          <button
-            type="button"
-            className="settings-dashboard-btn"
-            onClick={() => navigate("/admin/dashboard")}
+          <button type="button" className="settings-dashboard-btn" onClick={() => navigate("/admin/dashboard")}
           >
             <ArrowLeft size={17} />
             <span>Dashboard</span>
@@ -175,11 +163,7 @@ const Settings = () => {
                 <p>Enable email notification preference.</p>
               </div>
               <label className="settings-switch">
-                <input
-                  type="checkbox"
-                  name="emailNotifications"
-                  checked={preferences.emailNotifications}
-                  onChange={handleChange}
+                <input type="checkbox" name="emailNotifications" checked={preferences.emailNotifications} onChange={handleChange}
                 />
                 <span className="settings-switch-slider" />
               </label>
@@ -191,11 +175,7 @@ const Settings = () => {
                 <p>Enable announcement notification preference.</p>
               </div>
               <label className="settings-switch">
-                <input
-                  type="checkbox"
-                  name="announcementNotifications"
-                  checked={preferences.announcementNotifications}
-                  onChange={handleChange}
+                <input type="checkbox" name="announcementNotifications" checked={preferences.announcementNotifications} onChange={handleChange}
                 />
                 <span className="settings-switch-slider" />
               </label>
@@ -219,12 +199,7 @@ const Settings = () => {
                 <p>Enable compact table display preference.</p>
               </div>
               <label className="settings-switch">
-                <input
-                  type="checkbox"
-                  name="compactTables"
-                  checked={preferences.compactTables}
-                  onChange={handleChange}
-                />
+                <input type="checkbox" name="compactTables" checked={preferences.compactTables} onChange={handleChange}/>
                 <span className="settings-switch-slider" />
               </label>
             </div>

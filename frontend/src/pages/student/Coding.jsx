@@ -1,7 +1,7 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  ArrowLeft,
   Code2,
   Search,
   CheckCircle2,
@@ -43,7 +43,7 @@ function Coding() {
       } catch (err) {
         setError(
           err.response?.data?.message ||
-            "Unable to load coding questions."
+          "Unable to load coding questions."
         );
       } finally {
         setLoading(false);
@@ -55,19 +55,6 @@ function Coding() {
 
   return (
     <div className="coding-page">
-      {/* Topbar */}
-      <header className="coding-topbar">
-        <button
-          type="button"
-          className="coding-back-btn"
-          onClick={() => navigate("/student/dashboard")}
-        >
-          <ArrowLeft size={18} />
-          Dashboard
-        </button>
-      </header>
-
-      {/* Page Header */}
       <header className="coding-header">
         <div>
           <span className="coding-eyebrow">
@@ -86,7 +73,6 @@ function Coding() {
         </div>
       </header>
 
-      {/* Stats */}
       <section className="coding-stats">
         <div className="coding-stat-card">
           <Code2 size={22} />
@@ -116,7 +102,6 @@ function Coding() {
         </div>
       </section>
 
-      {/* Practice Questions */}
       <section className="coding-content">
         <div className="coding-section-heading">
           <div>
@@ -127,7 +112,6 @@ function Coding() {
           <Filter size={21} />
         </div>
 
-        {/* Filters */}
         <div className="coding-filters">
           <div className="coding-search">
             <Search size={18} />
@@ -151,7 +135,6 @@ function Coding() {
           </select>
         </div>
 
-        {/* Question List */}
         <div className="coding-question-list">
           {loading ? (
             <div className="coding-empty">

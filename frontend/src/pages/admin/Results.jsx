@@ -1,19 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  BarChart3,
-  Search,
-  RefreshCw,
-  Eye,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  CheckCircle,
-  XCircle,
-  FileText,
-  TrendingUp,
-  ArrowLeft,
-} from "lucide-react";
+import {BarChart3,Search,RefreshCw,Eye,X,ChevronLeft,ChevronRight,CheckCircle,XCircle,FileText,TrendingUp,ArrowLeft,} from "lucide-react";
 import { toast } from "react-toastify";
 import api from "../../services/api";
 import "./Results.css";
@@ -129,10 +116,7 @@ const Results = () => {
     <div className="admin-results">
       <div className="results-header">
         <div>
-          <button
-            type="button"
-            className="results-dashboard-btn"
-            onClick={() => navigate("/admin/dashboard")}
+          <button type="button" className="results-dashboard-btn" onClick={() => navigate("/admin/dashboard")}
           >
             <ArrowLeft size={17} />
             <span>Dashboard</span>
@@ -195,18 +179,11 @@ const Results = () => {
         <div className="results-toolbar">
           <div className="results-search">
             <Search size={18} />
-            <input
-              type="text"
-              placeholder="Search student or test..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+            <input type="text" placeholder="Search student or test..." value={search} onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
-          <select
-            value={status}
-            onChange={(e) => {
-              setStatus(e.target.value);
+          <select value={status} onChange={(e) => { setStatus(e.target.value);
               setPage(1);
             }}
             className="results-filter"
@@ -282,10 +259,7 @@ const Results = () => {
                     <td>{formatDate(result.completedAt)}</td>
 
                     <td>
-                      <button
-                        className="results-view-btn"
-                        onClick={() => openDetails(result._id)}
-                        title="View Details"
+                      <button className="results-view-btn" onClick={() => openDetails(result._id)} title="View Details"
                       >
                         <Eye size={17} />
                       </button>
@@ -303,9 +277,7 @@ const Results = () => {
           </span>
 
           <div>
-            <button
-              disabled={page <= 1 || loading}
-              onClick={() => setPage((prev) => prev - 1)}
+            <button disabled={page <= 1 || loading} onClick={() => setPage((prev) => prev - 1)}
             >
               <ChevronLeft size={18} />
             </button>
@@ -314,9 +286,7 @@ const Results = () => {
               Page {page} of {pagination.totalPages}
             </span>
 
-            <button
-              disabled={page >= pagination.totalPages || loading}
-              onClick={() => setPage((prev) => prev + 1)}
+            <button disabled={page >= pagination.totalPages || loading} onClick={() => setPage((prev) => prev + 1)}
             >
               <ChevronRight size={18} />
             </button>
@@ -341,9 +311,7 @@ const Results = () => {
                 <p>Detailed student test performance</p>
               </div>
 
-              <button
-                onClick={() => setSelectedResult(null)}
-                disabled={detailsLoading}
+              <button  onClick={() => setSelectedResult(null)} disabled={detailsLoading}
               >
                 <X size={21} />
               </button>

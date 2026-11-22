@@ -1,11 +1,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {ArrowLeft,
-  BookOpen, Plus, Search, RefreshCw, Eye, Pencil, Trash2,
-  FileText, Video, Link as LinkIcon, File, X, Upload,
-  ChevronLeft, ChevronRight, ExternalLink, LayoutDashboard
-} from "lucide-react";
+import {ArrowLeft,BookOpen, Plus, Search, RefreshCw, Eye, Pencil, Trash2,FileText, Video, Link as LinkIcon, File, X, Upload,ChevronLeft, ChevronRight, ExternalLink, LayoutDashboard} from "lucide-react";
 import { toast } from "react-toastify";
 import materialService from "../../services/materialService";
 import "./Materials.css";
@@ -115,7 +111,7 @@ function Materials() {
 
       setModal("edit");
     } catch (error) {
-      // Global API interceptor displays the error toast.
+      
     }
   };
 
@@ -125,7 +121,7 @@ function Materials() {
       setSelected(response.material);
       setModal("view");
     } catch (error) {
-      // Global API interceptor displays the error toast.
+      
     }
   };
 
@@ -192,7 +188,7 @@ function Materials() {
       setPage(1);
       await fetchMaterials();
     } catch (error) {
-      // Global API interceptor displays the error toast.
+      
     } finally {
       setSaving(false);
     }
@@ -207,7 +203,7 @@ function Materials() {
       setConfirmDelete(null);
       await fetchMaterials();
     } catch (error) {
-      // Global API interceptor displays the error toast.
+      
     }
   };
 
@@ -229,11 +225,7 @@ function Materials() {
       <div className="materials-header">
         <div className="materials-header-content">
           <div className="materials-title-row">
-            <button
-              type="button"
-              className="materials-dashboard-btn"
-              onClick={() => navigate("/admin/dashboard")}
-            >
+            <button type="button" className="materials-dashboard-btn" onClick={() => navigate("/admin/dashboard")}>
               <ArrowLeft size={18} />
               <span>Dashboard</span>
             </button>
@@ -265,23 +257,10 @@ function Materials() {
       <div className="materials-toolbar">
         <div className="material-search">
           <Search size={18} />
-          <input
-            value={search}
-            placeholder="Search title, subject, topic..."
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-          />
+          <input value={search} placeholder="Search title, subject, topic..." onChange={(e) => { setSearch(e.target.value); setPage(1); }}/>
         </div>
 
-        <select
-          value={category}
-          onChange={(e) => {
-            setCategory(e.target.value);
-            setPage(1);
-          }}
-        >
+        <select value={category} onChange={(e) => { setCategory(e.target.value); setPage(1);}}>
           <option value="">All Categories</option>
           {categories.map((item) => (
             <option key={item} value={item}>
@@ -290,13 +269,7 @@ function Materials() {
           ))}
         </select>
 
-        <select
-          value={materialType}
-          onChange={(e) => {
-            setMaterialType(e.target.value);
-            setPage(1);
-          }}
-        >
+        <select value={materialType} onChange={(e) => { setMaterialType(e.target.value); setPage(1); }}>
           <option value="">All Types</option>
           {types.map((item) => (
             <option key={item} value={item}>
@@ -305,12 +278,7 @@ function Materials() {
           ))}
         </select>
 
-        <button
-          className="material-refresh-btn"
-          onClick={fetchMaterials}
-          disabled={loading}
-          title="Refresh"
-        >
+        <button className="material-refresh-btn" onClick={fetchMaterials} disabled={loading} title="Refresh">
           <RefreshCw size={18} />
         </button>
       </div>
@@ -392,25 +360,15 @@ function Materials() {
 
                     <td>
                       <div className="material-actions">
-                        <button
-                          title="View"
-                          onClick={() => openView(item)}
-                        >
+                        <button title="View" onClick={() => openView(item)}>
                           <Eye size={17} />
                         </button>
 
-                        <button
-                          title="Edit"
-                          onClick={() => openEdit(item)}
-                        >
+                        <button title="Edit" onClick={() => openEdit(item)}>
                           <Pencil size={17} />
                         </button>
 
-                        <button
-                          title="Deactivate"
-                          className="material-delete-action"
-                          onClick={() => setConfirmDelete(item)}
-                        >
+                        <button title="Deactivate" className="material-delete-action" onClick={() => setConfirmDelete(item)}>
                           <Trash2 size={17} />
                         </button>
                       </div>
@@ -428,17 +386,11 @@ function Materials() {
           </span>
 
           <div>
-            <button
-              disabled={page <= 1 || loading}
-              onClick={() => setPage((p) => p - 1)}
-            >
+            <button disabled={page <= 1 || loading} onClick={() => setPage((p) => p - 1)}>
               <ChevronLeft size={18} /> Previous
             </button>
 
-            <button
-              disabled={page >= pagination.totalPages || loading}
-              onClick={() => setPage((p) => p + 1)}
-            >
+            <button disabled={page >= pagination.totalPages || loading} onClick={() => setPage((p) => p + 1)}>
               Next <ChevronRight size={18} />
             </button>
           </div>
@@ -446,9 +398,7 @@ function Materials() {
       </div>
 
       {(modal === "add" || modal === "edit") && (
-        <div
-          className="material-modal-overlay"
-          onMouseDown={(e) => {
+        <div className="material-modal-overlay" onMouseDown={(e) => {
             if (e.target === e.currentTarget) closeModal();
           }}
         >
@@ -472,22 +422,12 @@ function Materials() {
               <div className="material-form-grid">
                 <label className="material-form-full">
                   Title *
-                  <input
-                    name="title"
-                    value={form.title}
-                    onChange={updateField}
-                    placeholder="Enter material title"
-                    required
-                  />
+                  <input name="title" value={form.title} onChange={updateField} placeholder="Enter material title" required/>
                 </label>
 
                 <label>
                   Category *
-                  <select
-                    name="category"
-                    value={form.category}
-                    onChange={updateField}
-                  >
+                  <select name="category" value={form.category} onChange={updateField} >
                     {categories.map((item) => (
                       <option key={item} value={item}>
                         {item}
@@ -498,10 +438,7 @@ function Materials() {
 
                 <label>
                   Material Type *
-                  <select
-                    name="materialType"
-                    value={form.materialType}
-                    onChange={(e) =>
+                  <select name="materialType" value={form.materialType} onChange={(e) =>
                       setForm((prev) => ({
                         ...prev,
                         materialType: e.target.value,
@@ -519,34 +456,17 @@ function Materials() {
 
                 <label>
                   Subject *
-                  <input
-                    name="subject"
-                    value={form.subject}
-                    onChange={updateField}
-                    placeholder="e.g. Mathematics"
-                    required
-                  />
+                  <input name="subject" value={form.subject} onChange={updateField} placeholder="e.g. Mathematics" required/>
                 </label>
 
                 <label>
                   Topic
-                  <input
-                    name="topic"
-                    value={form.topic}
-                    onChange={updateField}
-                    placeholder="e.g. Percentage"
-                  />
+                  <input name="topic" value={form.topic} onChange={updateField} placeholder="e.g. Percentage"/>
                 </label>
 
                 <label className="material-form-full">
                   Description
-                  <textarea
-                    name="description"
-                    value={form.description}
-                    onChange={updateField}
-                    rows="3"
-                    placeholder="Describe this study material..."
-                  />
+                  <textarea name="description" value={form.description} onChange={updateField} rows="3" placeholder="Describe this study material..." />
                 </label>
 
                 {["pdf", "document"].includes(form.materialType) && (
@@ -563,9 +483,7 @@ function Materials() {
                         <span>
                           {form.file?.name || "Choose a file"}
                         </span>
-                        <input
-                          type="file"
-                          name="file"
+                        <input type="file" name="file"
                           accept={
                             form.materialType === "pdf"
                               ? ".pdf,application/pdf"
@@ -578,12 +496,7 @@ function Materials() {
 
                     <label className="material-form-full">
                       Or existing File URL
-                      <input
-                        name="fileUrl"
-                        value={form.fileUrl}
-                        onChange={updateField}
-                        placeholder="https://..."
-                      />
+                      <input name="fileUrl" value={form.fileUrl} onChange={updateField} placeholder="https://..."/>
                     </label>
                   </>
                 )}
@@ -591,53 +504,27 @@ function Materials() {
                 {["video", "link"].includes(form.materialType) && (
                   <label className="material-form-full">
                     External URL *
-                    <input
-                      name="externalUrl"
-                      type="url"
-                      value={form.externalUrl}
-                      onChange={updateField}
-                      placeholder="https://..."
-                      required
-                    />
+                    <input name="externalUrl" type="url" value={form.externalUrl} onChange={updateField} placeholder="https://..." required/>
                   </label>
                 )}
 
                 <label className="material-form-full">
                   Thumbnail URL
-                  <input
-                    name="thumbnailUrl"
-                    type="url"
-                    value={form.thumbnailUrl}
-                    onChange={updateField}
-                    placeholder="https://..."
-                  />
+                  <input name="thumbnailUrl" type="url" value={form.thumbnailUrl} onChange={updateField} placeholder="https://..." />
                 </label>
 
                 <label className="material-form-full">
                   Tags (comma separated)
-                  <input
-                    name="tags"
-                    value={form.tags}
-                    onChange={updateField}
-                    placeholder="javascript, basics, placement"
-                  />
+                  <input name="tags" value={form.tags} onChange={updateField} placeholder="javascript, basics, placement"/>
                 </label>
               </div>
 
               <div className="material-modal-footer">
-                <button
-                  type="button"
-                  className="material-cancel-btn"
-                  onClick={closeModal}
-                >
+                <button type="button" className="material-cancel-btn" onClick={closeModal}>
                   Cancel
                 </button>
 
-                <button
-                  type="submit"
-                  className="material-primary-btn"
-                  disabled={saving}
-                >
+                <button type="submit" className="material-primary-btn" disabled={saving}>
                   {saving
                     ? "Saving..."
                     : modal === "add"
@@ -748,17 +635,11 @@ function Materials() {
             </p>
 
             <div className="material-modal-footer">
-              <button
-                className="material-cancel-btn"
-                onClick={() => setConfirmDelete(null)}
-              >
+              <button className="material-cancel-btn" onClick={() => setConfirmDelete(null)}>
                 Cancel
               </button>
 
-              <button
-                className="material-danger-btn"
-                onClick={handleDelete}
-              >
+              <button className="material-danger-btn" onClick={handleDelete}>
                 Deactivate
               </button>
             </div>

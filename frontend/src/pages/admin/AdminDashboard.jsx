@@ -1,24 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  Users,
-  UserCheck,
-  GraduationCap,
-  BookOpen,
-  Code2,
-  MessageSquare,
-  ClipboardList,
-  FileCheck,
-  Trophy,
-  Library,
-  Bell,
-  Bookmark,
-  TrendingUp,
-  RefreshCw,
-  LogOut,
-  LayoutDashboard,
-} from "lucide-react";
+import {Users,UserCheck,GraduationCap,BookOpen,Code2,MessageSquare,ClipboardList,FileCheck,Trophy,Library,Bell,Bookmark,TrendingUp,RefreshCw,LogOut,LayoutDashboard,} from "lucide-react";
 import { toast } from "react-toastify";
 
 import api from "../../services/api";
@@ -45,7 +28,7 @@ function AdminDashboard() {
       const response = await api.get("/admin/dashboard");
       setStats(response.data.data);
     } catch (error) {
-      // Global API interceptor handles error messages.
+      
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -244,14 +227,7 @@ function AdminDashboard() {
             const Icon = item.icon;
 
             return (
-              <button
-                key={item.path}
-                type="button"
-                className={`admin-sidebar-link ${
-                  item.active ? "active" : ""
-                }`}
-                onClick={() => navigate(item.path)}
-              >
+              <button key={item.path} type="button" className={`admin-sidebar-link ${ item.active ? "active" : ""}`} onClick={() => navigate(item.path)}>
                 <Icon size={19} />
                 <span>{item.label}</span>
               </button>
@@ -278,16 +254,8 @@ function AdminDashboard() {
           </div>
 
           <div className="admin-topbar-actions">
-            <button
-              className="admin-refresh-btn"
-              onClick={() => fetchDashboard(true)}
-              disabled={refreshing}
-              title="Refresh dashboard"
-            >
-              <RefreshCw
-                size={17}
-                className={refreshing ? "refresh-spinning" : ""}
-              />
+            <button className="admin-refresh-btn" onClick={() => fetchDashboard(true)} disabled={refreshing} title="Refresh dashboard" >
+              <RefreshCw size={17} className={refreshing ? "refresh-spinning" : ""}/>
               <span>Refresh</span>
             </button>
 

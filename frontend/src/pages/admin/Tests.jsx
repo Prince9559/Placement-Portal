@@ -1,9 +1,6 @@
 
 import { useEffect, useCallback, useState } from "react";
-import {
-  Plus, Search, Pencil, Eye, Trash2, X, ChevronLeft, ChevronRight,
-  Clock, BookOpen, CheckCircle, Power, LoaderCircle
-} from "lucide-react";
+import {Plus, Search, Pencil, Eye, Trash2, X, ChevronLeft, ChevronRight,Clock, BookOpen, CheckCircle, Power, LoaderCircle} from "lucide-react";
 import { toast } from "react-toastify";
 import api from "../../services/api";
 import "./Tests.css";
@@ -334,17 +331,10 @@ const Tests = () => {
       <div className="tests-toolbar">
         <div className="tests-search">
           <Search size={18} />
-          <input
-            placeholder="Search tests..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+          <input placeholder="Search tests..." value={search} onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <select
-          value={category}
-          onChange={(e) => {
-            setCategory(e.target.value);
-            setPage(1);
+        <select value={category} onChange={(e) => { setCategory(e.target.value); setPage(1);
           }}
         >
           <option value="">All Categories</option>
@@ -464,17 +454,12 @@ const Tests = () => {
               <div className="tests-form-grid">
                 <label>
                   Test Title *
-                  <input
-                    value={form.title}
-                    onChange={(e) => handleFormChange("title", e.target.value)}
-                    placeholder="Enter test title"
+                  <input value={form.title} onChange={(e) => handleFormChange("title", e.target.value)} placeholder="Enter test title"
                   />
                 </label>
                 <label>
                   Category *
-                  <select
-                    value={form.category}
-                    onChange={(e) => handleFormChange("category", e.target.value)}
+                  <select value={form.category} onChange={(e) => handleFormChange("category", e.target.value)}
                   >
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>{formatCategory(cat)}</option>
@@ -483,21 +468,12 @@ const Tests = () => {
                 </label>
                 <label>
                   Duration (minutes) *
-                  <input
-                    type="number"
-                    min="1"
-                    step="1"
-                    value={form.durationMinutes}
-                    onChange={(e) => handleFormChange("durationMinutes", e.target.value)}
+                  <input type="number" min="1" step="1" value={form.durationMinutes} onChange={(e) => handleFormChange("durationMinutes", e.target.value)}
                   />
                 </label>
                 <label>
                   Passing Marks *
-                  <input
-                    type="number"
-                    min="0"
-                    step="1"
-                    value={form.passingMarks}
+                  <input type="number" min="0" step="1" value={form.passingMarks}
                     onChange={(e) => handleFormChange("passingMarks", e.target.value)}
                   />
                 </label>
@@ -505,10 +481,7 @@ const Tests = () => {
 
               <label className="tests-description-label">
                 Description
-                <textarea
-                  rows="3"
-                  value={form.description}
-                  onChange={(e) => handleFormChange("description", e.target.value)}
+                <textarea rows="3" value={form.description} onChange={(e) => handleFormChange("description", e.target.value)}
                   placeholder="Describe this test"
                 />
               </label>
@@ -529,11 +502,7 @@ const Tests = () => {
 
                   <label>
                     Question Text *
-                    <textarea
-                      rows="3"
-                      value={q.question}
-                      onChange={(e) => handleQuestionChange(qIndex, "question", e.target.value)}
-                      placeholder="Enter question"
+                    <textarea rows="3" value={q.question} onChange={(e) => handleQuestionChange(qIndex, "question", e.target.value)} placeholder="Enter question"
                     />
                   </label>
 
@@ -547,24 +516,13 @@ const Tests = () => {
                   {q.options.map((option, optionIndex) => (
                     <div className="tests-option-row" key={optionIndex}>
                       <label className="tests-correct-radio">
-                        <input
-                          type="radio"
-                          name={`correct-${qIndex}`}
-                          checked={Number(q.correctOptionIndex) === optionIndex}
-                          onChange={() => handleQuestionChange(qIndex, "correctOptionIndex", optionIndex)}
+                        <input type="radio" name={`correct-${qIndex}`}  checked={Number(q.correctOptionIndex) === optionIndex} onChange={() => handleQuestionChange(qIndex, "correctOptionIndex", optionIndex)}
                         />
                         <span>Correct</span>
                       </label>
-                      <input
-                        value={option}
-                        onChange={(e) => handleOptionChange(qIndex, optionIndex, e.target.value)}
-                        placeholder={`Option ${optionIndex + 1}`}
+                      <input value={option} onChange={(e) => handleOptionChange(qIndex, optionIndex, e.target.value)} placeholder={`Option ${optionIndex + 1}`}
                       />
-                      <button
-                        type="button"
-                        className="tests-option-remove"
-                        title="Remove option"
-                        onClick={() => removeOption(qIndex, optionIndex)}
+                      <button type="button" className="tests-option-remove" title="Remove option" onClick={() => removeOption(qIndex, optionIndex)}
                       >
                         <X size={16} />
                       </button>
@@ -573,12 +531,7 @@ const Tests = () => {
 
                   <label className="tests-marks-label">
                     Marks for this question *
-                    <input
-                      type="number"
-                      min="1"
-                      step="1"
-                      value={q.marks}
-                      onChange={(e) => handleQuestionChange(qIndex, "marks", e.target.value)}
+                    <input type="number" min="1" step="1" value={q.marks} onChange={(e) => handleQuestionChange(qIndex, "marks", e.target.value)}
                     />
                   </label>
                 </div>

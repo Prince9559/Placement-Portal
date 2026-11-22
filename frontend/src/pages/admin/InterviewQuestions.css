@@ -14,7 +14,6 @@
   margin-bottom: 28px;
 }
 
-/* Header content: button first, eyebrow below it */
 .interview-page-header > div:first-child {
   display: flex;
   flex-direction: column;

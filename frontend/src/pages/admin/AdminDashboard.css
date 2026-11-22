@@ -1,9 +1,4 @@
-
-/* =====================================
-   ADMIN DASHBOARD LAYOUT
-===================================== */
-
-.admin-dashboard {
+ .admin-dashboard {
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -12,11 +7,7 @@
   font-family: Arial, Helvetica, sans-serif;
   box-sizing: border-box;
 }
-
-/* =====================================
-   SIDEBAR
-===================================== */
-
+ 
 .admin-sidebar {
   width: 260px;
   min-width: 260px;
@@ -77,8 +68,6 @@
   margin: 25px 0 14px;
 }
 
-/* Sidebar navigation */
-
 .admin-sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -127,8 +116,6 @@
   box-shadow: 0 5px 14px rgba(65, 95, 230, 0.22);
 }
 
-/* Sidebar profile */
-
 .admin-sidebar-footer {
   margin-top: auto;
   border-top: 1px solid #293653;
@@ -173,11 +160,7 @@
   color: #a5b2ce;
   font-size: 11px;
 }
-
-/* =====================================
-   MAIN CONTENT
-===================================== */
-
+ 
 .admin-main {
   flex: 1;
   min-width: 0;
@@ -186,11 +169,7 @@
   box-sizing: border-box;
   overflow-x: hidden;
 }
-
-/* =====================================
-   TOPBAR
-===================================== */
-
+ 
 .admin-topbar {
   min-height: 100px;
   display: flex;
@@ -267,11 +246,7 @@
     transform: rotate(360deg);
   }
 }
-
-/* =====================================
-   WELCOME BANNER
-===================================== */
-
+ 
 .admin-welcome {
   margin-top: 27px;
   padding: 30px 35px;
@@ -318,11 +293,7 @@
   color: rgba(255, 255, 255, 0.9);
   flex-shrink: 0;
 }
-
-/* =====================================
-   SECTION HEADING
-===================================== */
-
+ 
 .admin-section-heading {
   display: flex;
   align-items: center;
@@ -360,11 +331,7 @@
   border-radius: 50%;
   background: #18b765;
 }
-
-/* =====================================
-   STATISTICS CARDS
-===================================== */
-
+ 
 .admin-stats-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -467,11 +434,7 @@
   font-size: 10px;
   line-height: 1.4;
 }
-
-/* =====================================
-   SUMMARY CARDS
-===================================== */
-
+ 
 .admin-bottom-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -553,11 +516,7 @@
   border-top: 1px solid #edf0f6;
   margin: 20px 0 5px;
 }
-
-/* =====================================
-   EMPTY STATE
-===================================== */
-
+ 
 .admin-empty-state {
   background: #fff;
   border: 1px solid #edf0f6;
@@ -589,11 +548,7 @@
   gap: 8px;
   cursor: pointer;
 }
-
-/* =====================================
-   LOADING
-===================================== */
-
+ 
 .admin-loading {
   min-height: 100vh;
   display: flex;
@@ -614,22 +569,14 @@
   border-radius: 50%;
   animation: admin-spin 0.8s linear infinite;
 }
-
-/* =====================================
-   FOOTER
-===================================== */
-
+ 
 .admin-footer {
   padding: 27px 0 20px;
   text-align: center;
   color: #9aa3b3;
   font-size: 11px;
 }
-
-/* =====================================
-   RESPONSIVE TABLET
-===================================== */
-
+ 
 @media (max-width: 1100px) and (min-width: 701px) {
   .admin-sidebar {
     width: 230px;
@@ -645,18 +592,14 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-
-/* =====================================
-   RESPONSIVE MOBILE
-===================================== */
-
+ 
 @media (max-width: 700px) {
   .admin-dashboard {
     display: block;
     width: 100%;
   }
 
-  /* Sidebar becomes top navigation */
+  
   .admin-sidebar {
     position: sticky;
     top: 0;
@@ -687,7 +630,7 @@
     font-size: 17px;
   }
 
-  /* Show menu label */
+   
   .admin-sidebar-label {
     display: block;
     color: #8290ad;
@@ -696,7 +639,7 @@
     font-size: 9px;
   }
 
-  /* Horizontal scrollable menu */
+   
   .admin-sidebar-nav {
     display: flex;
     flex-direction: row;
@@ -749,12 +692,11 @@
     white-space: nowrap;
   }
 
-  /* Hide profile only */
+   
   .admin-sidebar-footer {
     display: none;
   }
-
-  /* Main content */
+ 
   .admin-main {
     width: 100%;
     min-width: 0;
@@ -848,11 +790,7 @@
     gap: 15px;
   }
 }
-
-/* =====================================
-   SMALL MOBILE
-===================================== */
-
+ 
 @media (max-width: 380px) {
   .admin-main {
     padding: 0 11px;
