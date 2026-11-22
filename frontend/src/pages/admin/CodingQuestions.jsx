@@ -1,12 +1,36 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {ArrowLeft,Search,Plus,Edit,Trash2,RefreshCw,X,Code2,ChevronLeft,ChevronRight} from "lucide-react";
+import {
+  ArrowLeft,
+  Search,
+  Plus,
+  Edit,
+  Trash2,
+  RefreshCw,
+  X,
+  Code2,
+  ChevronLeft,
+  ChevronRight
+} from "lucide-react";
 import api from "../../services/api";
 import "./CodingQuestions.css";
 
-const categories = ["arrays", "strings", "linked-list", "stack", "queue","tree", "graph", "sorting", "searching","dynamic-programming", "math", "other"];
+const categories = [
+  "arrays",
+  "strings",
+  "linked-list",
+  "stack",
+  "queue",
+  "tree",
+  "graph",
+  "sorting",
+  "searching",
+  "dynamic-programming",
+  "math",
+  "other"
+];
 
 const emptyForm = {
   title: "",
@@ -34,6 +58,7 @@ function CodingQuestions() {
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [page, setPage] = useState(1);
+
   const [pagination, setPagination] = useState({
     total: 0,
     totalPages: 1,
@@ -45,7 +70,7 @@ function CodingQuestions() {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState(emptyForm);
 
-  const fetchQuestions = async () => {
+  const fetchQuestions = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -60,11 +85,13 @@ function CodingQuestions() {
       });
 
       setQuestions(response.data.questions || []);
-      setPagination(response.data.pagination || {
-        total: 0,
-        totalPages: 1,
-        limit: 10
-      });
+      setPagination(
+        response.data.pagination || {
+          total: 0,
+          totalPages: 1,
+          limit: 10
+        }
+      );
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Failed to load coding questions"
@@ -72,11 +99,11 @@ function CodingQuestions() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, search, category, difficulty]);
 
   useEffect(() => {
     fetchQuestions();
-  }, [page, search, category, difficulty]);
+  }, [fetchQuestions]);
 
   const updateField = (name, value) => {
     setForm(prev => ({ ...prev, [name]: value }));
@@ -142,9 +169,10 @@ function CodingQuestions() {
   };
 
   const addTestCase = (type) => {
-    const newCase = type === "sampleTestCases"
-      ? { input: "", output: "", explanation: "" }
-      : { input: "", output: "" };
+    const newCase =
+      type === "sampleTestCases"
+        ? { input: "", output: "", explanation: "" }
+        : { input: "", output: "" };
 
     setForm(prev => ({
       ...prev,
@@ -157,6 +185,7 @@ function CodingQuestions() {
       toast.info("At least one test case is required");
       return;
     }
+
     setForm(prev => ({
       ...prev,
       [type]: prev[type].filter((_, i) => i !== index)
@@ -183,10 +212,22 @@ function CodingQuestions() {
       ...form,
       title: form.title.trim(),
       description: form.description.trim(),
-      constraints: form.constraints.split("\n").map(x => x.trim()).filter(Boolean),
-      hints: form.hints.split("\n").map(x => x.trim()).filter(Boolean),
-      companies: form.companies.split(",").map(x => x.trim()).filter(Boolean),
-      tags: form.tags.split(",").map(x => x.trim()).filter(Boolean),
+      constraints: form.constraints
+        .split("\n")
+        .map(x => x.trim())
+        .filter(Boolean),
+      hints: form.hints
+        .split("\n")
+        .map(x => x.trim())
+        .filter(Boolean),
+      companies: form.companies
+        .split(",")
+        .map(x => x.trim())
+        .filter(Boolean),
+      tags: form.tags
+        .split(",")
+        .map(x => x.trim())
+        .filter(Boolean),
       sampleTestCases,
       hiddenTestCases,
       timeLimit: Number(form.timeLimit),
@@ -232,7 +273,11 @@ function CodingQuestions() {
     <div className="coding-admin-page">
       <div className="coding-page-header">
         <div>
-          <button type="button" className="coding-dashboard-btn" onClick={() => navigate("/admin/dashboard")}>
+          <button
+            type="button"
+            className="coding-dashboard-btn"
+            onClick={() => navigate("/admin/dashboard")}
+          >
             <ArrowLeft size={17} />
             <span>Dashboard</span>
           </button>
@@ -254,10 +299,23 @@ function CodingQuestions() {
       <div className="coding-toolbar">
         <div className="coding-search">
           <Search size={18} />
-          <input value={search} onChange={e => { setSearch(e.target.value); setPage(1);}} placeholder="Search question title..."/>
+          <input
+            value={search}
+            onChange={e => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Search question title..."
+          />
         </div>
 
-        <select value={category} onChange={e => { setCategory(e.target.value); setPage(1);}}>
+        <select
+          value={category}
+          onChange={e => {
+            setCategory(e.target.value);
+            setPage(1);
+          }}
+        >
           <option value="">All Categories</option>
           {categories.map(item => (
             <option key={item} value={item}>
@@ -266,14 +324,24 @@ function CodingQuestions() {
           ))}
         </select>
 
-        <select value={difficulty} onChange={e => { setDifficulty(e.target.value); setPage(1);}}>
+        <select
+          value={difficulty}
+          onChange={e => {
+            setDifficulty(e.target.value);
+            setPage(1);
+          }}
+        >
           <option value="">All Difficulties</option>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
 
-        <button className="coding-refresh-btn" onClick={fetchQuestions} title="Refresh" >
+        <button
+          className="coding-refresh-btn"
+          onClick={fetchQuestions}
+          title="Refresh"
+        >
           <RefreshCw size={18} />
         </button>
       </div>
@@ -325,11 +393,18 @@ function CodingQuestions() {
 
                     <td>
                       <div className="coding-actions">
-                        <button title="Edit" onClick={() => openEditModal(q._id)}>
+                        <button
+                          title="Edit"
+                          onClick={() => openEditModal(q._id)}
+                        >
                           <Edit size={17} />
                         </button>
 
-                        <button title="Delete" className="delete" onClick={() => handleDelete(q._id)}>
+                        <button
+                          title="Delete"
+                          className="delete"
+                          onClick={() => handleDelete(q._id)}
+                        >
                           <Trash2 size={17} />
                         </button>
                       </div>
@@ -348,7 +423,10 @@ function CodingQuestions() {
         </span>
 
         <div>
-          <button disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
+          <button
+            disabled={page <= 1}
+            onClick={() => setPage(p => p - 1)}
+          >
             <ChevronLeft size={18} />
           </button>
 
@@ -356,7 +434,10 @@ function CodingQuestions() {
             Page {page} of {pagination.totalPages || 1}
           </span>
 
-          <button disabled={page >= pagination.totalPages} onClick={() => setPage(p => p + 1)}>
+          <button
+            disabled={page >= pagination.totalPages}
+            onClick={() => setPage(p => p + 1)}
+          >
             <ChevronRight size={18} />
           </button>
         </div>
@@ -380,24 +461,43 @@ function CodingQuestions() {
 
             <form onSubmit={handleSubmit}>
               <label>Question Title *</label>
-              <input required value={form.title} onChange={e => updateField("title", e.target.value)} placeholder="e.g. Two Sum"/>
+              <input
+                required
+                value={form.title}
+                onChange={e => updateField("title", e.target.value)}
+                placeholder="e.g. Two Sum"
+              />
 
               <label>Description *</label>
-              <textarea required rows="5" value={form.description} onChange={e => updateField("description", e.target.value)} placeholder="Describe the problem..."/>
+              <textarea
+                required
+                rows="5"
+                value={form.description}
+                onChange={e => updateField("description", e.target.value)}
+                placeholder="Describe the problem..."
+              />
 
               <div className="coding-form-grid">
                 <div>
                   <label>Category *</label>
-                  <select value={form.category} onChange={e => updateField("category", e.target.value)}>
+                  <select
+                    value={form.category}
+                    onChange={e => updateField("category", e.target.value)}
+                  >
                     {categories.map(item => (
-                      <option key={item} value={item}>{item}</option>
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 <div>
                   <label>Difficulty</label>
-                  <select value={form.difficulty} onChange={e => updateField("difficulty", e.target.value)}>
+                  <select
+                    value={form.difficulty}
+                    onChange={e => updateField("difficulty", e.target.value)}
+                  >
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
@@ -406,19 +506,34 @@ function CodingQuestions() {
               </div>
 
               <label>Constraints (one per line)</label>
-              <textarea rows="3" value={form.constraints} onChange={e => updateField("constraints", e.target.value)}/>
+              <textarea
+                rows="3"
+                value={form.constraints}
+                onChange={e => updateField("constraints", e.target.value)}
+              />
 
               <label>Input Format</label>
-              <textarea rows="2" value={form.inputFormat} onChange={e => updateField("inputFormat", e.target.value)}/>
+              <textarea
+                rows="2"
+                value={form.inputFormat}
+                onChange={e => updateField("inputFormat", e.target.value)}
+              />
 
               <label>Output Format</label>
-              <textarea rows="2" value={form.outputFormat} onChange={e => updateField("outputFormat", e.target.value)}/>
+              <textarea
+                rows="2"
+                value={form.outputFormat}
+                onChange={e => updateField("outputFormat", e.target.value)}
+              />
 
               <div className="coding-test-section">
                 <div className="coding-test-heading">
                   <h3>Sample Test Cases</h3>
 
-                  <button type="button" onClick={() => addTestCase("sampleTestCases")}>
+                  <button
+                    type="button"
+                    onClick={() => addTestCase("sampleTestCases")}
+                  >
                     <Plus size={15} /> Add
                   </button>
                 </div>
@@ -428,18 +543,55 @@ function CodingQuestions() {
                     <div className="coding-test-card-heading">
                       <strong>Sample Case {index + 1}</strong>
 
-                      <button type="button" onClick={() => removeTestCase("sampleTestCases", index)}>
+                      <button
+                        type="button"
+                        onClick={() => removeTestCase("sampleTestCases", index)}
+                      >
                         <X size={16} />
                       </button>
                     </div>
 
                     <label>Input</label>
-                    <textarea rows="2" value={item.input} onChange={e => updateTestCase( "sampleTestCases",index,"input", e.target.value)}/>
+                    <textarea
+                      rows="2"
+                      value={item.input}
+                      onChange={e =>
+                        updateTestCase(
+                          "sampleTestCases",
+                          index,
+                          "input",
+                          e.target.value
+                        )
+                      }
+                    />
+
                     <label>Output</label>
-                    <textarea rows="2" value={item.output} onChange={e => updateTestCase( "sampleTestCases", index,"output",e.target.value)}/>
+                    <textarea
+                      rows="2"
+                      value={item.output}
+                      onChange={e =>
+                        updateTestCase(
+                          "sampleTestCases",
+                          index,
+                          "output",
+                          e.target.value
+                        )
+                      }
+                    />
 
                     <label>Explanation</label>
-                    <textarea rows="2" value={item.explanation} onChange={e => updateTestCase( "sampleTestCases", index,"explanation",e.target.value)}/>
+                    <textarea
+                      rows="2"
+                      value={item.explanation}
+                      onChange={e =>
+                        updateTestCase(
+                          "sampleTestCases",
+                          index,
+                          "explanation",
+                          e.target.value
+                        )
+                      }
+                    />
                   </div>
                 ))}
               </div>
@@ -448,7 +600,10 @@ function CodingQuestions() {
                 <div className="coding-test-heading">
                   <h3>Hidden Test Cases</h3>
 
-                  <button type="button" onClick={() => addTestCase("hiddenTestCases")}>
+                  <button
+                    type="button"
+                    onClick={() => addTestCase("hiddenTestCases")}
+                  >
                     <Plus size={15} /> Add
                   </button>
                 </div>
@@ -458,47 +613,102 @@ function CodingQuestions() {
                     <div className="coding-test-card-heading">
                       <strong>Hidden Case {index + 1}</strong>
 
-                      <button type="button" onClick={() => removeTestCase("hiddenTestCases", index)}>
+                      <button
+                        type="button"
+                        onClick={() => removeTestCase("hiddenTestCases", index)}
+                      >
                         <X size={16} />
                       </button>
                     </div>
 
                     <label>Input</label>
-                    <textarea rows="2" value={item.input} onChange={e => updateTestCase("hiddenTestCases",index, "input", e.target.value)}/>
+                    <textarea
+                      rows="2"
+                      value={item.input}
+                      onChange={e =>
+                        updateTestCase(
+                          "hiddenTestCases",
+                          index,
+                          "input",
+                          e.target.value
+                        )
+                      }
+                    />
 
                     <label>Output</label>
-                    <textarea rows="2" value={item.output} onChange={e => updateTestCase( "hiddenTestCases",index, "output", e.target.value)}/>
+                    <textarea
+                      rows="2"
+                      value={item.output}
+                      onChange={e =>
+                        updateTestCase(
+                          "hiddenTestCases",
+                          index,
+                          "output",
+                          e.target.value
+                        )
+                      }
+                    />
                   </div>
                 ))}
               </div>
 
               <label>Hints (one per line)</label>
-              <textarea rows="3" value={form.hints} onChange={e => updateField("hints", e.target.value)}/>
+              <textarea
+                rows="3"
+                value={form.hints}
+                onChange={e => updateField("hints", e.target.value)}
+              />
 
               <label>Companies (comma separated)</label>
-              <input value={form.companies} onChange={e => updateField("companies", e.target.value)} placeholder="Google, Amazon, Microsoft"/>
+              <input
+                value={form.companies}
+                onChange={e => updateField("companies", e.target.value)}
+                placeholder="Google, Amazon, Microsoft"
+              />
 
               <label>Tags (comma separated)</label>
-              <input value={form.tags} onChange={e => updateField("tags", e.target.value)} placeholder="array, hash-map"/>
+              <input
+                value={form.tags}
+                onChange={e => updateField("tags", e.target.value)}
+                placeholder="array, hash-map"
+              />
 
               <div className="coding-form-grid">
                 <div>
                   <label>Time Limit (ms)</label>
-                  <input type="number" min="1" value={form.timeLimit} onChange={e => updateField("timeLimit", e.target.value)}/>
+                  <input
+                    type="number"
+                    min="1"
+                    value={form.timeLimit}
+                    onChange={e => updateField("timeLimit", e.target.value)}
+                  />
                 </div>
 
                 <div>
                   <label>Memory Limit (MB)</label>
-                  <input type="number" min="1" value={form.memoryLimit} onChange={e => updateField("memoryLimit", e.target.value)}/>
+                  <input
+                    type="number"
+                    min="1"
+                    value={form.memoryLimit}
+                    onChange={e => updateField("memoryLimit", e.target.value)}
+                  />
                 </div>
               </div>
 
               <div className="coding-modal-actions">
-                <button type="button" className="coding-cancel-btn" onClick={() => setModalOpen(false)}>
+                <button
+                  type="button"
+                  className="coding-cancel-btn"
+                  onClick={() => setModalOpen(false)}
+                >
                   Cancel
                 </button>
 
-                <button type="submit" className="coding-primary-btn" disabled={saving}>
+                <button
+                  type="submit"
+                  className="coding-primary-btn"
+                  disabled={saving}
+                >
                   {saving
                     ? "Saving..."
                     : editingId

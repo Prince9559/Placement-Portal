@@ -1,7 +1,20 @@
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {Search,Users,UserCheck,UserX,RefreshCw,Eye,ShieldCheck,ShieldOff,UserCog,X,AlertTriangle,ArrowLeft,} from "lucide-react";
+import {
+  Search,
+  Users,
+  UserCheck,
+  UserX,
+  RefreshCw,
+  Eye,
+  ShieldCheck,
+  ShieldOff,
+  UserCog,
+  X,
+  AlertTriangle,
+  ArrowLeft,
+} from "lucide-react";
 import { toast } from "react-toastify";
 
 import userService from "../../services/userService";
@@ -20,7 +33,8 @@ function Students() {
 
   const pageSize = 8;
 
-  const fetchStudents = async () => {
+  // Fetch students
+  const fetchStudents = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -30,19 +44,25 @@ function Students() {
         limit: pageSize,
       });
 
-      setStudents(Array.isArray(response.data) ? response.data : []);
+      setStudents(
+        Array.isArray(response.data) ? response.data : []
+      );
     } catch (error) {
+      console.error("Fetch students error:", error);
+      toast.error(
+        error.response?.data?.message || "Unable to load students."
+      );
       setStudents([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [page]);
 
   useEffect(() => {
     fetchStudents();
-    
-  }, [page]);
+  }, [fetchStudents]);
 
+  // Search and filter students
   const filteredStudents = useMemo(() => {
     const term = search.toLowerCase().trim();
 
@@ -63,11 +83,16 @@ function Students() {
 
   const inactiveStudents = students.length - activeStudents;
 
+  // View student profile
   const handleViewStudent = (student) => {
     const studentId = student._id || student.id;
-    if (studentId) navigate(`/admin/students/${studentId}`);
+
+    if (studentId) {
+      navigate(`/admin/students/${studentId}`);
+    }
   };
 
+  // Activate or deactivate student
   const handleToggleStatus = async (student) => {
     const studentId = student._id || student.id;
 
@@ -94,14 +119,20 @@ function Students() {
         )
       );
 
-      toast.success(response.message || "Account status updated.");
+      toast.success(
+        response.message || "Account status updated."
+      );
     } catch (error) {
-      
+      toast.error(
+        error.response?.data?.message ||
+          "Unable to update account status."
+      );
     } finally {
       setUpdatingId(null);
     }
   };
 
+  // Change student role
   const handleRoleChange = async () => {
     if (!selectedStudent) return;
 
@@ -129,7 +160,10 @@ function Students() {
         response.message || `Role changed to ${nextRole}.`
       );
     } catch (error) {
-      
+      toast.error(
+        error.response?.data?.message ||
+          "Unable to update student role."
+      );
     } finally {
       setRoleUpdating(false);
     }
@@ -139,20 +173,34 @@ function Students() {
     <div className="students-page">
       <div className="students-header">
         <div>
-  <button type="button" className="students-dashboard-btn" onClick={() => navigate("/admin/dashboard")}
-  >
-    <ArrowLeft size={17} />
-    <span>Dashboard</span>
-  </button>
+          <button
+            type="button"
+            className="students-dashboard-btn"
+            onClick={() => navigate("/admin/dashboard")}
+          >
+            <ArrowLeft size={17} />
+            <span>Dashboard</span>
+          </button>
 
-  <span className="students-eyebrow">ADMINISTRATION</span>
+          <span className="students-eyebrow">
+            ADMINISTRATION
+          </span>
 
-  <h1>Students Management</h1>
-  <p>Manage student accounts, profiles and permissions.</p>
-</div>
-        <button type="button" className="students-refresh-btn" onClick={fetchStudents} disabled={loading}
+          <h1>Students Management</h1>
+          <p>
+            Manage student accounts, profiles and permissions.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          className="students-refresh-btn"
+          onClick={fetchStudents}
+          disabled={loading}
         >
-          <RefreshCw size={17} className={loading ? "refresh-spinning" : ""}
+          <RefreshCw
+            size={17}
+            className={loading ? "refresh-spinning" : ""}
           />
           Refresh
         </button>
@@ -194,12 +242,20 @@ function Students() {
         <div className="students-toolbar">
           <div>
             <h2>All Students</h2>
-            <p>View profiles and manage account permissions.</p>
+            <p>
+              View profiles and manage account permissions.
+            </p>
           </div>
 
           <div className="students-search">
             <Search size={19} />
-            <input type="search" placeholder="Search name, email or college..." value={search} onChange={(event) => { setSearch(event.target.value);
+
+            <input
+              type="search"
+              placeholder="Search name, email or college..."
+              value={search}
+              onChange={(event) => {
+                setSearch(event.target.value);
               }}
             />
           </div>
@@ -240,13 +296,19 @@ function Students() {
                   return (
                     <tr key={studentId}>
                       <td>
-                        <button type="button" className="student-name-button" onClick={() => handleViewStudent(student)}
+                        <button
+                          type="button"
+                          className="student-name-button"
+                          onClick={() =>
+                            handleViewStudent(student)
+                          }
                         >
                           <div className="student-avatar">
                             {(student.name || "S")
                               .charAt(0)
                               .toUpperCase()}
                           </div>
+
                           <span>
                             {student.name || "Unnamed Student"}
                           </span>
@@ -283,16 +345,26 @@ function Students() {
 
                       <td>
                         <div className="student-actions">
-                          <button type="button" className="student-view-btn" title="View profile" onClick={() => handleViewStudent(student)}
+                          <button
+                            type="button"
+                            className="student-view-btn"
+                            title="View profile"
+                            onClick={() =>
+                              handleViewStudent(student)
+                            }
                           >
                             <Eye size={17} />
                           </button>
 
-                          <button type="button" className={`student-toggle-btn ${
+                          <button
+                            type="button"
+                            className={`student-toggle-btn ${
                               isActive ? "deactivate" : "activate"
                             }`}
                             disabled={isUpdating}
-                            onClick={() => handleToggleStatus(student)}
+                            onClick={() =>
+                              handleToggleStatus(student)
+                            }
                           >
                             {isActive ? (
                               <ShieldOff size={16} />
@@ -307,7 +379,13 @@ function Students() {
                               : "Activate"}
                           </button>
 
-                          <button type="button" className="student-role-btn" title="Change student role" onClick={() => setSelectedStudent(student)}
+                          <button
+                            type="button"
+                            className="student-role-btn"
+                            title="Change student role"
+                            onClick={() =>
+                              setSelectedStudent(student)
+                            }
                           >
                             <UserCog size={16} />
                             Role
@@ -326,12 +404,24 @@ function Students() {
           <span>Page {page}</span>
 
           <div>
-            <button type="button" disabled={page === 1 || loading} onClick={() => setPage((current) => current - 1)}
+            <button
+              type="button"
+              disabled={page === 1 || loading}
+              onClick={() =>
+                setPage((current) => current - 1)
+              }
             >
               Previous
             </button>
 
-            <button type="button" disabled={students.length < pageSize || loading} onClick={() => setPage((current) => current + 1)}
+            <button
+              type="button"
+              disabled={
+                students.length < pageSize || loading
+              }
+              onClick={() =>
+                setPage((current) => current + 1)
+              }
             >
               Next
             </button>
@@ -343,14 +433,20 @@ function Students() {
         <div
           className="role-modal-overlay"
           onClick={() => {
-            if (!roleUpdating) setSelectedStudent(null);
+            if (!roleUpdating) {
+              setSelectedStudent(null);
+            }
           }}
         >
           <div
             className="role-modal"
             onClick={(event) => event.stopPropagation()}
           >
-            <button type="button" className="role-modal-close" onClick={() => setSelectedStudent(null)} disabled={roleUpdating}
+            <button
+              type="button"
+              className="role-modal-close"
+              onClick={() => setSelectedStudent(null)}
+              disabled={roleUpdating}
             >
               <X size={19} />
             </button>
@@ -359,7 +455,10 @@ function Students() {
               <AlertTriangle size={25} />
             </div>
 
-            <span className="role-modal-label">ROLE MANAGEMENT</span>
+            <span className="role-modal-label">
+              ROLE MANAGEMENT
+            </span>
+
             <h2>Change Account Role?</h2>
 
             <p>
@@ -375,7 +474,7 @@ function Students() {
 
               <span className="role-change-arrow">→</span>
 
-              <div> 
+              <div>
                 <span>New Role</span>
                 <strong>
                   {selectedStudent.role === "admin"
@@ -386,19 +485,29 @@ function Students() {
             </div>
 
             <p className="role-modal-warning">
-              Admin access provides additional permissions. Only assign it
-              to trusted accounts.
+              Admin access provides additional permissions. Only
+              assign it to trusted accounts.
             </p>
 
             <div className="role-modal-actions">
-              <button type="button" className="role-cancel-btn" disabled={roleUpdating} onClick={() => setSelectedStudent(null)}
+              <button
+                type="button"
+                className="role-cancel-btn"
+                disabled={roleUpdating}
+                onClick={() => setSelectedStudent(null)}
               >
                 Cancel
               </button>
 
-              <button type="button" className="role-confirm-btn" disabled={roleUpdating} onClick={handleRoleChange}
+              <button
+                type="button"
+                className="role-confirm-btn"
+                disabled={roleUpdating}
+                onClick={handleRoleChange}
               >
-                {roleUpdating ? "Updating..." : "Confirm Change"}
+                {roleUpdating
+                  ? "Updating..."
+                  : "Confirm Change"}
               </button>
             </div>
           </div>

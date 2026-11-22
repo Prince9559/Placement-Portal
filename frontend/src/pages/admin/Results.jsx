@@ -1,6 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {BarChart3,Search,RefreshCw,Eye,X,ChevronLeft,ChevronRight,CheckCircle,XCircle,FileText,TrendingUp,ArrowLeft,} from "lucide-react";
+import {
+  BarChart3,
+  Search,
+  RefreshCw,
+  Eye,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle,
+  XCircle,
+  FileText,
+  TrendingUp,
+  ArrowLeft,
+} from "lucide-react";
 import { toast } from "react-toastify";
 import api from "../../services/api";
 import "./Results.css";
@@ -20,7 +34,8 @@ const Results = () => {
   const [selectedResult, setSelectedResult] = useState(null);
   const [detailsLoading, setDetailsLoading] = useState(false);
 
-  const fetchResults = async () => {
+  // Fetch results
+  const fetchResults = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -34,21 +49,25 @@ const Results = () => {
       const data = response.data;
 
       setResults(data.results || []);
+
       setPagination({
         total: data.pagination?.total || 0,
         totalPages: data.pagination?.totalPages || 1,
       });
     } catch (error) {
-      toast.error(error.response?.data?.message || "Unable to load results");
+      toast.error(
+        error.response?.data?.message || "Unable to load results"
+      );
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, status]);
 
   useEffect(() => {
     fetchResults();
-  }, [page, status]);
+  }, [fetchResults]);
 
+  // Filter results
   const filteredResults = useMemo(() => {
     const term = search.trim().toLowerCase();
 
@@ -67,6 +86,7 @@ const Results = () => {
     });
   }, [results, search]);
 
+  // Summary
   const summary = useMemo(() => {
     const passed = results.filter((item) => item.passed).length;
     const failed = results.length - passed;
@@ -74,7 +94,8 @@ const Results = () => {
     const average =
       results.length > 0
         ? results.reduce(
-            (total, item) => total + (Number(item.percentage) || 0),
+            (total, item) =>
+              total + (Number(item.percentage) || 0),
             0
           ) / results.length
         : 0;
@@ -86,6 +107,7 @@ const Results = () => {
     };
   }, [results]);
 
+  // Open result details
   const openDetails = async (id) => {
     try {
       setDetailsLoading(true);
@@ -94,12 +116,16 @@ const Results = () => {
       const response = await api.get(`/results/${id}`);
       setSelectedResult(response.data.result);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Unable to load result details");
+      toast.error(
+        error.response?.data?.message ||
+          "Unable to load result details"
+      );
     } finally {
       setDetailsLoading(false);
     }
   };
 
+  // Format date
   const formatDate = (date) => {
     if (!date) return "N/A";
 
@@ -116,20 +142,32 @@ const Results = () => {
     <div className="admin-results">
       <div className="results-header">
         <div>
-          <button type="button" className="results-dashboard-btn" onClick={() => navigate("/admin/dashboard")}
+          <button
+            type="button"
+            className="results-dashboard-btn"
+            onClick={() => navigate("/admin/dashboard")}
           >
             <ArrowLeft size={17} />
             <span>Dashboard</span>
           </button>
 
           <h1>
-            <BarChart3 size={27} /> Results & Analytics
+            <BarChart3 size={27} />
+            Results & Analytics
           </h1>
-          <p>Monitor student test performance and results.</p>
+
+          <p>
+            Monitor student test performance and results.
+          </p>
         </div>
 
-        <button className="results-refresh-btn" onClick={fetchResults}>
-          <RefreshCw size={17} /> Refresh
+        <button
+          className="results-refresh-btn"
+          onClick={fetchResults}
+          disabled={loading}
+        >
+          <RefreshCw size={17} />
+          Refresh
         </button>
       </div>
 
@@ -179,11 +217,19 @@ const Results = () => {
         <div className="results-toolbar">
           <div className="results-search">
             <Search size={18} />
-            <input type="text" placeholder="Search student or test..." value={search} onChange={(e) => setSearch(e.target.value)}
+
+            <input
+              type="text"
+              placeholder="Search student or test..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
-          <select value={status} onChange={(e) => { setStatus(e.target.value);
+          <select
+            value={status}
+            onChange={(e) => {
+              setStatus(e.target.value);
               setPage(1);
             }}
             className="results-filter"
@@ -226,12 +272,18 @@ const Results = () => {
                   <tr key={result._id}>
                     <td>
                       <div className="results-student">
-                        <strong>{result.user?.name || "Unknown Student"}</strong>
-                        <span>{result.user?.email || "N/A"}</span>
+                        <strong>
+                          {result.user?.name || "Unknown Student"}
+                        </strong>
+                        <span>
+                          {result.user?.email || "N/A"}
+                        </span>
                       </div>
                     </td>
 
-                    <td>{result.test?.title || "Test unavailable"}</td>
+                    <td>
+                      {result.test?.title || "Test unavailable"}
+                    </td>
 
                     <td>
                       {result.score ?? result.correctAnswers ?? 0}
@@ -259,7 +311,10 @@ const Results = () => {
                     <td>{formatDate(result.completedAt)}</td>
 
                     <td>
-                      <button className="results-view-btn" onClick={() => openDetails(result._id)} title="View Details"
+                      <button
+                        className="results-view-btn"
+                        onClick={() => openDetails(result._id)}
+                        title="View Details"
                       >
                         <Eye size={17} />
                       </button>
@@ -272,12 +327,12 @@ const Results = () => {
         </div>
 
         <div className="results-pagination">
-          <span>
-            Total {pagination.total} results
-          </span>
+          <span>Total {pagination.total} results</span>
 
           <div>
-            <button disabled={page <= 1 || loading} onClick={() => setPage((prev) => prev - 1)}
+            <button
+              disabled={page <= 1 || loading}
+              onClick={() => setPage((prev) => prev - 1)}
             >
               <ChevronLeft size={18} />
             </button>
@@ -286,7 +341,9 @@ const Results = () => {
               Page {page} of {pagination.totalPages}
             </span>
 
-            <button disabled={page >= pagination.totalPages || loading} onClick={() => setPage((prev) => prev + 1)}
+            <button
+              disabled={page >= pagination.totalPages || loading}
+              onClick={() => setPage((prev) => prev + 1)}
             >
               <ChevronRight size={18} />
             </button>
@@ -298,7 +355,9 @@ const Results = () => {
         <div
           className="results-modal-overlay"
           onClick={() => {
-            if (!detailsLoading) setSelectedResult(null);
+            if (!detailsLoading) {
+              setSelectedResult(null);
+            }
           }}
         >
           <div
@@ -308,57 +367,86 @@ const Results = () => {
             <div className="results-modal-header">
               <div>
                 <h2>Result Details</h2>
-                <p>Detailed student test performance</p>
+                <p>
+                  Detailed student test performance
+                </p>
               </div>
 
-              <button  onClick={() => setSelectedResult(null)} disabled={detailsLoading}
+              <button
+                onClick={() => setSelectedResult(null)}
+                disabled={detailsLoading}
               >
                 <X size={21} />
               </button>
             </div>
 
             {detailsLoading ? (
-              <p className="results-modal-loading">Loading details...</p>
+              <p className="results-modal-loading">
+                Loading details...
+              </p>
             ) : (
               selectedResult && (
                 <div className="results-detail-body">
                   <div className="results-detail-student">
-                    <h3>{selectedResult.user?.name || "Unknown Student"}</h3>
-                    <p>{selectedResult.user?.email || "N/A"}</p>
+                    <h3>
+                      {selectedResult.user?.name ||
+                        "Unknown Student"}
+                    </h3>
+                    <p>
+                      {selectedResult.user?.email || "N/A"}
+                    </p>
                   </div>
 
                   <div className="results-detail-grid">
                     <div>
                       <span>Test</span>
-                      <strong>{selectedResult.test?.title || "N/A"}</strong>
+                      <strong>
+                        {selectedResult.test?.title || "N/A"}
+                      </strong>
                     </div>
+
                     <div>
                       <span>Category</span>
-                      <strong>{selectedResult.test?.category || "N/A"}</strong>
+                      <strong>
+                        {selectedResult.test?.category || "N/A"}
+                      </strong>
                     </div>
+
                     <div>
                       <span>Score</span>
                       <strong>
-                        {selectedResult.score ?? selectedResult.correctAnswers ?? 0}
+                        {selectedResult.score ??
+                          selectedResult.correctAnswers ??
+                          0}
                         {selectedResult.totalQuestions != null
                           ? ` / ${selectedResult.totalQuestions}`
                           : ""}
                       </strong>
                     </div>
+
                     <div>
                       <span>Percentage</span>
                       <strong>
-                        {Number(selectedResult.percentage || 0).toFixed(1)}%
+                        {Number(
+                          selectedResult.percentage || 0
+                        ).toFixed(1)}%
                       </strong>
                     </div>
+
                     <div>
                       <span>Correct Answers</span>
-                      <strong>{selectedResult.correctAnswers ?? "N/A"}</strong>
+                      <strong>
+                        {selectedResult.correctAnswers ?? "N/A"}
+                      </strong>
                     </div>
+
                     <div>
                       <span>Wrong Answers</span>
-                      <strong>{selectedResult.wrongAnswers ?? "N/A"}</strong>
+                      <strong>
+                        {selectedResult.wrongAnswers ?? "N/A"}
+                      </strong>
                     </div>
+
                     <div>
                       <span>Duration</span>
                       <strong>
@@ -367,15 +455,22 @@ const Results = () => {
                           : "N/A"}
                       </strong>
                     </div>
+
                     <div>
                       <span>Completed At</span>
-                      <strong>{formatDate(selectedResult.completedAt)}</strong>
+                      <strong>
+                        {formatDate(selectedResult.completedAt)}
+                      </strong>
                     </div>
                   </div>
 
                   <div className="results-detail-status">
                     <span>Status</span>
-                    <strong className={selectedResult.passed ? "passed" : "failed"}>
+                    <strong
+                      className={
+                        selectedResult.passed ? "passed" : "failed"
+                      }
+                    >
                       {selectedResult.passed ? "Passed" : "Failed"}
                     </strong>
                   </div>

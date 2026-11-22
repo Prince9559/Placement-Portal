@@ -1,7 +1,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {ArrowLeft,BookOpen, Plus, Search, RefreshCw, Eye, Pencil, Trash2,FileText, Video, Link as LinkIcon, File, X, Upload,ChevronLeft, ChevronRight, ExternalLink, LayoutDashboard} from "lucide-react";
+import {ArrowLeft,BookOpen, Plus, Search, RefreshCw, Eye, Pencil, Trash2,FileText, Video, Link as LinkIcon, File, X, Upload,ChevronLeft, ChevronRight, ExternalLink} from "lucide-react";
 import { toast } from "react-toastify";
 import materialService from "../../services/materialService";
 import "./Materials.css";
